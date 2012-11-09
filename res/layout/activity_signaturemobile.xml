@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  android:id="@+id/parentLayout"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:baselineAligned="false"
+  android:gravity="center" 
+  android:layout_margin="50dp" 
+  android:layout_gravity="center">
+  
+	    	<Button
+	    	    android:id="@+id/createUserButton"
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/create_user_main"
+	    	    android:layout_margin="3dp"
+	    	   	android:background="@drawable/black_button"
+	    	    style="@style/ButtonText"/>
+	    	
+	    	<Button
+	    	    android:id="@+id/signUserButton"
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/sign_user_main"
+	    	  	android:layout_margin="3dp"
+	    	    android:background="@drawable/black_button"
+	    	    style="@style/ButtonText"/>
+	    	
+	    	<Button
+	    	    android:id="@+id/listUserButton"
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/list_users"
+	    	    android:layout_margin="3dp"
+	    	    android:background="@drawable/black_button"
+	    	    style="@style/ButtonText"/>
+    	
+</LinearLayout>

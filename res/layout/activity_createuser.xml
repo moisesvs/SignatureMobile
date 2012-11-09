@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  android:id="@+id/parentLayout"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:baselineAligned="false">
+		
+    	<ScrollView 
+    	 	android:layout_width="fill_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:orientation="horizontal" 
+	    	android:layout_margin="10dp">
+    		
+    		<LinearLayout 
+	    	 	android:layout_width="fill_parent"
+	    	 	android:layout_height="wrap_content"
+	    	 	android:orientation="vertical">
+    		
+		    	    <LinearLayout 
+			    	 	android:layout_width="fill_parent"
+			    	 	android:layout_height="wrap_content"
+		    	 		android:orientation="vertical"
+		    	 		android:background="@drawable/grey_textview_background">
+		    	 		
+		    	    	<TextView 
+				    	 	android:layout_width="fill_parent"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:text="@string/name_user"
+				    	 	android:textStyle="bold"	    	 	
+				    	 	android:textSize="15sp"
+							android:textColor="@color/greyText"
+				    	    />
+		    	    	<EditText
+		    	    	    android:id="@+id/nameUserEditText"
+				    	 	android:layout_width="fill_parent"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:textSize="15dp"
+				    	 	android:maxLines="1"
+				    	 	android:hint="@string/name_user_hint"
+				    	 	android:singleLine="true"
+				    	 	android:nextFocusDown="@+id/surnameUserEditText"
+				    	    />
+		    	    	
+		    		</LinearLayout>
+		    		
+		    		<LinearLayout 
+			    	 	android:layout_width="fill_parent"
+			    	 	android:layout_height="wrap_content"
+			    	 	android:orientation="horizontal"
+		    	 		android:layout_marginTop="10dp"
+		    	 		android:background="@drawable/grey_textview_background">
+		    	    	
+		    		    <LinearLayout 
+				    	 	android:layout_width="fill_parent"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:orientation="vertical" 
+				    	 	android:layout_gravity="center"
+				    	 	android:layout_weight="1">
+		    		    
+				    	    	<TextView 
+						    	 	android:layout_width="fill_parent"
+						    	 	android:layout_height="wrap_content"
+						    	 	android:text="@string/twitter_user"
+						    	 	android:textStyle="bold"
+						    	 	android:textSize="15sp"
+						    	 	android:textColor="@color/greyText"
+						    	    />
+				    	    	<EditText
+				    	    	    android:id="@+id/twitterUserEditText"
+						    	 	android:layout_width="fill_parent"
+						    	 	android:layout_height="wrap_content"
+						    	 	android:textSize="15dp"
+						    	 	android:singleLine="true"
+						    	 	android:maxLines="1"
+						    	 	android:hint="@string/twitter_user_hint"
+						    	 	android:nextFocusDown="@+id/createButton"
+						    	 	android:imeOptions="actionDone"
+						    	    />
+		    	  		
+		    	  		</LinearLayout>
+		    	    	    	    
+			    		<LinearLayout 
+				    	 	android:layout_width="wrap_content"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:orientation="vertical" 
+				    	 	android:layout_gravity="center" 
+				    	 	android:gravity="center" 
+				    	 	android:layout_marginLeft="10dp" 
+				    	 	android:layout_marginRight="10dp" 
+				    	 	android:layout_marginTop="5dp">
+			    	  	
+				    		    <ImageView 
+									android:id="@+id/userTwitterImageView"
+				    		       	android:layout_width="fill_parent"
+					    	 		android:layout_height="fill_parent"
+					    	 		android:background="@drawable/twitter_user_small"
+					    	 		android:layout_gravity="center"/>
+			    		    
+			    	  	</LinearLayout>
+		    	    	
+		    		</LinearLayout>
+					
+					<LinearLayout
+						android:id="@+id/selectDeviceLinearLayout"
+			    	 	android:layout_width="fill_parent"
+			    	 	android:layout_height="wrap_content"
+		    	 		android:orientation="horizontal"
+		    	 		android:layout_marginTop="10dp"
+		    	 		android:layout_marginBottom="10dp"
+		    	 		android:background="@drawable/grey_textview_background">
+		    	 		
+					    <ImageView 
+					        android:src="@drawable/bluetooth"
+					        android:layout_width="30dp"
+					        android:layout_height="30dp"
+					        android:layout_gravity="center"
+					        android:layout_marginRight="10dp"/>
+					    
+		    	    	<TextView 
+				    	 	android:layout_width="0dp"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:layout_weight="1"
+				    	 	android:text="@string/device_select_user"
+				    	 	android:textStyle="bold"	    	 	
+				    	 	android:textSize="15sp"
+							android:textColor="@color/greyText"
+							android:layout_gravity="center_vertical"
+				    	    />
+		    	    	
+		    	    	<TextView
+		    	    	    android:id="@+id/userDeviceName"
+				    	 	android:layout_width="0dp"
+				    	 	android:layout_height="wrap_content"
+							android:layout_weight="1"
+				    	 	android:textStyle="bold"	    	 	
+				    	 	android:textSize="15sp"
+							android:textColor="@color/greyText"
+							android:text="@string/nothing"
+							android:layout_gravity="center_vertical"
+							android:gravity="right"
+				    	    />
+		    	    	
+		    		</LinearLayout>
+		    		
+		    		<LinearLayout 
+			    	 	android:layout_width="fill_parent"
+			    	 	android:layout_height="wrap_content"
+			    	 	android:orientation="horizontal"
+			    	 	android:gravity="center"
+			    	 	android:layout_marginTop="5dp">
+    		
+						     <Button 
+						 		android:id="@+id/updateListDevicesButton"
+						        android:layout_width="0dp"
+						        android:layout_height="wrap_content"
+						  		android:layout_weight="1"
+						        android:text="@string/select_devices_bluetooh"
+						        android:layout_marginRight="3dp"
+						        android:background="@drawable/grey_button"
+	    	    				style="@style/ButtonText"
+						        />
+						     
+						     <Button 
+						 		android:id="@+id/writeKeyNFCButton"
+						        android:layout_width="0dp"
+						        android:layout_height="wrap_content"
+								android:layout_weight="1"
+						        android:text="@string/write_key_nfc"
+						        android:layout_marginLeft="3dp"
+						        android:background="@drawable/grey_button"
+	    	    				style="@style/ButtonText"
+						        />
+		    
+					</LinearLayout>
+		    		
+    		</LinearLayout>
+    	     
+    	</ScrollView>
+    	
+		<LinearLayout 
+    	 	android:layout_width="fill_parent"
+    	 	android:layout_height="0dp"
+    	 	android:orientation="vertical" 
+    	 	android:layout_weight="35">
+    		
+	    	<TextView
+	    	  	android:id="@+id/devicesTextView"
+	    	 	android:layout_width="fill_parent"
+	    	 	android:layout_height="wrap_content"
+	    	 	android:textStyle="bold"
+	    	 	android:textSize="15sp" 
+	    	 	android:layout_marginRight="10dp" 
+	    	 	android:layout_marginLeft="10dp"
+	    	 	android:textColor="@color/greyText"/>
+	    	
+			<LinearLayout 
+	    	 	android:layout_width="fill_parent"
+	    	 	android:layout_height="wrap_content"
+	    	 	android:orientation="vertical"
+	    	 	android:gravity="center">
+	    		
+			    <Button 
+			 		android:id="@+id/createButton"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/create_user"
+			        android:layout_marginBottom="10dp"
+			        android:background="@drawable/grey_button"
+	    	    	style="@style/ButtonText"/>
+			    
+			</LinearLayout>
+		</LinearLayout>
+</LinearLayout>

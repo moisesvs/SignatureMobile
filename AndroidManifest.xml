@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.signaturemobile.signaturemobile"
+      android:versionCode="1"
+      android:versionName="1.0">
+      
+    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
+
+    <!-- Uses permission application -->
+	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.NFC" />
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	
+	<!-- Uses permission application -->
+	<uses-feature android:name="android.hardware.nfc" android:required="false" />
+	
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".SignatureMobileApplication" android:debuggable="true">
+        <activity android:name=".ui.SplashActivity" android:label="@string/app_name" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+       	<activity android:name=".ui.CreateUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
+       	    <intent-filter>
+			    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+			    <category android:name="android.intent.category.DEFAULT"/>
+			    <data android:mimeType="text/plain"/>
+			</intent-filter>
+        </activity>
+       	
+      	<activity android:name=".ui.CreateUserSelectDeviceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+       	
+		<activity android:name=".ui.DetailsUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+       	
+		<activity android:name=".ui.ListUsersSignActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+       	
+		<activity android:name=".ui.SignAcceptUserActivity" android:theme="@android:style/Animation.Dialog" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+       	
+        <activity android:name=".ui.SignatureMobileActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+    
+    	<activity android:name=".ui.SignUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
+    		<intent-filter>
+			    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+			    <category android:name="android.intent.category.DEFAULT"/>
+			    <data android:mimeType="text/plain"/>
+			</intent-filter>
+   	    </activity>
+       	
+    </application>
+</manifest>

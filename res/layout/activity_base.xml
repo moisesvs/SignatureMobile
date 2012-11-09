@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  android:id="@+id/parentLayout"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:baselineAligned="false">
+
+   <LinearLayout 
+       android:id="@+id/titleBar"
+       android:orientation="horizontal"
+       android:layout_width="fill_parent"
+       android:layout_weight="0"
+       android:layout_height="50dp"
+       android:background="@color/white"
+       android:gravity="center"
+       android:visibility="visible">
+             
+       		<LinearLayout
+			   android:id="@+id/arrowLeftLinear"
+		       android:orientation="horizontal"
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content">
+		       	
+       		    <ImageView
+       		        android:id="@+id/arrowLeftImage"
+		    		android:src="@drawable/arrow_left" 
+		    		android:layout_width="25dp"
+					android:layout_height="50dp"
+					android:adjustViewBounds="true"
+					android:scaleType="centerInside"/>	
+       		    
+		    	 <ImageView
+		    		android:id="@+id/maintitleImage"
+		    		android:src="@drawable/icon_back" 
+		    		android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					android:scaleType="centerInside"/>
+	    	 
+	    	 </LinearLayout>
+	    	 
+	    	 <TextView 
+	    	    android:id="@+id/mainTitle"
+	    	    android:layout_width="0dp"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:gravity="center"
+				android:textSize="18dp"
+				android:textStyle="bold" 
+				android:paddingRight="10dp"
+				android:textColor="@color/greyText"
+				/>
+	    	 
+    		<ProgressBar 
+   				android:id="@+id/progressBarNotification" 
+   				android:layout_width="30dp" 
+   				android:layout_height="30dp"
+    			android:indeterminate="true"
+    			android:layout_marginRight="10dp"
+    			android:visibility="gone" />
+    		           
+    </LinearLayout>
+   
+   	<LinearLayout 
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="1dp"
+   	    android:background="@color/black"/>
+   
+	<LinearLayout 
+	    android:id="@+id/bodyLayout"
+		android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"	 	   
+	    android:layout_weight="1"
+	    android:background="@color/greyBrackground"/>
+	
+</LinearLayout>

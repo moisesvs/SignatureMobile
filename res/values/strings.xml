@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Signature Mobile</string>
+    <string name="loading_app">Cargando aplicación&#8230;</string>
+
+    <!-- General error -->
+   	<string name="ok">Ok</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="info">Información</string>
+    <string name="error">Error</string>
+	<string name="nothing">No seleccionado</string>
+    
+	<!-- Configuration process strings -->
+	<string name="unable_to_configure_application">Se produjeron errores al cargar la configuración actual de la aplicación.</string>
+	<string name="not_connected_bluetooth">Parece que el Bluetooth no esta conectado. Por favor encienda el bluetooth y vuelva a intentar buscar dispositivos.</string>
+	
+	<!-- UI Signature Mobile -->
+	<string name="title_signature_mobile">Inicio</string>
+	<string name="create_user_main">Crear usuario</string>
+	<string name="sign_user_main">Firmar usuario</string>
+	<string name="list_users">Listar usuarios</string>
+	
+	<!-- UI Add user -->
+	<string name="select_user">Seleccione el dispositivo:</string>
+	<string name="not_exits_devices_select_user">Lo sentimos. No existen dispositivos para seleccionar</string>
+	<string name="device_select_user">Dispositivo seleccionado</string>
+	<string name="name_user">Nombre de usuario</string>
+	<string name="name_user_hint">Nombre</string>
+	<string name="password_user">Contraseña</string>
+	<string name="password_user_hint">Contraseña</string>
+	<string name="twitter_user">Usuario Twitter</string>
+	<string name="twitter_user_hint">Usuario Twitter</string>
+	<string name="create_user">Crear usuario</string>
+	<string name="delete_user">Eliminar usuario</string>
+	<string name="search_user_twitter">Buscar twitter</string>
+	<string name="updates_devices_bluetooh">Actualizar dispositivos</string>
+	<string name="select_devices_bluetooh">Selecciona dispositivo</string>
+	<string name="write_key_nfc">Escribir clave NFC</string>
+	<string name="name_user_empty">El nombre de usuario no puede estar vacío</string>
+	<string name="password_user_empty">La contraseña del usario no puede estar vacía</string>
+	<string name="device_user_empty">Debes seleccionar un dispositivo para poder registrarse</string>
+	<string name="device_already_register">El usuario que intentas registrar con su dispositivo, ya se encuentra registrado</string>
+	<string name="device_not_functionality_nfc">El dispositivo no dispone de tecnología NFC. Utilice el Bluetooth para registrarse</string>
+	<string name="register_user_ok">Usuario registrado correctamente</string>
+	<string name="register_user_ko">No ha sido posible registrar el usuario</string>
+	<string name="register_user_dialog_title_nfc">Escribiendo etiqueta NFC</string>
+	<string name="register_user_dialog_description_nfc">Acerque la etiqueta NFC al dispositivo para enviarle la información</string>
+	<string name="register_user_dialog_nfc_write_ok">Etiqueta escrita correctamente</string>
+	<string name="register_user_not_selected_device">No ha seleccionado ningún dispositivo. Por favor, selecciona uno para poder crear el usuario</string>
+	
+	<!-- UI Create user device list -->
+	<string name="searching_devices_bluetooth">Buscando dispositivos&#8230;</string>
+	<string name="searching_devices_bluetooth_title">Lista de dispositivos</string>
+	
+	<!-- UI Sign Mobile -->
+	<string name="title_sign_user_title">Firmar usuario</string>
+	<string name="unable_sign_user">Lo sentimos. Ha sido imposible firmar con el usuario seleccionado. No se encuentra registrado.</string>
+	<string name="search_devices_bluetooth">Buscando dispositivos para poder firmar&#8230;</string>
+	<string name="devices_user_sign">Dispositivos que han firmado</string>
+	
+	<!-- UI Sign accept Mobile -->
+	<string name="title_sign_accept_user_title">Confirmar usuario</string>
+	<string name="confirm_title_device_text_1">¿Quieres firmar como </string>
+	<string name="confirm_title_device_text_2">Para confirmar su asistencia, por favor, introduzca su contraseña.</string>
+	<string name="confirm_password_device_hint">Contraseña</string>
+	<string name="sign_accept_user">Se ha confirmado su asistencia. Gracias.</string>
+	<string name="unable_sign_same_day_user">Ya ha firmado hoy, no puede firmar más veces en un día. Imposible firmar.</string>
+	<string name="password_not_equals_sign_accept_user">La contraseña no coincide con el usuario registrado. Imposible firmar.</string>
+	<string name="unable_sign_accept_user">Lo sentimos. No existe ningún usuario registrado con ese dispositivo. Imposible firmar.</string>
+
+	<!-- UI List sign mobile -->
+	<string name="title_list_sign_title">Lista usuarios</string>
+	<string name="list_devices_sign">La lista de usuarios es:</string>
+	<string name="list_devices_sign_empty">No existen usuario para listar</string>
+	
+	<!-- UI Details sign mobile -->
+	<string name="title_list_details_sign_title">Detalle de usuario</string>
+	<string name="user_delete_ok">El usuario ha sido eliminado correctamente</string>
+	<string name="user_delete_ko">Imposible eliminar el usuario</string>
+	<string name="user_create_sign">Usuario creado el</string>
+	<string name="user_last_sign">Última firma del usuario</string>
+	<string name="user_twitter_sign">Usuario de twitter</string>
+	<string name="user_tickets_sign">Asistencias</string>
+	<string name="user_tickets_not_sign_already">No ha firmado en el sistema</string>
+	
+</resources>

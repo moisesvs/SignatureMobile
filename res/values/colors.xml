@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colors basic -->
+    <color name="blue">#FF0093E0</color>
+    <color name="white">#FFFFFFFF</color>
+	<color name="black">#FF000000</color>
+    
+    <!-- Colors application -->
+    <color name="greyBrackground">#FFE0E0E0</color>
+  	<color name="greyText">#FF292929</color>
+    <color name="greyLightText">#FF6E6D6D</color>
+  	<color name="greyLightBackground">#FFD3D3D3</color>
+    
+</resources>
