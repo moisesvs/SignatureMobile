@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -47,7 +45,6 @@ import com.signaturemobile.signaturemobile.utils.Tools;
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
-@ContentView(R.layout.activity_createuser)
 public class CreateUserActivity extends BaseActivity implements NotificationListener {
 	
     /**
@@ -63,47 +60,42 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
     /**
      * Devices text view
      */
-    @InjectView(R.id.devicesTextView)			private TextView devicesTextView;
+    private TextView devicesTextView;
     
     /**
      * User device name
      */
-    @InjectView(R.id.userDeviceName)			private TextView userDeviceName;
+    private TextView userDeviceName;
     
     /**
      * Name user edit text
      */
-    @InjectView(R.id.nameUserEditText) 			private EditText nameUserEditext;
+    private EditText nameUserEditext;
     
     /**
      * Twitter user edit text
      */
-    @InjectView(R.id.twitterUserEditText) 		private EditText twitterUserEditext;
+    private EditText twitterUserEditext;
     
     /**
-     * Twitter user edit text
+     * User Twitter image view
      */
-    @InjectView(R.id.userTwitterImageView) 		private ImageView userTwitterImageView;
-    
+    private ImageView userTwitterImageView;
+
     /**
      * Create user button
      */
-    @InjectView(R.id.createButton) 				private Button createUserButton;
+    private Button createUserButton;
     
     /**
      * Update list devices button
      */
-    @InjectView(R.id.updateListDevicesButton) 	private Button selectDevice;
+    private Button selectDevice;
     
     /**
      * Write nfc key button
      */
-    @InjectView(R.id.writeKeyNFCButton) 		private Button writeKeyNFCButton;
-    
-    /**
-     * Select device linear layout
-     */
-    @InjectView(R.id.selectDeviceLinearLayout) 	private LinearLayout selectDeviceLinearLayout;
+    private Button writeKeyNFCButton;
     
     /**
      * NFC adapter
@@ -135,14 +127,27 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
      */
     private BluetoothDevice bluetoothDevice;
     
+    /**
+     * Select device linear layout
+     */
+    private LinearLayout selectDeviceLinearLayout;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_createuser, getString(R.string.create_user_main), "", 0);
         
         handlerUI = new Handler();
+        devicesTextView = (TextView) findViewById(R.id.devicesTextView);
+        nameUserEditext = (EditText) findViewById(R.id.nameUserEditText);
+        twitterUserEditext = (EditText) findViewById(R.id.twitterUserEditText);
+        userTwitterImageView = (ImageView) findViewById(R.id.userTwitterImageView);
+        userDeviceName = (TextView) findViewById(R.id.userDeviceName);
+        createUserButton = (Button) findViewById(R.id.createButton);
+        selectDevice = (Button) findViewById(R.id.updateListDevicesButton);
+        writeKeyNFCButton = (Button) findViewById(R.id.writeKeyNFCButton);
+        selectDeviceLinearLayout = (LinearLayout) findViewById(R.id.selectDeviceLinearLayout);
         
-        // set listener
         createUserButton.setOnClickListener(this);
         selectDevice.setOnClickListener(this);
         writeKeyNFCButton.setOnClickListener(this);
@@ -166,6 +171,7 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
         });
         
         listDevices = new ArrayList<BluetoothDevice>();
+
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
     }

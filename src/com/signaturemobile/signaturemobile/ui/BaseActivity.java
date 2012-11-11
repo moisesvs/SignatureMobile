@@ -1,6 +1,6 @@
 package com.signaturemobile.signaturemobile.ui;
 
-import roboguice.activity.RoboActivity;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -32,7 +32,7 @@ import com.signaturemobile.signaturemobile.ToolBox;
  *  
  * @author <a href="mailto:moisesvs@gmail.com">Mooisés Vázquez Sánchez</a>
  */
-public class BaseActivity extends RoboActivity implements OnClickListener{
+public class BaseActivity extends Activity implements OnClickListener{
 
 	/**
      * Reference to the application
