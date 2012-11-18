@@ -18,6 +18,11 @@ public class Constants {
 	public static final int VERSION_DB_USER = 1;
 	
 	/**
+	 * Version data base class application
+	 */
+	public static final int VERSION_DB_CLASS = 1;
+	
+	/**
      * Trace flag (disable for production)
      */
     public static final boolean TRACE_ALLOWED = false;
@@ -165,6 +170,11 @@ public class Constants {
      * Parameters activity
      */
     public static final String PARAMETERS_SIGN_USER = "com.signaturemobile.parameter.siguser";
+    
+    /**
+     * Parameters activity
+     */
+    public static final String PARAMETERS_SELECT_CLASS = "com.signaturemobile.parameter.selectclass";
     
     /**
      * Parameters activity

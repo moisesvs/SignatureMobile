@@ -15,8 +15,8 @@
 	<string name="unable_to_configure_application">Se produjeron errores al cargar la configuración actual de la aplicación.</string>
 	<string name="not_connected_bluetooth">Parece que el Bluetooth no esta conectado. Por favor encienda el bluetooth y vuelva a intentar buscar dispositivos.</string>
 	
-	<!-- UI Signature Mobile -->
-	<string name="title_signature_mobile">Inicio</string>
+	<!-- UI Sign user home mobile -->
+	<string name="title_sign_user_home_mobile">Gestión de alumnos</string>
 	<string name="create_user_main">Crear usuario</string>
 	<string name="sign_user_main">Firmar usuario</string>
 	<string name="list_users">Listar usuarios</string>
@@ -83,5 +83,26 @@
 	<string name="user_twitter_sign">Usuario de twitter</string>
 	<string name="user_tickets_sign">Asistencias</string>
 	<string name="user_tickets_not_sign_already">No ha firmado en el sistema</string>
+
+	<!-- UI Create class -->
+	<string name="create_class_title">Crear asignatura</string>
+	<string name="create_class_name">Nombre asignatura: </string>
+	<string name="name_class_hint">Asignatura</string>
+	<string name="create_asignature">Crear asignatura</string>
+	<string name="name_class_empty">El nombre de la asignatura no puede estar vacío</string>
+	<string name="class_already_register">Las asignatura que intentas registrar con su dispositivo, ya se encuentra registrada</string>
+	<string name="create_class_ok">Clase registrada correctamente</string>
+	<string name="create_class_ko">No ha sido posible crear la asignatura</string>
+	
+	<!-- UI Sign user home mobile -->
+	<string name="title_signature_mobile">Gestión de asignaturas</string>
+	<string name="create_class_main">Crear asignatura</string>
+	<string name="select_class_main">Selecciona asignatura</string>
+
+	<!-- UI List class mobile -->
+	<string name="title_list_class_title">Lista asignaturas</string>
+	<string name="list_devices_class">La lista de asignaturas es:</string>
+	<string name="list_devices_class_empty">No existen asignaturas para listar</string>
+	<string name="unable_sign_accept_class">Lo sentimos. No existe ninguna asignatura registrada con ese nombre.</string>
 	
 </resources>

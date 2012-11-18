@@ -5,13 +5,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.signaturemobile.signaturemobile.db.DAOClassSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
 import com.signaturemobile.signaturemobile.io.BluetoohInvoker;
 import com.signaturemobile.signaturemobile.io.HttpInvoker;
 import com.signaturemobile.signaturemobile.io.NotificationCenter;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 import com.signaturemobile.signaturemobile.io.Updater;
-import com.signaturemobile.signaturemobile.persistence.Persistence;
 
 /**
  * The application class
@@ -54,14 +54,14 @@ public class SignatureMobileApplication extends Application implements Notificat
     private DAOUserSQL daoUserSQL;
     
     /**
+     * Dao class SQL
+     */
+    private DAOClassSQL daoClassSQL;
+    
+    /**
      * The notification center
      */
     private NotificationCenter notificationCenter;
-    
-    /**
-     * Persistence
-     */
-    private Persistence persistence;
 
     /**
      * Initialization end
@@ -122,15 +122,15 @@ public class SignatureMobileApplication extends Application implements Notificat
 
         // create object associated toolbox
         this.notificationCenter = new NotificationCenter();
-        this.persistence = new Persistence(this);
         this.invokerBluetooh = new BluetoohInvoker(this, this.notificationCenter);
         this.daoUserSQL = new DAOUserSQL(this);
+        this.daoClassSQL = new DAOClassSQL(this);
         
         HttpInvoker invoker = new HttpInvoker(toolbox);
         this.updater = new Updater(this.toolbox, invoker);
         
         this.toolbox = new ToolBox();
-        this.toolbox.setup(this, this.updater, this.session, this.invokerBluetooh, this.notificationCenter, this.persistence, this.daoUserSQL);
+        this.toolbox.setup(this, this.updater, this.session, this.invokerBluetooh, this.notificationCenter, this.daoUserSQL, this.daoClassSQL);
         this.session = new Session(this.toolbox);
         this.session.setToolbox(this.toolbox);
         

@@ -6,11 +6,11 @@ import android.content.Context;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.signaturemobile.signaturemobile.db.DAOClassSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
 import com.signaturemobile.signaturemobile.io.BluetoohInvoker;
 import com.signaturemobile.signaturemobile.io.NotificationCenter;
 import com.signaturemobile.signaturemobile.io.Updater;
-import com.signaturemobile.signaturemobile.persistence.Persistence;
 
 /**
  * ToolBox provides application tools
@@ -40,14 +40,14 @@ public class ToolBox {
     private NotificationCenter notificationCenter;
     
     /**
-     * The persistence
-     */
-    private Persistence persistence;
-    
-    /**
      * The dao user sql
      */
     private DAOUserSQL daoUserSQL;
+    
+    /**
+     * The dao class sql
+     */
+    private DAOClassSQL daoClassSQL;
     
     /**
      * Invoker bluetooh
@@ -76,15 +76,15 @@ public class ToolBox {
      * @param alertBuilderFactory 
      */
     public void setup(SignatureMobileApplication application, Updater updater, Session session, BluetoohInvoker bluetoohInvoker, NotificationCenter notificationCenter,
-    		Persistence persistence, DAOUserSQL daoUserSQL) {
+    		DAOUserSQL daoUserSQL, DAOClassSQL daoClassSQL) {
         this.application = application;
         this.updater = updater;
         this.bluetoohInvoker = bluetoohInvoker;
         this.session = session;
         this.notificationCenter = notificationCenter;
-        this.persistence = persistence;
         this.daoUserSQL = daoUserSQL;
-
+        this.daoClassSQL = daoClassSQL;
+        
     	this.display = ((WindowManager)application.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
     }
 
@@ -111,14 +111,6 @@ public class ToolBox {
     	return notificationCenter;
     }
     
-    /**
-     * Get the persistence 
-     * @return the persistence
-     */
-    public Persistence getPersistence() {
-    	return persistence;
-    }
-
 	/**
 	 * Gets application display
 	 * 
@@ -177,5 +169,19 @@ public class ToolBox {
 	 */
 	public void setDaoUserSQL(DAOUserSQL daoUserSQL) {
 		this.daoUserSQL = daoUserSQL;
+	}
+
+	/**
+	 * @return the daoClassSQL
+	 */
+	public DAOClassSQL getDaoClassSQL() {
+		return daoClassSQL;
+	}
+
+	/**
+	 * @param daoClassSQL the daoClassSQL to set
+	 */
+	public void setDaoClassSQL(DAOClassSQL daoClassSQL) {
+		this.daoClassSQL = daoClassSQL;
 	}
 } 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 
@@ -17,35 +16,29 @@ import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationLis
 public class SignatureMobileActivity extends BaseActivity implements NotificationListener {
 	
     /**
-     * Create user button
+     * Create class button
      */
-    private Button createUserButton;
+    private Button createClassButton;
     
     /**
-     * Signature user button
+     * Select class button
      */	
-    private Button signUserButton;
-    
-    /**
-     * List user button
-     */
-    private Button listUserButton;
+    private Button selectClassButton;
     
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_signaturemobile, getString(R.string.title_signature_mobile), "", 0);
         
-        createUserButton = (Button) findViewById(R.id.createUserButton);
-        signUserButton = (Button) findViewById(R.id.signUserButton);
-        listUserButton = (Button) findViewById(R.id.listUserButton);
+        createClassButton = (Button) findViewById(R.id.createClassButton);
+        selectClassButton = (Button) findViewById(R.id.selectClassButton);
         
         // ui listener
-        createUserButton.setOnClickListener(this);
-        signUserButton.setOnClickListener(this);
-        listUserButton.setOnClickListener(this);
+        createClassButton.setOnClickListener(this);
+        selectClassButton.setOnClickListener(this);
         
-        arrowLeftImage.setVisibility(View.GONE);
+        arrowLeftLinear.setVisibility(View.GONE);
+
     }
     
     @Override
@@ -69,15 +62,12 @@ public class SignatureMobileActivity extends BaseActivity implements Notificatio
      * On item click event
      */
 	public void onClick(View v) {
-		if (v == createUserButton){
-            Intent intentCreateUser = new Intent(SignatureMobileActivity.this, CreateUserActivity.class);
-            SignatureMobileActivity.this.startActivity(intentCreateUser);    
-		} else if (v == signUserButton){
-            Intent intentSignUser = new Intent(SignatureMobileActivity.this, SignUserActivity.class);
-            SignatureMobileActivity.this.startActivity(intentSignUser);    
-		} else if (v == listUserButton){
-            Intent intentListUser = new Intent(SignatureMobileActivity.this, ListUsersSignActivity.class);
-            SignatureMobileActivity.this.startActivity(intentListUser);    
+		if (v == createClassButton){
+            Intent intentCreateClass = new Intent(SignatureMobileActivity.this, CreateClassActivity.class);
+            SignatureMobileActivity.this.startActivity(intentCreateClass);    
+		} else if (v == selectClassButton){
+            Intent intentListClass = new Intent(SignatureMobileActivity.this, ListClassActivity.class);
+            SignatureMobileActivity.this.startActivity(intentListClass);    
 		}
 	}
     
@@ -87,27 +77,11 @@ public class SignatureMobileActivity extends BaseActivity implements Notificatio
     @Override
     public void registerNotifications(){
     	super.registerNotifications();
-
-    	// Register activity notification discovering
-    	toolbox.getNotificationCenter().registerListener(Constants.kRequestStartOkFoundReceived, this);
-    	toolbox.getNotificationCenter().registerListener(Constants.kRequestStartFailedFoundReceived, this);
-    	
-    	// Register activity notification devices
-    	toolbox.getNotificationCenter().registerListener(Constants.kDeviceFoundReceived, this);
-    	toolbox.getNotificationCenter().registerListener(Constants.kFinishRequestDeviceFoundReceived, this);
     }
     
     @Override
     public void unRegisterNotifications(){
     	super.registerNotifications();
-
-    	// Register activity notification discovering
-    	toolbox.getNotificationCenter().unregisterListener(Constants.kRequestStartOkFoundReceived, this);
-    	toolbox.getNotificationCenter().unregisterListener(Constants.kRequestStartFailedFoundReceived, this);
-    	
-    	// Register activity notification devices
-    	toolbox.getNotificationCenter().unregisterListener(Constants.kDeviceFoundReceived, this);
-    	toolbox.getNotificationCenter().unregisterListener(Constants.kFinishRequestDeviceFoundReceived, this);
     }
 
 }

@@ -107,4 +107,4 @@ public class ParseableObject extends BaseHandler {
     		return auxStringBuffer.toString();
     	}
     }
-} 
+}

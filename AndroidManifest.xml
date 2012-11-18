@@ -31,17 +31,21 @@
 			    <data android:mimeType="text/plain"/>
 			</intent-filter>
         </activity>
+
+		<activity android:name=".ui.CreateClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
        	
       	<activity android:name=".ui.CreateUserSelectDeviceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
        	
 		<activity android:name=".ui.DetailsUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
        	
 		<activity android:name=".ui.ListUsersSignActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
-       	
+
+		<activity android:name=".ui.ListClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		
 		<activity android:name=".ui.SignAcceptUserActivity" android:theme="@android:style/Animation.Dialog" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
        	
         <activity android:name=".ui.SignatureMobileActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
-    
+        
     	<activity android:name=".ui.SignUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
     		<intent-filter>
 			    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
@@ -50,5 +54,7 @@
 			</intent-filter>
    	    </activity>
        	
+		<activity android:name=".ui.SignUserHomeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+    	
     </application>
 </manifest>

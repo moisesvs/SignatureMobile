@@ -13,7 +13,7 @@ public class StatusEnabledResponse extends ParseableObject {
 	 * Enumerates the basic analyzing states
 	 */
 	protected enum AnalyzingState {IDLE, ANALYZING_CODE, ANALYZING_DESCRIPTION};
-		
+
 	// Element names parsing constants
 	/**
 	 * Defines the response code element tag
@@ -33,7 +33,7 @@ public class StatusEnabledResponse extends ParseableObject {
 	public static final int ERROR_PROCESSING_CODE = 2;
 	public static final int NO_RESULTS_FOUND_CODE = 3;
 	public static final int INVALID_ROUTE_CODE = 4;
-	
+
     /**
      * The error code
      */
@@ -82,7 +82,7 @@ public class StatusEnabledResponse extends ParseableObject {
 		super.startElement(uri, localName, qName, attributes);
 		if (xmlAnalysisState.equals(AnalyzingState.IDLE)) {
 			String lowercaseLocalName = localName.toLowerCase();
-			
+
 			if (lowercaseLocalName.equals(RESPONSE_CODE_ELEMENT_TAG)) {
 				xmlAnalysisState = AnalyzingState.ANALYZING_CODE;
 			} else if (lowercaseLocalName.equals(RESPONSE_DESCRIPTION_ELEMENT_TAG)) {
@@ -109,7 +109,7 @@ public class StatusEnabledResponse extends ParseableObject {
 		} else if (xmlAnalysisState.equals(AnalyzingState.ANALYZING_DESCRIPTION)) {
 			statusDescription = getElementString();
 		}
-		
+
 		xmlAnalysisState = AnalyzingState.IDLE;
 	}
 
@@ -168,4 +168,4 @@ public class StatusEnabledResponse extends ParseableObject {
         this.statusDescription = null;
         this.error = false;
 	}
-} 
+}

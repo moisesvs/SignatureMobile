@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  android:id="@+id/parentLayout"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:baselineAligned="false">
+		
+    	<ScrollView 
+    	 	android:layout_width="fill_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:orientation="horizontal" 
+	    	android:layout_margin="10dp">
+    		
+    		<LinearLayout 
+	    	 	android:layout_width="fill_parent"
+	    	 	android:layout_height="wrap_content"
+	    	 	android:orientation="vertical">
+    		
+		    	    <LinearLayout 
+			    	 	android:layout_width="fill_parent"
+			    	 	android:layout_height="wrap_content"
+		    	 		android:orientation="vertical"
+		    	 		android:background="@drawable/grey_textview_background">
+		    	 		
+		    	    	<TextView 
+				    	 	android:layout_width="fill_parent"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:text="@string/create_class_name"
+				    	 	android:textStyle="bold"	    	 	
+				    	 	android:textSize="15sp"
+							android:textColor="@color/greyText"
+				    	    />
+		    	    	<EditText
+		    	    	    android:id="@+id/nameClassEditText"
+				    	 	android:layout_width="fill_parent"
+				    	 	android:layout_height="wrap_content"
+				    	 	android:textSize="15dp"
+				    	 	android:maxLines="1"
+				    	 	android:hint="@string/name_class_hint"
+				    	 	android:singleLine="true"
+				    	 	android:nextFocusDown="@+id/surnameUserEditText"
+				    	    />
+		    	    	
+		    		</LinearLayout>
+		    		
+    		</LinearLayout>
+    	     
+    	</ScrollView>
+    	
+		<LinearLayout 
+    	 	android:layout_width="fill_parent"
+    	 	android:layout_height="0dp"
+    	 	android:orientation="vertical" 
+    	 	android:layout_weight="35"
+    	 	android:gravity="center_horizontal|top">
+	    		
+			    <Button 
+			 		android:id="@+id/createClassButton"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/create_asignature"
+			        android:layout_marginBottom="10dp"
+			        android:background="@drawable/grey_button"
+	    	    	style="@style/ButtonText"/>
+			    
+		</LinearLayout>
+</LinearLayout>

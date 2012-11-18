@@ -28,7 +28,7 @@ public class DAOUserSQL {
 		private SQLiteBaseData userDB;
 	
 		/**
-		 * Default contructor
+		 * Default constructor
 		 * @param contextApplication context application
 		 */
 		public DAOUserSQL (Context contextApplication){
