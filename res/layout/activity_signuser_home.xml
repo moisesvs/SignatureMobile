@@ -9,7 +9,16 @@
   android:gravity="center" 
   android:layout_margin="50dp" 
   android:layout_gravity="center">
-  
+  	
+    		<TextView
+	    	    android:id="@+id/asignatureTextView"
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:textSize="30dp"
+	    	    android:textStyle="bold"
+	    	    android:layout_marginBottom="35dp"
+	    	    android:textColor="@color/black"/>		
+    
 	    	<Button
 	    	    android:id="@+id/createUserButton"
 	    	    android:layout_width="fill_parent"
@@ -33,6 +42,15 @@
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
 	    	    android:text="@string/list_users"
+	    	    android:layout_margin="3dp"
+	    	    android:background="@drawable/black_button"
+	    	    style="@style/ButtonText"/>
+	    	
+	    	<Button
+	    	    android:id="@+id/fileUserButton"
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/write_file_users"
 	    	    android:layout_margin="3dp"
 	    	    android:background="@drawable/black_button"
 	    	    style="@style/ButtonText"/>

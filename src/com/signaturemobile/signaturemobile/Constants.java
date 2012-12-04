@@ -18,9 +18,24 @@ public class Constants {
 	public static final int VERSION_DB_USER = 1;
 	
 	/**
+	 * Version data base asignature application
+	 */
+	public static final int VERSION_DB_ASIGNATURE = 1;
+
+	/**
 	 * Version data base class application
 	 */
 	public static final int VERSION_DB_CLASS = 1;
+	
+	/**
+	 * Version data base join user with asignature application
+	 */
+	public static final int VERSION_DB_JOIN_USER_ASIGNATURE = 1;
+	
+	/**
+	 * Version data base join user with class application
+	 */
+	public static final int VERSION_DB_JOIN_USER_CLASS = 1;
 	
 	/**
      * Trace flag (disable for production)
@@ -149,6 +164,20 @@ public class Constants {
      * Default tickets user
      */
     public static final String URL_TWITTER_FORMAT_STRING = "https://api.twitter.com/1/users/profile_image?screen_name=%s&size=bigger";
+    
+    
+////////////////////////////////////////////////////////////////
+//Activity request codes
+////////////////////////////////////////////////////////////////
+	/**
+	 * Default tickets user
+	 */
+	public static final String NAME_FOLDER_APPLICATION = "signatureMobile";
+	
+	/**
+	 * Default tickets user
+	 */
+	public static final String NAME_FILE_CSV = "users.csv";
     
 ////////////////////////////////////////////////////////////////
 //Activity request codes

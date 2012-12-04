@@ -37,6 +37,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.ui.listitems.DeviceListItemView;
 import com.signaturemobile.signaturemobile.utils.Tools;
 
@@ -131,7 +132,7 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
      * Select device linear layout
      */
     private LinearLayout selectDeviceLinearLayout;
-    
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -280,7 +281,17 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
 						if ((toolbox.getDaoUserSQL().searchUserDeviceMAC(mac) == null) || (valueStringTime != null)){
 							// create user in table SQL
 							if (toolbox.getDaoUserSQL().createUser(username, "", twitterUser, mac, "0", new Date(), (new Date(1970, 1, 1)), valueStringTime)){
-								showInfoMessage(getString(R.string.register_user_ok), true);
+								AsignatureDB asignature = toolbox.getSession().getSelectAsignature();
+								if (asignature != null) {
+									if ((toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username)) && 
+										(toolbox.getDaoJoinAsignatureWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username))){
+										showInfoMessage(getString(R.string.register_user_ok), true);
+									} else {
+										showErrorMessage(getString(R.string.register_user_ko));
+									}
+								} else {
+									showErrorMessage(getString(R.string.register_user_ko));
+								}
 							} else {
 								showErrorMessage(getString(R.string.register_user_ko));
 							}

@@ -6,7 +6,10 @@ import android.content.Context;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.signaturemobile.signaturemobile.db.DAOAsignatureSQL;
 import com.signaturemobile.signaturemobile.db.DAOClassSQL;
+import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithUserSQL;
+import com.signaturemobile.signaturemobile.db.DAOJoinClassWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
 import com.signaturemobile.signaturemobile.io.BluetoohInvoker;
 import com.signaturemobile.signaturemobile.io.NotificationCenter;
@@ -45,9 +48,24 @@ public class ToolBox {
     private DAOUserSQL daoUserSQL;
     
     /**
+     * The dao asignature sql
+     */
+    private DAOAsignatureSQL daoAsignatureSQL;
+    
+    /**
      * The dao class sql
      */
     private DAOClassSQL daoClassSQL;
+
+	/**
+     * The dao join asignature with user sql
+     */
+    private DAOJoinAsignatureWithUserSQL daoJoinAsignatureWithUser;
+    
+    /**
+     * The dao join class with user sql
+     */
+    private DAOJoinClassWithUserSQL daoJoinClassWithUser;
     
     /**
      * Invoker bluetooh
@@ -76,15 +94,18 @@ public class ToolBox {
      * @param alertBuilderFactory 
      */
     public void setup(SignatureMobileApplication application, Updater updater, Session session, BluetoohInvoker bluetoohInvoker, NotificationCenter notificationCenter,
-    		DAOUserSQL daoUserSQL, DAOClassSQL daoClassSQL) {
+    		DAOUserSQL daoUserSQL, DAOAsignatureSQL daoAsignatureSQL, DAOClassSQL daoClassSQL, DAOJoinAsignatureWithUserSQL daoJoinAsignatureWithUser, DAOJoinClassWithUserSQL daoJoinClassWithUserSQL) {
         this.application = application;
         this.updater = updater;
         this.bluetoohInvoker = bluetoohInvoker;
         this.session = session;
         this.notificationCenter = notificationCenter;
         this.daoUserSQL = daoUserSQL;
+        this.daoAsignatureSQL = daoAsignatureSQL;
         this.daoClassSQL = daoClassSQL;
-        
+        this.daoJoinAsignatureWithUser = daoJoinAsignatureWithUser;
+        this.daoJoinClassWithUser = daoJoinClassWithUserSQL;
+
     	this.display = ((WindowManager)application.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
     }
 
@@ -172,10 +193,17 @@ public class ToolBox {
 	}
 
 	/**
-	 * @return the daoClassSQL
+	 * @return the daoAsignatureSQL
 	 */
-	public DAOClassSQL getDaoClassSQL() {
-		return daoClassSQL;
+	public DAOAsignatureSQL getDaoAsignatureSQL() {
+		return daoAsignatureSQL;
+	}
+
+	/**
+	 * @param daoAsignatureSQL the daoAsignatureSQL to set
+	 */
+	public void setDaoAsignatureSQL(DAOAsignatureSQL daoAsignatureSQL) {
+		this.daoAsignatureSQL = daoAsignatureSQL;
 	}
 
 	/**
@@ -183,5 +211,40 @@ public class ToolBox {
 	 */
 	public void setDaoClassSQL(DAOClassSQL daoClassSQL) {
 		this.daoClassSQL = daoClassSQL;
+	}
+
+	/**
+	 * @return the daoJoinAsignatureWithUser
+	 */
+	public DAOJoinAsignatureWithUserSQL getDaoJoinAsignatureWithUser() {
+		return daoJoinAsignatureWithUser;
+	}
+
+	/**
+	 * @param daoJoinAsignatureWithUser the daoJoinAsignatureWithUser to set
+	 */
+	public void setDaoJoinAsignatureWithUser(DAOJoinAsignatureWithUserSQL daoJoinAsignatureWithUser) {
+		this.daoJoinAsignatureWithUser = daoJoinAsignatureWithUser;
+	}
+
+	/**
+	 * @return the daoJoinClassWithUser
+	 */
+	public DAOJoinClassWithUserSQL getDaoJoinClassWithUser() {
+		return daoJoinClassWithUser;
+	}
+
+	/**
+	 * @param daoJoinClassWithUser the daoJoinClassWithUser to set
+	 */
+	public void setDaoJoinClassWithUser(DAOJoinClassWithUserSQL daoJoinClassWithUser) {
+		this.daoJoinClassWithUser = daoJoinClassWithUser;
+	}
+    
+    /**
+	 * @return the daoClassSQL
+	 */
+	public DAOClassSQL getDaoClassSQL() {
+		return daoClassSQL;
 	}
 } 

@@ -5,7 +5,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.signaturemobile.signaturemobile.db.DAOAsignatureSQL;
 import com.signaturemobile.signaturemobile.db.DAOClassSQL;
+import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithUserSQL;
+import com.signaturemobile.signaturemobile.db.DAOJoinClassWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
 import com.signaturemobile.signaturemobile.io.BluetoohInvoker;
 import com.signaturemobile.signaturemobile.io.HttpInvoker;
@@ -54,9 +57,24 @@ public class SignatureMobileApplication extends Application implements Notificat
     private DAOUserSQL daoUserSQL;
     
     /**
+     * Dao asignature SQL
+     */
+    private DAOAsignatureSQL daoAsignatureSQL;
+    
+    /**
      * Dao class SQL
      */
     private DAOClassSQL daoClassSQL;
+    
+    /**
+     * Dao asignature join with user SQL
+     */
+    private DAOJoinAsignatureWithUserSQL daoJoinAsignatureWithUserSQL;
+    
+    /**
+     * Dao class join with user SQL
+     */
+    private DAOJoinClassWithUserSQL daoJoinClassWithUserSQL;
     
     /**
      * The notification center
@@ -124,15 +142,18 @@ public class SignatureMobileApplication extends Application implements Notificat
         this.notificationCenter = new NotificationCenter();
         this.invokerBluetooh = new BluetoohInvoker(this, this.notificationCenter);
         this.daoUserSQL = new DAOUserSQL(this);
+        this.daoAsignatureSQL = new DAOAsignatureSQL(this);
         this.daoClassSQL = new DAOClassSQL(this);
-        
+        this.daoJoinAsignatureWithUserSQL = new DAOJoinAsignatureWithUserSQL(this);
+        this.daoJoinClassWithUserSQL = new DAOJoinClassWithUserSQL(this);
+
         HttpInvoker invoker = new HttpInvoker(toolbox);
         this.updater = new Updater(this.toolbox, invoker);
         
+        this.session = new Session();
         this.toolbox = new ToolBox();
-        this.toolbox.setup(this, this.updater, this.session, this.invokerBluetooh, this.notificationCenter, this.daoUserSQL, this.daoClassSQL);
-        this.session = new Session(this.toolbox);
-        this.session.setToolbox(this.toolbox);
+        this.toolbox.setup(this, this.updater, this.session, this.invokerBluetooh, this.notificationCenter, this.daoUserSQL, 
+        		this.daoAsignatureSQL, this.daoClassSQL, this.daoJoinAsignatureWithUserSQL, this.daoJoinClassWithUserSQL);
         
         registerAll();
         // initialized thread app

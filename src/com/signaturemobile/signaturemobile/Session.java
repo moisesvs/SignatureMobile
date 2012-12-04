@@ -11,6 +11,8 @@ package com.signaturemobile.signaturemobile;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
+
 /** 
  * Session stores values than can be used by different instances of the application,
  * and which have validity during a user's session.
@@ -20,22 +22,21 @@ import java.util.HashMap;
 @SuppressWarnings("serial")
 public class Session implements Serializable {
     
+	/**
+	 * Select asignature
+	 */
+	private AsignatureDB selectAsignature;
+	
     // Notification constants
 	/**
 	 * Has map for store objects used as parameters between activities
 	 */
 	private transient HashMap<String, Object> parametersMap;
     
-    /**
-     * Toolbox application
-     */
-	private transient ToolBox toolbox;
-    
 	/**
      * Default constructor
      */
-    public Session(ToolBox toolbox) {
-    	this.toolbox = toolbox;
+    public Session() {
 
 //    	save();
     }
@@ -54,15 +55,6 @@ public class Session implements Serializable {
 //	}
 	
 	// Getters/setters
-    /**
-     * Sets toolbox into current session
-     * 
-     * @param toolbox
-     */
-    public void setToolbox(ToolBox toolbox) {
-        this.toolbox = toolbox;
-    }
-	
 	/**
 	 * @return the parametersMap
 	 */
@@ -71,6 +63,20 @@ public class Session implements Serializable {
 	        parametersMap = new HashMap<String, Object>();
 	    }
 		return parametersMap;
+	}
+
+	/**
+	 * @return the selectAsignature
+	 */
+	public AsignatureDB getSelectAsignature() {
+		return selectAsignature;
+	}
+
+	/**
+	 * @param selectAsignature the selectAsignature to set
+	 */
+	public void setSelectAsignature(AsignatureDB selectAsignature) {
+		this.selectAsignature = selectAsignature;
 	}
 
 	// Functional methods    

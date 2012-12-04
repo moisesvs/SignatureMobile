@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.signaturemobile.signaturemobile.R;
-import com.signaturemobile.signaturemobile.model.UserDB;
+import com.signaturemobile.signaturemobile.model.JoinAsignatureWithUserDB;
 
 /**
  * List item to display an action. It contains an action image, an action text, and an action indicator, wich can be
@@ -38,9 +38,9 @@ public class UserDBListItemView extends SignatureListItemView {
     private ImageView checkImageView;
     
     /**
-     * User db
+     * Dao join asignature with user db
      */
-    private UserDB userDB;
+    private JoinAsignatureWithUserDB joinAsignatureWithUserDB;
     
     /**
      * Default constructor
@@ -73,10 +73,10 @@ public class UserDBListItemView extends SignatureListItemView {
      * @param device The device item associate
      * @param checked If the device is checked or not
      */
-    public void setContent(UserDB userDB, boolean checked) {
-    	this.userDB = userDB;
+    public void setContent(JoinAsignatureWithUserDB userDB, boolean checked) {
+    	this.joinAsignatureWithUserDB = userDB;
     	if (userDB != null){
-    		String username = userDB.getUsername();
+    		String username = userDB.getUserName();
         	if (username != null)
         		idDeviceTextView.setText(username);
         	
@@ -95,14 +95,14 @@ public class UserDBListItemView extends SignatureListItemView {
 	/**
 	 * @return the userDB
 	 */
-	public UserDB getUserDB() {
-		return userDB;
+	public JoinAsignatureWithUserDB getJoinAsignatureWithUser() {
+		return joinAsignatureWithUserDB;
 	}
 
 	/**
 	 * @param userDB the userDB to set
 	 */
-	public void setUserDB(UserDB userDB) {
-		this.userDB = userDB;
+	public void setJoinWithAsignatureWithUserDB(JoinAsignatureWithUserDB userDB) {
+		this.joinAsignatureWithUserDB = userDB;
 	}
 }

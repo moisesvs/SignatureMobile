@@ -54,7 +54,7 @@ public class DAOUserSQL {
 		        
 		        if(db != null) {
 	                db.execSQL("INSERT INTO Users (code, username, password, usertwitter, mac, tickets, dateCreateUser, dateLastRegister, tokenNfc) " +
-	                           "VALUES (" + 1 + ", ' " + username + "', '" + password + "', '" + userTwitter + "', '" + mac + "', '" 
+	                           "VALUES (" + 1 + ", '" + username + "', '" + password + "', '" + userTwitter + "', '" + mac + "', '" 
 	                		+ tickets + "', '" + dateCreateUser.getTime() + "', '" + 0 + "', '" + tokenNFC + "')");
 		            db.close();
 		            result = true;
@@ -82,7 +82,6 @@ public class DAOUserSQL {
 		        Cursor c = db.query("Users", registers, "mac=?", args, null, null, null);
 		         
 		        if (c.moveToFirst()) {
-		             //Recorremos el cursor hasta que no haya más registros
 		             do {
 		                  String username = c.getString(0);
 		                  String password = c.getString(1);
@@ -125,7 +124,6 @@ public class DAOUserSQL {
 		        Cursor c = db.query("Users", registers, "tokenNFC=?", args, null, null, null);
 		         
 		        if (c.moveToFirst()) {
-		             //Recorremos el cursor hasta que no haya más registros
 		             do {
 		                  String username = c.getString(0);
 		                  String password = c.getString(1);

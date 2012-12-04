@@ -10,8 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
-import com.signaturemobile.signaturemobile.model.ClassDB;
-import com.signaturemobile.signaturemobile.persistence.ClassSQLite;
+import com.signaturemobile.signaturemobile.persistence.AsignatureSQLite;
 import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
 
 /**
@@ -19,36 +18,36 @@ import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
-public class DAOClassSQL {
+public class DAOAsignatureSQL {
 		
 		/**
-		 * Instance Class SQL Lite
+		 * Instance Asignature SQL Lite
 		 */
-		private SQLiteBaseData classDB;
+		private SQLiteBaseData asignatureDB;
 	
 		/**
 		 * Default constructor
 		 * @param contextApplication context application
 		 */
-		public DAOClassSQL (Context contextApplication){
-	        classDB = new ClassSQLite(contextApplication, "DBClass", null, Constants.VERSION_DB_CLASS);
+		public DAOAsignatureSQL (Context contextApplication){
+	        asignatureDB = new AsignatureSQLite(contextApplication, "DBAsignature", null, Constants.VERSION_DB_ASIGNATURE);
 		}
 	    
 	    /**
 	     * Create class and save into database
-	     * @param nameClass the name class to save database
+	     * @param nameAsignature the name class to save database
 	     * @param numberStudents the number students
 	     * @return Create class
 	     */
-	    public boolean createClass (String nameClass, String numberStudents){
+	    public boolean createClass (String nameAsignature, String numberStudents){
 	        boolean result = false;
-	    	if ((nameClass != null) && (numberStudents != null)) {
+	    	if ((nameAsignature != null) && (numberStudents != null)) {
 		    	// Open database in mode write
-		        SQLiteDatabase db = classDB.getWritableDatabase();
+		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
 		        
 		        if(db != null) {
-	                db.execSQL("INSERT INTO Class (code, nameClass, numberStudents) " +
-	                           "VALUES (" + 1 + ", ' " + nameClass + "', '" + numberStudents + "')");
+	                db.execSQL("INSERT INTO Asignature (code, nameAsignature, numberStudents) " +
+	                           "VALUES (" + 1 + ", '" + nameAsignature + "', '" + numberStudents + "')");
 		            db.close();
 		            result = true;
 		        }
@@ -58,26 +57,26 @@ public class DAOClassSQL {
 	    }
 	    
 		/**
-		 * Search class from name class
+		 * Search asignature from name asignature
 		 * @param name class user 
 		 * @return the class db result or null if not find
 		 */
-		public AsignatureDB searchClassFromNameClass(String nameClassUser){
+		public AsignatureDB searchClassFromNameClass(String nameAsignatureUser){
 			AsignatureDB classDbResult = null;
 			
-			if (nameClassUser != null){
-				String[] registers = new String[] {"nameClass", "numberStudents"};
-		        String[] args = new String[] {nameClassUser};
+			if (nameAsignatureUser != null){
+				String[] registers = new String[] {"nameAsignature", "numberStudents"};
+		        String[] args = new String[] {nameAsignatureUser};
 		    	
 		        // Open database in mode write
-		        SQLiteDatabase db = classDB.getWritableDatabase();
+		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
 		        
-		        Cursor c = db.query("Class", registers, "nameClass=?", args, null, null, null);
+		        Cursor c = db.query("Asignature", registers, "nameAsignature=?", args, null, null, null);
 		         
 		        if (c.moveToFirst()) {
 		             //Recorremos el cursor hasta que no haya más registros
 		             do {
-		                  String nameClass = c.getString(0);
+		                  String nameAsignature = c.getString(0);
 		                  String numberStudents = c.getString(1);
 		                  int numberStudentsInt = 0;
 		                  try {
@@ -86,7 +85,7 @@ public class DAOClassSQL {
 		                	  // nothing
 		                  }
 		                  
-		                  classDbResult = new AsignatureDB(nameClass, numberStudentsInt);
+		                  classDbResult = new AsignatureDB(nameAsignature, numberStudentsInt);
 		             } while(c.moveToNext());
 		        } else {
 		        	classDbResult = null;
@@ -101,20 +100,20 @@ public class DAOClassSQL {
 		}
 	    
 	    /**
-	     * Delete user into database
-	     * @param classDB the class DB to save database
+	     * Delete asignature into database
+	     * @param asignatureDBObject the asignature DB to save database
 	     * @return If the user has been deleted or not
 	     */
-	    public boolean deleteClass (AsignatureDB classDBObject){
+	    public boolean deleteAsignature (AsignatureDB asignatureDBObject){
 	        boolean result = false;
-	    	if (classDBObject != null) {
-	    		String className = classDBObject.getNameAsignature();
+	    	if (asignatureDBObject != null) {
+	    		String className = asignatureDBObject.getNameAsignature();
 		    	// Open database in mode write
 		        String[] args = new String[] {className};
-		        SQLiteDatabase db = classDB.getWritableDatabase();
+		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
 
 		        if(db != null) {
-		        	db.delete("Class", "nameClass=?", args);
+		        	db.delete("Asignature", "nameAsignature=?", args);
 	                db.close();
 		            result = true;
 		        }
@@ -128,18 +127,18 @@ public class DAOClassSQL {
 		 * @param numberStudents value mac
 		 * @return the user db result or null if not find
 		 */
-		public boolean updateStudentsFromNameClass(String nameClass, int numberStudents){
+		public boolean updateStudentsFromNameAsignature(String nameAsignature, int numberStudents){
 			boolean result = false;
 			
-			if (nameClass != null){
-		        String[] args = new String[] {nameClass};
+			if (nameAsignature != null){
+		        String[] args = new String[] {nameAsignature};
 		    	
 		        // Open database in mode write
-		        SQLiteDatabase db = classDB.getWritableDatabase();
+		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
 		        
 		        ContentValues contentValue = new ContentValues();
 		        contentValue.put("numberStudents", String.valueOf(numberStudents));
-        		int numberRows = db.update("Class", contentValue, "nameClass=?", args);
+        		int numberRows = db.update("Asignature", contentValue, "nameAsignature=?", args);
 		        if (numberRows != 0) {
 		        	result = true;
 		        } else {
@@ -155,22 +154,22 @@ public class DAOClassSQL {
 		}
 		
 		/**
-		 * List class
-		 * @return the list fill with class all
+		 * List asignature
+		 * @return the list fill with asignature all
 		 */
-		public List<ClassDB> listClass(){
-			List<ClassDB> listDbResult = new ArrayList<ClassDB>();
-			String[] registers = new String[] {"nameClass", "numberStudents"};
+		public List<AsignatureDB> listAsignature(){
+			List<AsignatureDB> listDbResult = new ArrayList<AsignatureDB>();
+			String[] registers = new String[] {"nameAsignature", "numberStudents"};
 	    	
 	        // Open database in mode write
-	        SQLiteDatabase db = classDB.getWritableDatabase();
+	        SQLiteDatabase db = asignatureDB.getWritableDatabase();
 	        
-	        Cursor c = db.query("Class", registers, null, null, null, null, null);
+	        Cursor c = db.query("Asignature", registers, null, null, null, null, null);
 	         
 	        if (c.moveToFirst()) {
 	             //Recorremos el cursor hasta que no haya más registros
 	             do {
-	                  String nameClass = c.getString(0);
+	                  String nameAsignature = c.getString(0);
 	                  String numberStudents = c.getString(1);
 	                  int numberStudentsInt = 0;
 	                  try {
@@ -178,8 +177,8 @@ public class DAOClassSQL {
 	                  } catch (Throwable e){
 	                	  // nothing
 	                  }
-	                  ClassDB classDbResult = new ClassDB(nameClass, numberStudentsInt);
-	                  listDbResult.add(classDbResult);
+	                  AsignatureDB asignatureDbResult = new AsignatureDB(nameAsignature, numberStudentsInt);
+	                  listDbResult.add(asignatureDbResult);
 	                  
 	             } while(c.moveToNext());
 	        }

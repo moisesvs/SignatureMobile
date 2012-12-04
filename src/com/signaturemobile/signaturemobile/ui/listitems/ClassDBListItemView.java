@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.signaturemobile.signaturemobile.R;
-import com.signaturemobile.signaturemobile.model.ClassDB;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
 
 /**
  * List item to display an action. It contains an action image, an action text, and an action indicator, wich can be
@@ -40,7 +40,7 @@ public class ClassDBListItemView extends SignatureListItemView {
     /**
      * Class db
      */
-    private ClassDB classDB;
+    private AsignatureDB classDB;
     
     /**
      * Default constructor
@@ -73,10 +73,10 @@ public class ClassDBListItemView extends SignatureListItemView {
      * @param device The device item associate
      * @param checked If the device is checked or not
      */
-    public void setContent(ClassDB classDB, boolean checked) {
+    public void setContent(AsignatureDB classDB, boolean checked) {
     	this.classDB = classDB;
     	if (classDB != null){
-    		String nameClass = classDB.getNameClass();
+    		String nameClass = classDB.getNameAsignature();
         	if (nameClass != null)
         		nameClassTextView.setText(nameClass);
         	
@@ -95,14 +95,14 @@ public class ClassDBListItemView extends SignatureListItemView {
 	/**
 	 * @return the classDB
 	 */
-	public ClassDB getClassDB() {
+	public AsignatureDB getClassDB() {
 		return classDB;
 	}
 
 	/**
 	 * @param classDB the classDB to set
 	 */
-	public void setClassDB(ClassDB classDB) {
+	public void setClassDB(AsignatureDB classDB) {
 		this.classDB = classDB;
 	}
 }
