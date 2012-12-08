@@ -3,57 +3,97 @@ package com.signaturemobile.signaturemobile.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * UserDAOSql object reference User DB
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
-public class UserDB implements Serializable{
+@DatabaseTable
+public class UserDB implements Serializable {
+	
+		////////////////////////////////////////////////////////////////////////
+		// Defines rows
+		////////////////////////////////////////////////////////////////////////
 		
+		public static final String ID_USERNAME = "id";
+	    public static final String USERNAME = "username";
+	    public static final String PASSWORD = "password";
+	    public static final String USER_TWITTER = "userTwitter";
+	    public static final String MAC = "mac";
+	    public static final String TICKETS = "tickets";
+	    public static final String DATE_CREATE_USER = "dateCreateUser";
+	    public static final String DATE_LAST_SIGN = "dateLastSign";
+	    public static final String TOKEN_NFC = "tokenNfc";
+
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
+	
 		/**
 		 * Defautl serial version UID
 		 */
 		private static final long serialVersionUID = 1L;
-
+		
+		/**
+		 * 	Id of the user
+		 */
+		@DatabaseField(generatedId = true, columnName = ID_USERNAME)
+		private int idAsignature;
+		
 		/**
 		 * Instance User SQL Lite
 		 */
+		@DatabaseField(columnName = USERNAME)
 		private String username;
 		
 		/**
 		 * Password user DAO
 		 */
+		@DatabaseField(columnName = PASSWORD)
 		private String password;
 		
 		/**
 		 * Username twitter
 		 */
+		@DatabaseField(columnName = USER_TWITTER)
 		private String userTwitter;
 		
 		/**
 		 * MAC user
 		 */
+		@DatabaseField(columnName = MAC)
 		private String mac;
 		
 		/**
 		 * Ticket user
 		 */
-		private String tickets;
+		@DatabaseField(columnName = TICKETS)
+		private int tickets;
 		
 		/**
 		 * Date create user
 		 */
+		@DatabaseField(columnName = DATE_CREATE_USER)
 		private Date dateCreateUser;
 		
 		/**
 		 * Date last sing user
 		 */
+		@DatabaseField(columnName = DATE_LAST_SIGN)
 		private Date dateLastSignUser;
 		
 		/**
 		 * Token NFC
 		 */
+		@DatabaseField(columnName = TOKEN_NFC)
 		private String tokenNFC;
+		
+		/**
+		 * Default constructor
+		 */
+		public UserDB (){}
 		
 		/**
 		 * Default contructor
@@ -65,7 +105,7 @@ public class UserDB implements Serializable{
 		 * @param dateCreateUser Date create user
 		 * @param dateLastSignUser Date last signature user
 		 */
-		public UserDB (String username, String password, String userTwitter, String mac, String tickets,
+		public UserDB (String username, String password, String userTwitter, String mac, int tickets,
 				Date dateCreateUser, Date dateLastSignUser, String tokenNFC){
 			this.username = username;
 			this.password = password;
@@ -122,29 +162,14 @@ public class UserDB implements Serializable{
 		/**
 		 * @return the tickets
 		 */
-		public String getTickets() {
+		public int getTickets() {
 			return tickets;
-		}
-
-		/**
-		 * @return the tickets
-		 */
-		public int getNumberTickets() {
-			int numberTickets = 0;
-			if (tickets != null){
-				try {
-					numberTickets = Integer.parseInt(tickets);
-				} catch (NumberFormatException e){
-					numberTickets = 0;
-				}
-			}
-			return numberTickets;
 		}
 		
 		/**
 		 * @param tickets the tickets to set
 		 */
-		public void setTickets(String tickets) {
+		public void setTickets(int tickets) {
 			this.tickets = tickets;
 		}
 
@@ -224,6 +249,20 @@ public class UserDB implements Serializable{
 		 */
 		public void setTokenNFC(String tokenNFC) {
 			this.tokenNFC = tokenNFC;
+		}
+
+		/**
+		 * @return the idAsignature
+		 */
+		public int getIdAsignature() {
+			return idAsignature;
+		}
+
+		/**
+		 * @param idAsignature the idAsignature to set
+		 */
+		public void setIdAsignature(int idAsignature) {
+			this.idAsignature = idAsignature;
 		}
 
 }

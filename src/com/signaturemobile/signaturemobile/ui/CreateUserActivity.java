@@ -280,7 +280,7 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
 						String mac = bluetoothDevice.getAddress();
 						if ((toolbox.getDaoUserSQL().searchUserDeviceMAC(mac) == null) || (valueStringTime != null)){
 							// create user in table SQL
-							if (toolbox.getDaoUserSQL().createUser(username, "", twitterUser, mac, "0", new Date(), (new Date(1970, 1, 1)), valueStringTime)){
+							if (toolbox.getDaoUserSQL().createUser(username, "", twitterUser, mac, 0, new Date(), (new Date(1970, 1, 1)), valueStringTime)){
 								AsignatureDB asignature = toolbox.getSession().getSelectAsignature();
 								if (asignature != null) {
 									if ((toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username)) && 

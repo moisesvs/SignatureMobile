@@ -7,10 +7,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.signaturemobile.signaturemobile.Constants;
+import com.signaturemobile.signaturemobile.SignatureMobileApplication;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.ClassDB;
 import com.signaturemobile.signaturemobile.model.JoinClassWithUserDB;
-import com.signaturemobile.signaturemobile.persistence.JoinClassWithUserSQLite;
-import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
 
 /**
  * DAOJoinClassWithUserSQL object facade to communication to Join class with user DB
@@ -20,16 +23,16 @@ import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
 public class DAOJoinClassWithUserSQL {
 		
 		/**
-		 * Instance Class SQL Lite
+		 * Context application
 		 */
-		private SQLiteBaseData joinClassWithUserDB;
-	
+		private SignatureMobileApplication application;
+		
 		/**
 		 * Default constructor
 		 * @param contextApplication context application
 		 */
 		public DAOJoinClassWithUserSQL (Context contextApplication){
-	        joinClassWithUserDB = new JoinClassWithUserSQLite(contextApplication, "DAOJoinClassWithUserSQL", null, Constants.VERSION_DB_JOIN_USER_CLASS);
+			this.application = (SignatureMobileApplication) contextApplication;
 		}
 	    
 	    /**
@@ -42,13 +45,19 @@ public class DAOJoinClassWithUserSQL {
 	        boolean result = false;
 	    	if ((nameClass != null) && (nameUser != null)) {
 		    	// Open database in mode write
-		        SQLiteDatabase db = joinClassWithUserDB.getWritableDatabase();
-		        
-		        if(db != null) {
-	                db.execSQL("INSERT INTO JoinClassWithUser (code, nameClass, username) " +
-	                           "VALUES (" + 1 + ", '" + nameClass + "', '" + nameUser + "')");
-		            db.close();
-		            result = true;
+	    		DBHelper helper = application.getHelper();
+		        if(helper != null) {
+		        	try {
+		        		JoinClassWithUserDB joinClassWithUserDb = new JoinClassWithUserDB(nameClass, nameUser);
+		        		helper.getJoinClassWithUser().create(joinClassWithUserDb);
+		        		result = true;
+		        	} catch (Exception e) {
+		        		result = false;
+		        	} finally {
+		        		// close
+		        		application.getHelper().close();
+		        	}
+
 		        }
 	        }
 	    	
@@ -61,34 +70,30 @@ public class DAOJoinClassWithUserSQL {
 		 * @return the class db result or null if not find
 		 */
 		public JoinClassWithUserDB searchClassFromNameClass(String nameClassUser){
-			JoinClassWithUserDB joinClassWithUserDbResult = null;
-			
+			JoinClassWithUserDB classDbResult = null;
 			if (nameClassUser != null){
-				String[] registers = new String[] {"nameClass", "username"};
-		        String[] args = new String[] {nameClassUser};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = joinClassWithUserDB.getWritableDatabase();
-		        
-		        Cursor c = db.query("JoinClassWithUser", registers, "nameClass=?", args, null, null, null);
-		         
-		        if (c.moveToFirst()) {
-		             do {
-		                  String nameClass = c.getString(0);
-		                  String username = c.getString(1);
-
-		                  joinClassWithUserDbResult = new JoinClassWithUserDB(nameClass, username);
-		             } while(c.moveToNext());
-		        } else {
-		        	joinClassWithUserDbResult = null;
-		        }
-		        // close connection db
-	            db.close();
+	            try {
+	            	Dao<JoinClassWithUserDB, Integer> dao = application.getHelper().getJoinClassWithUser();
+	                QueryBuilder <JoinClassWithUserDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(JoinClassWithUserDB.NAME_CLASS, nameClassUser));
+	                List<JoinClassWithUserDB> classDb = dao.query(queryBuilder.prepare());
+	                if (classDb.isEmpty()) {
+	    				classDbResult = null;
+	                } else {
+	                	classDbResult = classDb.get(0);
+	                }
+	            } catch (Exception e) {
+					classDbResult = null;
+	            } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	            
 			} else {
-				joinClassWithUserDbResult = null;
+				classDbResult = null;
 			}
 			
-			return joinClassWithUserDbResult;
+			return classDbResult;
 		}
 	    
 	    /**
@@ -99,16 +104,15 @@ public class DAOJoinClassWithUserSQL {
 	    public boolean deleteJoinClassWithUser (JoinClassWithUserDB joinClassWithUserDBObject){
 	        boolean result = false;
 	    	if (joinClassWithUserDBObject != null) {
-	    		String className = joinClassWithUserDBObject.getNameClass();
-		    	// Open database in mode write
-		        String[] args = new String[] {className};
-		        SQLiteDatabase db = joinClassWithUserDB.getWritableDatabase();
-
-		        if(db != null) {
-		        	db.delete("JoinClassWithUser", "nameClass=? AND ", args);
-	                db.close();
-		            result = true;
-		        }
+		        try {
+	        		Dao <JoinClassWithUserDB, Integer> dao = application.getHelper().getJoinClassWithUser();
+	        		dao.delete(joinClassWithUserDBObject);
+		        } catch (Exception e) {
+		        	result = false;
+		        } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
 	        }
 	    	
 	    	return result;
@@ -120,23 +124,18 @@ public class DAOJoinClassWithUserSQL {
 		 */
 		public List<JoinClassWithUserDB> listJoinClassWithUser(){
 			List<JoinClassWithUserDB> listDbResult = new ArrayList<JoinClassWithUserDB>();
-			String[] registers = new String[] {"nameClass", "username"};
-	    	
-	        // Open database in mode write
-	        SQLiteDatabase db = joinClassWithUserDB.getWritableDatabase();
-	        Cursor c = db.query("JoinClassWithUser", registers, null, null, null, null, null);
-	         
-	        if (c.moveToFirst()) {
-	             do {
-	                  String nameAsignature = c.getString(0);
-	                  String numberStudents = c.getString(1);
-	                  JoinClassWithUserDB classDbResult = new JoinClassWithUserDB(nameAsignature, numberStudents);
-	                  listDbResult.add(classDbResult);
-	             } while(c.moveToNext());
-	        }
-	        // close connection db
-            db.close();
-			
+            
+			try {
+            	Dao<JoinClassWithUserDB, Integer> dao = application.getHelper().getJoinClassWithUser();
+                QueryBuilder <JoinClassWithUserDB, Integer> queryBuilder = dao.queryBuilder();
+                listDbResult = dao.query(queryBuilder.prepare());
+            } catch (Exception e) {
+            	listDbResult = null;
+            } finally {
+        		// close
+            	application.getHelper().close();
+        	}
+	            
 			return listDbResult;
 		}
 		

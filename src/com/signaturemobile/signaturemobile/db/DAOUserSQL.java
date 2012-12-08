@@ -4,16 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.signaturemobile.signaturemobile.Constants;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.UserDB;
-import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
-import com.signaturemobile.signaturemobile.persistence.UserSQLite;
-import com.signaturemobile.signaturemobile.utils.Tools;
 
 /**
  * DAOUserSQL object facade to communication to User DB
@@ -21,18 +17,18 @@ import com.signaturemobile.signaturemobile.utils.Tools;
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
 public class DAOUserSQL {
-		
+	
 		/**
-		 * Instance User SQL Lite
+		 * Context application
 		 */
-		private SQLiteBaseData userDB;
+		private SignatureMobileApplication application;
 	
 		/**
 		 * Default constructor
 		 * @param contextApplication context application
 		 */
 		public DAOUserSQL (Context contextApplication){
-	        userDB = new UserSQLite(contextApplication, "DBUser", null, Constants.VERSION_DB_USER);
+			this.application = (SignatureMobileApplication) contextApplication;
 		}
 	    
 	    /**
@@ -45,19 +41,25 @@ public class DAOUserSQL {
 	     * @param tokenNFC the token NFC
 	     * @return If the user has been created or not
 	     */
-	    public boolean createUser (String username, String password, String userTwitter, String mac, String tickets, Date dateCreateUser, Date lastSignUser, String tokenNFC){
+	    public boolean createUser (String username, String password, String userTwitter, String mac, int tickets, Date dateCreateUser, Date lastSignUser, String tokenNFC){
 	        boolean result = false;
-	    	if ((username != null) && (password != null) && (userTwitter != null) && (mac != null) && (tickets != null)
+	    	
+	    	if ((username != null) && (password != null) && (userTwitter != null) && (mac != null) && (tickets != -1)
 	        		&& (dateCreateUser != null) && (lastSignUser != null)) {
 		    	// Open database in mode write
-		        SQLiteDatabase db = userDB.getWritableDatabase();
-		        
-		        if(db != null) {
-	                db.execSQL("INSERT INTO Users (code, username, password, usertwitter, mac, tickets, dateCreateUser, dateLastRegister, tokenNfc) " +
-	                           "VALUES (" + 1 + ", '" + username + "', '" + password + "', '" + userTwitter + "', '" + mac + "', '" 
-	                		+ tickets + "', '" + dateCreateUser.getTime() + "', '" + 0 + "', '" + tokenNFC + "')");
-		            db.close();
-		            result = true;
+	    		DBHelper helper = application.getHelper();
+		        if(helper != null) {
+		        	try {
+		        		UserDB user = new UserDB(username,password, userTwitter, mac, tickets, dateCreateUser, lastSignUser, tokenNFC);
+		        		helper.getUserDAO().create(user);
+		        		result = true;
+		        	} catch (Exception e) {
+		        		result = false;
+		        	} finally {
+		        		// close
+		        		application.getHelper().close();
+		        	}
+
 		        }
 	        }
 	    	
@@ -71,34 +73,25 @@ public class DAOUserSQL {
 		 */
 		public UserDB searchUserDeviceMAC(String mac){
 			UserDB userDbResult = null;
-			
 			if (mac != null){
-				String[] registers = new String[] {"username", "password", "usertwitter", "mac", "tickets", "dateCreateUser, dateLastRegister, tokenNfc"};
-		        String[] args = new String[] {mac};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = userDB.getWritableDatabase();
-		        
-		        Cursor c = db.query("Users", registers, "mac=?", args, null, null, null);
-		         
-		        if (c.moveToFirst()) {
-		             do {
-		                  String username = c.getString(0);
-		                  String password = c.getString(1);
-		                  String userTwitter = c.getString(2);
-		                  String macUser = c.getString(3);
-		                  String tickets = c.getString(4);
-		                  long dateCreateUser = c.getLong(5);
-		                  long dateLastSignUser = c.getLong(6);
-		                  String tokenNFC = c.getString(7);
-		                  userDbResult = new UserDB(username, password, userTwitter, macUser, tickets, new Date(dateCreateUser), new Date (dateLastSignUser), tokenNFC);
-		                  
-		             } while(c.moveToNext());
-		        } else {
-		        	userDbResult = null;
-		        }
-		        // close connection db
-	            db.close();
+	            try {
+	            	Dao<UserDB, Integer> dao = application.getHelper().getUserDAO();
+	                QueryBuilder <UserDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(UserDB.MAC, mac));
+	                List<UserDB> users = dao.query(queryBuilder.prepare());
+	                if (users.isEmpty()) {
+	    				userDbResult = null;
+	                } else {
+	                	userDbResult = users.get(0);
+	                }
+	            } catch (Exception e) {
+					userDbResult = null;
+	            } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	            
+	            
 			} else {
 				userDbResult = null;
 			}
@@ -113,35 +106,25 @@ public class DAOUserSQL {
 		 */
 		public UserDB searchUserDeviceTokenNFC(String tokenNFC){
 			UserDB userDbResult = null;
-			
 			if (tokenNFC != null){
-				String[] registers = new String[] {"username", "password", "usertwitter", "mac", "tickets", "dateCreateUser, dateLastRegister, tokenNFC"};
-		        String[] args = new String[] {tokenNFC};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = userDB.getWritableDatabase();
-		        
-		        Cursor c = db.query("Users", registers, "tokenNFC=?", args, null, null, null);
-		         
-		        if (c.moveToFirst()) {
-		             do {
-		                  String username = c.getString(0);
-		                  String password = c.getString(1);
-		                  String userTwitter = c.getString(2);
-		                  String macUser = c.getString(3);
-		                  String tickets = c.getString(4);
-		                  long dateCreateUser = c.getLong(5);
-		                  long dateLastSignUser = c.getLong(6);
-		                  String tokenNFCUser = c.getString(7);
-		                  
-		                  userDbResult = new UserDB(username, password, userTwitter, macUser, tickets, new Date(dateCreateUser), new Date (dateLastSignUser), tokenNFCUser);
-		                  
-		             } while(c.moveToNext());
-		        } else {
-		        	userDbResult = null;
-		        }
-		        // close connection db
-	            db.close();
+	            try {
+	            	Dao<UserDB, Integer> dao = application.getHelper().getUserDAO();
+	                QueryBuilder <UserDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(UserDB.TOKEN_NFC, tokenNFC));
+	                List<UserDB> users = dao.query(queryBuilder.prepare());
+	                if (users.isEmpty()) {
+	    				userDbResult = null;
+	                } else {
+	                	userDbResult = users.get(0);
+	                }
+	            } catch (Exception e) {
+					userDbResult = null;
+	            } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	            
+	            
 			} else {
 				userDbResult = null;
 			}
@@ -162,16 +145,15 @@ public class DAOUserSQL {
 	    public boolean deleteUser (UserDB userDBParam){
 	        boolean result = false;
 	    	if (userDBParam != null) {
-	    		String mac = userDBParam.getMac();
-		    	// Open database in mode write
-		        String[] args = new String[] {mac};
-		        SQLiteDatabase db = userDB.getWritableDatabase();
-
-		        if(db != null) {
-		        	db.delete("Users", "mac=?", args);
-	                db.close();
-		            result = true;
-		        }
+		        try {
+	        		Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
+	        		dao.delete(userDBParam);
+		        } catch (Exception e) {
+		        	result = false;
+		        } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
 	        }
 	    	
 	    	return result;
@@ -185,28 +167,26 @@ public class DAOUserSQL {
 		public boolean updateTicketsFromMAC(String mac, int ticketsSet){
 			boolean result = false;
 			
-			if (mac != null){
-		        String[] args = new String[] {mac};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = userDB.getWritableDatabase();
-		        
-		        ContentValues contentValue = new ContentValues();
-		        contentValue.put("tickets", String.valueOf(ticketsSet));
-		        contentValue.put("dateLastRegister", String.valueOf(Tools.createDateOnlyToday().getTime()));
-        		int numberRows = db.update("Users", contentValue, "mac=?", args);
-		        if (numberRows != 0) {
-		        	result = true;
-		        } else {
+	    	if (mac != null) {
+		        try {
+	        		Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
+	        		UserDB userAux = searchUserDeviceMAC(mac);
+	        		if (userAux != null) {
+	        			userAux.setTickets(ticketsSet);
+		        		dao.update(userAux);
+	        		} else {
+	        			result = false;
+	        		}
+	        		
+		        } catch (Exception e) {
 		        	result = false;
-		        }
-		        // close connection db
-	            db.close();
-			} else {
-				result = false;
-			}
-			
-			return result;
+		        } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	        }
+	    	
+	    	return result;
 		}
 		
 		/**
@@ -216,33 +196,18 @@ public class DAOUserSQL {
 		 */
 		public List<UserDB> listFromDate(){
 			List<UserDB> listDbResult = new ArrayList<UserDB>();
-			String[] registers = new String[] {"username", "password", "usertwitter", "mac", "tickets", "dateCreateUser, dateLastRegister, tokenNFC"};
-	    	
-	        // Open database in mode write
-	        SQLiteDatabase db = userDB.getWritableDatabase();
-	        
-	        Cursor c = db.query("Users", registers, null, null, null, null, null);
-	         
-	        if (c.moveToFirst()) {
-	             //Recorremos el cursor hasta que no haya más registros
-	             do {
-	                  String username = c.getString(0);
-	                  String password = c.getString(1);
-	                  String userTwitter = c.getString(2);
-	                  String macUser = c.getString(3);
-	                  String tickets = c.getString(4);
-	                  long dateCreateUser = c.getLong(5);
-	                  long dateLastSignUser = c.getLong(6);
-	                  String tokenNFC = c.getString(7);
-	                  
-	                  UserDB userDbResult = new UserDB(username, password, userTwitter, macUser, tickets, new Date(dateCreateUser), new Date (dateLastSignUser), tokenNFC);
-	                  listDbResult.add(userDbResult);
-	                  
-	             } while(c.moveToNext());
-	        }
-	        // close connection db
-            db.close();
-			
+            
+			try {
+            	Dao<UserDB, Integer> dao = application.getHelper().getUserDAO();
+                QueryBuilder <UserDB, Integer> queryBuilder = dao.queryBuilder();
+                listDbResult = dao.query(queryBuilder.prepare());
+            } catch (Exception e) {
+            	listDbResult = null;
+            } finally {
+        		// close
+            	application.getHelper().close();
+        	}
+	            
 			return listDbResult;
 		}
 	    

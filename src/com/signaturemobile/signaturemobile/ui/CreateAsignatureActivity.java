@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
 
 /**
  * SignatureMobileActivity activity create user application
@@ -67,15 +68,13 @@ public class CreateAsignatureActivity extends BaseActivity implements Notificati
 				
 				if ((nameAsignature != null) && (!(nameAsignature.equals("")))){
 					nameAsignature = nameAsignature.trim();
-					if (toolbox.getDaoAsignatureSQL().searchClassFromNameClass(nameAsignature) == null){
-						// create user in table SQL
-						if (toolbox.getDaoAsignatureSQL().createClass(nameAsignature, "0")){
-							showInfoMessage(getString(R.string.create_class_ok), true);
-						} else {
-							showErrorMessage(getString(R.string.create_class_ko));
-						}
-					} else {
-						showErrorMessage(getString(R.string.class_already_register));
+					
+					try {
+						AsignatureDB asignature = new AsignatureDB(nameAsignature, 0);
+						application.getHelper().getAsignatureDAO().create(asignature);
+						showInfoMessage(getString(R.string.create_class_ok), true);
+					} catch (Exception e) {
+						showErrorMessage(getString(R.string.create_class_ko));
 					}
 
 				} else {

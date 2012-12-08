@@ -3,16 +3,13 @@ package com.signaturemobile.signaturemobile.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.signaturemobile.signaturemobile.Constants;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.model.ClassDB;
-import com.signaturemobile.signaturemobile.persistence.ClassSQLite;
-import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
 
 /**
  * DAOClassSQL object facade to communication to Class DB
@@ -20,18 +17,18 @@ import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
 public class DAOClassSQL {
-		
+	
 		/**
-		 * Instance Class SQL Lite
+		 * Context application
 		 */
-		private SQLiteBaseData classDB;
+		private SignatureMobileApplication application;
 	
 		/**
 		 * Default constructor
 		 * @param contextApplication context application
 		 */
 		public DAOClassSQL (Context contextApplication){
-	        classDB = new ClassSQLite(contextApplication, "DBClass", null, Constants.VERSION_DB_CLASS);
+			this.application = (SignatureMobileApplication) contextApplication;
 		}
 	    
 	    /**
@@ -40,17 +37,24 @@ public class DAOClassSQL {
 	     * @param numberStudents the number students
 	     * @return Create class
 	     */
-	    public boolean createClass (String nameClass, String numberStudents){
+	    public boolean createClass (String nameClass, int numberStudents){
+	    	
 	        boolean result = false;
-	    	if ((nameClass != null) && (numberStudents != null)) {
+	    	if (nameClass != null) {
 		    	// Open database in mode write
-		        SQLiteDatabase db = classDB.getWritableDatabase();
-		        
-		        if(db != null) {
-	                db.execSQL("INSERT INTO Class (code, nameClass, numberStudents) " +
-	                           "VALUES (" + 1 + ", ' " + nameClass + "', '" + numberStudents + "')");
-		            db.close();
-		            result = true;
+	    		DBHelper helper = application.getHelper();
+		        if(helper != null) {
+		        	try {
+		        		ClassDB classDb = new ClassDB(nameClass, numberStudents);
+		        		helper.getClassDAO().create(classDb);
+		        		result = true;
+		        	} catch (Exception e) {
+		        		result = false;
+		        	} finally {
+		        		// close
+		        		application.getHelper().close();
+		        	}
+
 		        }
 	        }
 	    	
@@ -62,37 +66,26 @@ public class DAOClassSQL {
 		 * @param name class user 
 		 * @return the class db result or null if not find
 		 */
-		public AsignatureDB searchClassFromNameClass(String nameClassUser){
-			AsignatureDB classDbResult = null;
-			
+		public ClassDB searchClassFromNameClass(String nameClassUser){
+			ClassDB classDbResult = null;
 			if (nameClassUser != null){
-				String[] registers = new String[] {"nameClass", "numberStudents"};
-		        String[] args = new String[] {nameClassUser};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = classDB.getWritableDatabase();
-		        
-		        Cursor c = db.query("Class", registers, "nameClass=?", args, null, null, null);
-		         
-		        if (c.moveToFirst()) {
-		             //Recorremos el cursor hasta que no haya más registros
-		             do {
-		                  String nameClass = c.getString(0);
-		                  String numberStudents = c.getString(1);
-		                  int numberStudentsInt = 0;
-		                  try {
-		                	  numberStudentsInt = Integer.parseInt(numberStudents);
-		                  } catch (Throwable e){
-		                	  // nothing
-		                  }
-		                  
-		                  classDbResult = new AsignatureDB(nameClass, numberStudentsInt);
-		             } while(c.moveToNext());
-		        } else {
-		        	classDbResult = null;
-		        }
-		        // close connection db
-	            db.close();
+	            try {
+	            	Dao<ClassDB, Integer> dao = application.getHelper().getClassDAO();
+	                QueryBuilder <ClassDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(AsignatureDB.NAME_ASIGNATURE, nameClassUser));
+	                List<ClassDB> classDb = dao.query(queryBuilder.prepare());
+	                if (classDb.isEmpty()) {
+	    				classDbResult = null;
+	                } else {
+	                	classDbResult = classDb.get(0);
+	                }
+	            } catch (Exception e) {
+					classDbResult = null;
+	            } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	            
 			} else {
 				classDbResult = null;
 			}
@@ -105,19 +98,18 @@ public class DAOClassSQL {
 	     * @param classDB the class DB to save database
 	     * @return If the user has been deleted or not
 	     */
-	    public boolean deleteClass (AsignatureDB classDBObject){
+	    public boolean deleteClass (ClassDB classDBObject){
 	        boolean result = false;
 	    	if (classDBObject != null) {
-	    		String className = classDBObject.getNameAsignature();
-		    	// Open database in mode write
-		        String[] args = new String[] {className};
-		        SQLiteDatabase db = classDB.getWritableDatabase();
-
-		        if(db != null) {
-		        	db.delete("Class", "nameClass=?", args);
-	                db.close();
-		            result = true;
-		        }
+		        try {
+	        		Dao <ClassDB, Integer> dao = application.getHelper().getClassDAO();
+	        		dao.delete(classDBObject);
+		        } catch (Exception e) {
+		        	result = false;
+		        } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
 	        }
 	    	
 	    	return result;
@@ -130,28 +122,27 @@ public class DAOClassSQL {
 		 */
 		public boolean updateStudentsFromNameClass(String nameClass, int numberStudents){
 			boolean result = false;
-			
-			if (nameClass != null){
-		        String[] args = new String[] {nameClass};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = classDB.getWritableDatabase();
-		        
-		        ContentValues contentValue = new ContentValues();
-		        contentValue.put("numberStudents", String.valueOf(numberStudents));
-        		int numberRows = db.update("Class", contentValue, "nameClass=?", args);
-		        if (numberRows != 0) {
-		        	result = true;
-		        } else {
+
+			if (nameClass != null) {
+		        try {
+	        		Dao <ClassDB, Integer> dao = application.getHelper().getClassDAO();
+	        		ClassDB classAux = searchClassFromNameClass(nameClass);
+	        		if (classAux != null) {
+	        			classAux.setNumbersStudents(numberStudents);
+		        		dao.update(classAux);
+	        		} else {
+	        			result = false;
+	        		}
+	        		
+		        } catch (Exception e) {
 		        	result = false;
-		        }
-		        // close connection db
-	            db.close();
-			} else {
-				result = false;
-			}
-			
-			return result;
+		        } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	        }
+	    	
+	    	return result;
 		}
 		
 		/**
@@ -160,32 +151,18 @@ public class DAOClassSQL {
 		 */
 		public List<ClassDB> listClass(){
 			List<ClassDB> listDbResult = new ArrayList<ClassDB>();
-			String[] registers = new String[] {"nameClass", "numberStudents"};
-	    	
-	        // Open database in mode write
-	        SQLiteDatabase db = classDB.getWritableDatabase();
-	        
-	        Cursor c = db.query("Class", registers, null, null, null, null, null);
-	         
-	        if (c.moveToFirst()) {
-	             //Recorremos el cursor hasta que no haya más registros
-	             do {
-	                  String nameClass = c.getString(0);
-	                  String numberStudents = c.getString(1);
-	                  int numberStudentsInt = 0;
-	                  try {
-	                	  numberStudentsInt = Integer.parseInt(numberStudents);
-	                  } catch (Throwable e){
-	                	  // nothing
-	                  }
-	                  ClassDB classDbResult = new ClassDB(nameClass, numberStudentsInt);
-	                  listDbResult.add(classDbResult);
-	                  
-	             } while(c.moveToNext());
-	        }
-	        // close connection db
-            db.close();
-			
+            
+			try {
+            	Dao<ClassDB, Integer> dao = application.getHelper().getClassDAO();
+                QueryBuilder <ClassDB, Integer> queryBuilder = dao.queryBuilder();
+                listDbResult = dao.query(queryBuilder.prepare());
+            } catch (Exception e) {
+            	listDbResult = null;
+            } finally {
+        		// close
+            	application.getHelper().close();
+        	}
+	            
 			return listDbResult;
 		}
 		

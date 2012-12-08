@@ -328,7 +328,7 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
             			if (DateUtils.isToday(userDB.getDateLastSignUserTime())){
             				result.setChecked(true);
             			} else {
-            				int tickets = userDB.getNumberTickets();
+            				int tickets = userDB.getTickets();
             				if (toolbox.getDaoUserSQL().updateTicketsFromMAC(device.getAddress(), tickets + 1)){
                 				result.setChecked(true);
             				} else {

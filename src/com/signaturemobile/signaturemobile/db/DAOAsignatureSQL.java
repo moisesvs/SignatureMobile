@@ -3,15 +3,12 @@ package com.signaturemobile.signaturemobile.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.signaturemobile.signaturemobile.Constants;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
-import com.signaturemobile.signaturemobile.persistence.AsignatureSQLite;
-import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
 
 /**
  * DAOClassSQL object facade to communication to Class DB
@@ -21,16 +18,16 @@ import com.signaturemobile.signaturemobile.persistence.SQLiteBaseData;
 public class DAOAsignatureSQL {
 		
 		/**
-		 * Instance Asignature SQL Lite
+		 * Context application
 		 */
-		private SQLiteBaseData asignatureDB;
+		private SignatureMobileApplication application;
 	
 		/**
 		 * Default constructor
 		 * @param contextApplication context application
 		 */
 		public DAOAsignatureSQL (Context contextApplication){
-	        asignatureDB = new AsignatureSQLite(contextApplication, "DBAsignature", null, Constants.VERSION_DB_ASIGNATURE);
+			this.application = (SignatureMobileApplication) contextApplication;
 		}
 	    
 	    /**
@@ -39,17 +36,23 @@ public class DAOAsignatureSQL {
 	     * @param numberStudents the number students
 	     * @return Create class
 	     */
-	    public boolean createClass (String nameAsignature, String numberStudents){
+	    public boolean createAsignature (String nameAsignature, int numberStudents){
 	        boolean result = false;
-	    	if ((nameAsignature != null) && (numberStudents != null)) {
+	    	if (nameAsignature != null) {
 		    	// Open database in mode write
-		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
-		        
-		        if(db != null) {
-	                db.execSQL("INSERT INTO Asignature (code, nameAsignature, numberStudents) " +
-	                           "VALUES (" + 1 + ", '" + nameAsignature + "', '" + numberStudents + "')");
-		            db.close();
-		            result = true;
+	    		DBHelper helper = application.getHelper();
+		        if(helper != null) {
+		        	try {
+		        		AsignatureDB asignature = new AsignatureDB(nameAsignature, numberStudents);
+		        		helper.getAsignatureDAO().create(asignature);
+		        		result = true;
+		        	} catch (Exception e) {
+		        		result = false;
+		        	} finally {
+		        		// close
+		        		application.getHelper().close();
+		        	}
+
 		        }
 	        }
 	    	
@@ -62,41 +65,31 @@ public class DAOAsignatureSQL {
 		 * @return the class db result or null if not find
 		 */
 		public AsignatureDB searchClassFromNameClass(String nameAsignatureUser){
-			AsignatureDB classDbResult = null;
-			
+			AsignatureDB asignatureDbResult = null;
 			if (nameAsignatureUser != null){
-				String[] registers = new String[] {"nameAsignature", "numberStudents"};
-		        String[] args = new String[] {nameAsignatureUser};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
-		        
-		        Cursor c = db.query("Asignature", registers, "nameAsignature=?", args, null, null, null);
-		         
-		        if (c.moveToFirst()) {
-		             //Recorremos el cursor hasta que no haya más registros
-		             do {
-		                  String nameAsignature = c.getString(0);
-		                  String numberStudents = c.getString(1);
-		                  int numberStudentsInt = 0;
-		                  try {
-		                	  numberStudentsInt = Integer.parseInt(numberStudents);
-		                  } catch (Throwable e){
-		                	  // nothing
-		                  }
-		                  
-		                  classDbResult = new AsignatureDB(nameAsignature, numberStudentsInt);
-		             } while(c.moveToNext());
-		        } else {
-		        	classDbResult = null;
-		        }
-		        // close connection db
-	            db.close();
+	            try {
+	            	Dao<AsignatureDB, Integer> dao = application.getHelper().getAsignatureDAO();
+	                QueryBuilder <AsignatureDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(AsignatureDB.NAME_ASIGNATURE, nameAsignatureUser));
+	                List<AsignatureDB> asignatures = dao.query(queryBuilder.prepare());
+	                if (asignatures.isEmpty()) {
+	    				asignatureDbResult = null;
+	                } else {
+	                	asignatureDbResult = asignatures.get(0);
+	                }
+	            } catch (Exception e) {
+					asignatureDbResult = null;
+	            } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
+	            
+	            
 			} else {
-				classDbResult = null;
+				asignatureDbResult = null;
 			}
 			
-			return classDbResult;
+			return asignatureDbResult;
 		}
 	    
 	    /**
@@ -107,51 +100,19 @@ public class DAOAsignatureSQL {
 	    public boolean deleteAsignature (AsignatureDB asignatureDBObject){
 	        boolean result = false;
 	    	if (asignatureDBObject != null) {
-	    		String className = asignatureDBObject.getNameAsignature();
-		    	// Open database in mode write
-		        String[] args = new String[] {className};
-		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
-
-		        if(db != null) {
-		        	db.delete("Asignature", "nameAsignature=?", args);
-	                db.close();
-		            result = true;
-		        }
+		        try {
+	        		Dao <AsignatureDB, Integer> dao = application.getHelper().getAsignatureDAO();
+	        		dao.delete(asignatureDBObject);
+		        } catch (Exception e) {
+		        	result = false;
+		        } finally {
+	        		// close
+	            	application.getHelper().close();
+	        	}
 	        }
 	    	
 	    	return result;
 	    }
-		
-		/**
-		 * Search device from to the mac
-		 * @param numberStudents value mac
-		 * @return the user db result or null if not find
-		 */
-		public boolean updateStudentsFromNameAsignature(String nameAsignature, int numberStudents){
-			boolean result = false;
-			
-			if (nameAsignature != null){
-		        String[] args = new String[] {nameAsignature};
-		    	
-		        // Open database in mode write
-		        SQLiteDatabase db = asignatureDB.getWritableDatabase();
-		        
-		        ContentValues contentValue = new ContentValues();
-		        contentValue.put("numberStudents", String.valueOf(numberStudents));
-        		int numberRows = db.update("Asignature", contentValue, "nameAsignature=?", args);
-		        if (numberRows != 0) {
-		        	result = true;
-		        } else {
-		        	result = false;
-		        }
-		        // close connection db
-	            db.close();
-			} else {
-				result = false;
-			}
-			
-			return result;
-		}
 		
 		/**
 		 * List asignature
@@ -159,32 +120,18 @@ public class DAOAsignatureSQL {
 		 */
 		public List<AsignatureDB> listAsignature(){
 			List<AsignatureDB> listDbResult = new ArrayList<AsignatureDB>();
-			String[] registers = new String[] {"nameAsignature", "numberStudents"};
-	    	
-	        // Open database in mode write
-	        SQLiteDatabase db = asignatureDB.getWritableDatabase();
-	        
-	        Cursor c = db.query("Asignature", registers, null, null, null, null, null);
-	         
-	        if (c.moveToFirst()) {
-	             //Recorremos el cursor hasta que no haya más registros
-	             do {
-	                  String nameAsignature = c.getString(0);
-	                  String numberStudents = c.getString(1);
-	                  int numberStudentsInt = 0;
-	                  try {
-	                	  numberStudentsInt = Integer.parseInt(numberStudents);
-	                  } catch (Throwable e){
-	                	  // nothing
-	                  }
-	                  AsignatureDB asignatureDbResult = new AsignatureDB(nameAsignature, numberStudentsInt);
-	                  listDbResult.add(asignatureDbResult);
-	                  
-	             } while(c.moveToNext());
-	        }
-	        // close connection db
-            db.close();
-			
+            
+			try {
+            	Dao<AsignatureDB, Integer> dao = application.getHelper().getAsignatureDAO();
+                QueryBuilder <AsignatureDB, Integer> queryBuilder = dao.queryBuilder();
+                listDbResult = dao.query(queryBuilder.prepare());
+            } catch (Exception e) {
+            	listDbResult = null;
+            } finally {
+        		// close
+            	application.getHelper().close();
+        	}
+	            
 			return listDbResult;
 		}
 		

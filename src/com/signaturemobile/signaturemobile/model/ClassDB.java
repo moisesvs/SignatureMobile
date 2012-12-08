@@ -2,14 +2,29 @@ package com.signaturemobile.signaturemobile.model;
 
 import java.io.Serializable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * ClassDAOSql object reference class DB
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
+@DatabaseTable
 public class ClassDB implements Serializable {
 		
-		/**
+		////////////////////////////////////////////////////////////////////////
+		// Defines rows
+		////////////////////////////////////////////////////////////////////////
+		
+		public static final String ID_ASIGNATURE = "id";
+	    public static final String NAME_CLASS = "nameClass";
+	    public static final String NUMBER_STUDENTS = "numberStudents";
+	
+		////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////
+
+	    /**
 		 * Defautl serial version UID
 		 */
 		private static final long serialVersionUID = 1L;
@@ -17,12 +32,25 @@ public class ClassDB implements Serializable {
 		/**
 		 * Instance name class SQL Lite
 		 */
+		@DatabaseField(columnName = ID_ASIGNATURE)
+		private String idClass;
+		
+		/**
+		 * Instance name class SQL Lite
+		 */
+		@DatabaseField(columnName = NAME_CLASS)
 		private String nameClass;
 		
 		/**
 		 * Instance number students
 		 */
+		@DatabaseField(columnName = NUMBER_STUDENTS)
 		private int numbersStudents;
+		
+		/**
+		 * Default constructor
+		 */
+		public ClassDB (){}
 		
 		/**
 		 * Default contructor
@@ -60,6 +88,20 @@ public class ClassDB implements Serializable {
 		 */
 		public void setNumbersStudents(int numbersStudents) {
 			this.numbersStudents = numbersStudents;
+		}
+
+		/**
+		 * @return the idClass
+		 */
+		public String getIdClass() {
+			return idClass;
+		}
+
+		/**
+		 * @param idClass the idClass to set
+		 */
+		public void setIdClass(String idClass) {
+			this.idClass = idClass;
 		}
 
 }

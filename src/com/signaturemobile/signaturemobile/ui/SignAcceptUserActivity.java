@@ -117,7 +117,7 @@ public class SignAcceptUserActivity extends BaseActivity implements Notification
 			String passEditText = passwordEditText.getText().toString();
 			if (userDB != null){
 				String macUser = userDB.getMac();
-				int tickets = userDB.getNumberTickets();
+				int tickets = userDB.getTickets();
 				String userPass = userDB.getPassword();
 				if ((passEditText != null) && (passEditText.equals(userPass))){
 					toolbox.getDaoUserSQL().updateTicketsFromMAC(macUser, tickets + 1);

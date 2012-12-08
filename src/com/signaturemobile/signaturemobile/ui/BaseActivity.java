@@ -33,32 +33,21 @@ import com.signaturemobile.signaturemobile.ToolBox;
  * @author <a href="mailto:moisesvs@gmail.com">Mooisés Vázquez Sánchez</a>
  */
 public class BaseActivity extends Activity implements OnClickListener{
-
-	/**
-     * Reference to the application
-     */
-    protected SignatureMobileApplication application;
     
     /**
      * The application toolbox
      */
     public ToolBox toolbox;
     
+	/**
+     * Reference to the application
+     */
+    protected SignatureMobileApplication application;
+    
     /**
      * Main title
      */
     protected TextView mainTitle;
-    
-    /**
-     * Is the activity paused? Will be set to true when entering onPaused and will be
-     * set to false when entering onResume
-     */
-    private boolean paused = true;
-    
-    /**
-     * Will be used to display a progress dialog
-     */
-    private Dialog progressDialog;
     
 	/**
 	 * The body layout
@@ -85,6 +74,17 @@ public class BaseActivity extends Activity implements OnClickListener{
 	 */
 	protected ImageView arrowLeftImage;
 
+    /**
+     * Is the activity paused? Will be set to true when entering onPaused and will be
+     * set to false when entering onResume
+     */
+    private boolean paused = true;
+    
+    /**
+     * Will be used to display a progress dialog
+     */
+    private Dialog progressDialog;
+    
 	/**
      * To be called from derived activities when created.
      * @param savedInstanceState The bundle
@@ -165,8 +165,16 @@ public class BaseActivity extends Activity implements OnClickListener{
         
         paused = true;
     }
-    
+
     /**
+     * The activity has been destroid
+     */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+
+	/**
      * Finish this activity
      */
     public void finishActivity() {

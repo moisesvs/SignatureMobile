@@ -5,11 +5,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.signaturemobile.signaturemobile.db.DAOAsignatureSQL;
 import com.signaturemobile.signaturemobile.db.DAOClassSQL;
 import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOJoinClassWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
+import com.signaturemobile.signaturemobile.db.DBHelper;
 import com.signaturemobile.signaturemobile.io.BluetoohInvoker;
 import com.signaturemobile.signaturemobile.io.HttpInvoker;
 import com.signaturemobile.signaturemobile.io.NotificationCenter;
@@ -96,6 +98,11 @@ public class SignatureMobileApplication extends Application implements Notificat
      */
     private Activity currentActivity;
 
+    /**
+     * DB helper content all DAO objects
+     */
+    protected DBHelper dBHelper;
+    
     /**
      * Empthy constructor
      */
@@ -218,74 +225,7 @@ public class SignatureMobileApplication extends Application implements Notificat
     }
 
 	public void notificationPosted(String notification, Object info) {
-	    /*if (Constants.kLayersResponseReceived.equals(notification)) {
-	    	if (info instanceof LayerResponse) {
-	    		LayerResponse response = (LayerResponse) info;
-	    		this.layerManager.setLayers(response);
-	    	}
-	    	updater.getMasterData();	    	    	    	
-	    } else if (Constants.kMasterDataResponseReceived.equals(notification)) {
-	    	if (info instanceof MasterDataResponse) {
-	    		MasterDataResponse response = (MasterDataResponse) info;
-	    		this.masterDataManager.setMasterData(response);
-	    	}
-	    	// Is same day not download promotions
-            if (Tools.isSameDay(session.getDateCurrent(), new Date()))
-                updater.getResources();
-            else{
-                updater.downloadPromos(Constants.PLATFORM_PROMOTIONS);
-            }
-            
-	    } else if (Constants.kPromotionsListResponseReceived.equals(notification)){
-	        if (info instanceof PromotionsListResponse) {
-	            PromotionsListResponse response = (PromotionsListResponse) info;
-	            this.promotionsManager.setDownloadedPromotions(response, false);
-	        }
-	        
-            this.promotionsManager.downloadNewPromotionsImages();
-        
-	    } else if (Constants.kAllPromotionImagesDownloadEnds.equals(notification)) {
-            
-            this.promotionsManager.save();
-            
-            // Is same day not download promotions
-          if (Tools.isSameDay(session.getDateCurrent(), new Date()))
-              updater.getResources();
-          else{
-              SessionUser sUser = session.getSessionUser();
-              
-              // If not user in session not download promotions user
-              if (sUser != null){
-                  String username = sUser.getUser();
-                  String pass = sUser.getPassword();
-
-                  if (username != null && pass != null)
-                      updater.downloadPromotionsPartner(Constants.PLATFORM_PROMOTIONS, username, pass);
-                  else {
-                      updater.getResources();
-                  }
-              }
-          }
-            
-   
-        } else if (Constants.kPromotionsUserListResponseReceived.equals(notification)){
-            
-	        if (info instanceof PromotionsUserListResponse) {
-	            PromotionsUserListResponse response = (PromotionsUserListResponse) info;
-                this.promotionsManager.setPromotionUserListResponse(response);             
-            }
-            
-            updater.getResources();
-
-	    } else if (Constants.kResourcesResponseReceived.equals(notification)){
-            
-	    	if (info instanceof ResourceResponse) {
-	    		ResourceResponse response = (ResourceResponse) info;
-	    		this.resourcesManager.setDownloadedResources(response, false);
-	    		this.resourcesManager.downloadNewResources();
-	    	}
-	    	
-	    } else */if (Constants.kAllResourcesLoadingEnds.equals(notification)) {
+	    if (Constants.kAllResourcesLoadingEnds.equals(notification)) {
 //            this.resourcesManager.save();
 	    	initialized = true;
 	    	unRegisterAll();
@@ -446,4 +386,25 @@ public class SignatureMobileApplication extends Application implements Notificat
 	public void setUpdater(Updater updater) {
 		this.updater = updater;
 	}
+	
+	/**
+	 * Get DB Helper
+	 * @return DBHelper the dbHelper
+	 */
+	public DBHelper getHelper() {
+        if (dBHelper == null) {
+        	dBHelper = OpenHelperManager.getHelper(this, DBHelper.class);
+        }
+        return dBHelper;
+    }
+	
+	/**
+	 * Close DB helper
+	 */
+	public void closeDBHelper() {
+        if (dBHelper != null) {
+            OpenHelperManager.releaseHelper();
+            dBHelper = null;
+        }
+    }
 }
