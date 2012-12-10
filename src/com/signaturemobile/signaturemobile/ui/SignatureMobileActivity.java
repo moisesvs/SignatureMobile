@@ -66,7 +66,7 @@ public class SignatureMobileActivity extends BaseActivity implements Notificatio
             Intent intentCreateClass = new Intent(SignatureMobileActivity.this, CreateAsignatureActivity.class);
             SignatureMobileActivity.this.startActivity(intentCreateClass);    
 		} else if (v == selectClassButton){
-            Intent intentListClass = new Intent(SignatureMobileActivity.this, ListAsignatureActivity.class);
+            Intent intentListClass = new Intent(SignatureMobileActivity.this, SelectListAsignatureActivity.class);
             SignatureMobileActivity.this.startActivity(intentListClass);    
 		}
 	}

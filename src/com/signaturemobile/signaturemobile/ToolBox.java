@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import com.signaturemobile.signaturemobile.db.DAOAsignatureSQL;
 import com.signaturemobile.signaturemobile.db.DAOClassSQL;
+import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithClassSQL;
 import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOJoinClassWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
@@ -66,6 +67,11 @@ public class ToolBox {
      * The dao join class with user sql
      */
     private DAOJoinClassWithUserSQL daoJoinClassWithUser;
+
+	/**
+     * The dao join asignature with class sql
+     */
+    private DAOJoinAsignatureWithClassSQL daoJoinAsignatureWithClass;
     
     /**
      * Invoker bluetooh
@@ -94,7 +100,8 @@ public class ToolBox {
      * @param alertBuilderFactory 
      */
     public void setup(SignatureMobileApplication application, Updater updater, Session session, BluetoohInvoker bluetoohInvoker, NotificationCenter notificationCenter,
-    		DAOUserSQL daoUserSQL, DAOAsignatureSQL daoAsignatureSQL, DAOClassSQL daoClassSQL, DAOJoinAsignatureWithUserSQL daoJoinAsignatureWithUser, DAOJoinClassWithUserSQL daoJoinClassWithUserSQL) {
+    		DAOUserSQL daoUserSQL, DAOAsignatureSQL daoAsignatureSQL, DAOClassSQL daoClassSQL, DAOJoinAsignatureWithUserSQL daoJoinAsignatureWithUser, 
+    		DAOJoinClassWithUserSQL daoJoinClassWithUserSQL, DAOJoinAsignatureWithClassSQL daoJoinAsignatureWithClassSQL) {
         this.application = application;
         this.updater = updater;
         this.bluetoohInvoker = bluetoohInvoker;
@@ -105,7 +112,8 @@ public class ToolBox {
         this.daoClassSQL = daoClassSQL;
         this.daoJoinAsignatureWithUser = daoJoinAsignatureWithUser;
         this.daoJoinClassWithUser = daoJoinClassWithUserSQL;
-
+        this.daoJoinAsignatureWithClass = daoJoinAsignatureWithClassSQL;
+        
     	this.display = ((WindowManager)application.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
     }
 
@@ -246,5 +254,19 @@ public class ToolBox {
 	 */
 	public DAOClassSQL getDaoClassSQL() {
 		return daoClassSQL;
+	}
+
+	/**
+	 * @return the daoJoinAsignatureWithClass
+	 */
+	public DAOJoinAsignatureWithClassSQL getDaoJoinAsignatureWithClass() {
+		return daoJoinAsignatureWithClass;
+	}
+
+	/**
+	 * @param daoJoinAsignatureWithClass the daoJoinAsignatureWithClass to set
+	 */
+	public void setDaoJoinAsignatureWithClass(DAOJoinAsignatureWithClassSQL daoJoinAsignatureWithClass) {
+		this.daoJoinAsignatureWithClass = daoJoinAsignatureWithClass;
 	}
 } 

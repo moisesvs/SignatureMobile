@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.signaturemobile.signaturemobile.db.DAOAsignatureSQL;
 import com.signaturemobile.signaturemobile.db.DAOClassSQL;
+import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithClassSQL;
 import com.signaturemobile.signaturemobile.db.DAOJoinAsignatureWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOJoinClassWithUserSQL;
 import com.signaturemobile.signaturemobile.db.DAOUserSQL;
@@ -77,6 +78,11 @@ public class SignatureMobileApplication extends Application implements Notificat
      * Dao class join with user SQL
      */
     private DAOJoinClassWithUserSQL daoJoinClassWithUserSQL;
+    
+    /**
+     * Dao class join asignature with class
+     */
+    private DAOJoinAsignatureWithClassSQL daoJoinAsignatureWithClass;
     
     /**
      * The notification center
@@ -152,6 +158,7 @@ public class SignatureMobileApplication extends Application implements Notificat
         this.daoAsignatureSQL = new DAOAsignatureSQL(this);
         this.daoClassSQL = new DAOClassSQL(this);
         this.daoJoinAsignatureWithUserSQL = new DAOJoinAsignatureWithUserSQL(this);
+        this.daoJoinAsignatureWithClass = new DAOJoinAsignatureWithClassSQL(this);
         this.daoJoinClassWithUserSQL = new DAOJoinClassWithUserSQL(this);
 
         HttpInvoker invoker = new HttpInvoker(toolbox);
@@ -160,7 +167,7 @@ public class SignatureMobileApplication extends Application implements Notificat
         this.session = new Session();
         this.toolbox = new ToolBox();
         this.toolbox.setup(this, this.updater, this.session, this.invokerBluetooh, this.notificationCenter, this.daoUserSQL, 
-        		this.daoAsignatureSQL, this.daoClassSQL, this.daoJoinAsignatureWithUserSQL, this.daoJoinClassWithUserSQL);
+        		this.daoAsignatureSQL, this.daoClassSQL, this.daoJoinAsignatureWithUserSQL, this.daoJoinClassWithUserSQL, this.daoJoinAsignatureWithClass);
         
         registerAll();
         // initialized thread app
@@ -407,4 +414,5 @@ public class SignatureMobileApplication extends Application implements Notificat
             dBHelper = null;
         }
     }
+
 }

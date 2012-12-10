@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
 
 /**
  * SignatureMobileActivity activity create user application
@@ -17,7 +18,7 @@ import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationLis
 public class CreateClassActivity extends BaseActivity implements NotificationListener {
     
     /**
-     * Name user edit text
+     * Name class edit text
      */
     private EditText nameClassEditext;
 
@@ -26,15 +27,21 @@ public class CreateClassActivity extends BaseActivity implements NotificationLis
      */
     private Button createClassButton;
     
+    /**
+     * Asignature db
+     */
+    private AsignatureDB asignatureDB;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_createclass, getString(R.string.create_class_main), "", 0);
+        super.onCreate(savedInstanceState, R.layout.activity_createclass, getString(R.string.create_class_title), "", 0);
         
         nameClassEditext = (EditText) findViewById(R.id.nameClassEditText);
         createClassButton = (Button) findViewById(R.id.createClassButton);
         
         createClassButton.setOnClickListener(this);
+        asignatureDB = toolbox.getSession().getSelectAsignature();
     }
     
     /**
@@ -66,20 +73,18 @@ public class CreateClassActivity extends BaseActivity implements NotificationLis
 				String nameClass = nameClassEditext.getText().toString();
 				
 				if ((nameClass != null) && (!(nameClass.equals("")))){
-						
-					if (toolbox.getDaoClassSQL().searchClassFromNameClass(nameClass) == null){
-						// create user in table SQL
-						if (toolbox.getDaoClassSQL().createClass(nameClass, "0")){
-							showInfoMessage(getString(R.string.create_class_ok), true);
-						} else {
-							showErrorMessage(getString(R.string.create_class_ko));
-						}
-					} else {
-						showErrorMessage(getString(R.string.class_already_register));
+					nameClass = nameClass.trim();
+
+					try {
+						int idClass = toolbox.getDaoClassSQL().createClass(nameClass, 0);
+						toolbox.getDaoJoinAsignatureWithClass().createJoinAsignatureWithClass(asignatureDB.getIdAsignature(), idClass);
+						showInfoMessage(getString(R.string.create_asignature_ok), true);
+					} catch (Exception e) {
+						showErrorMessage(getString(R.string.create_asignature_ko));
 					}
 
 				} else {
-					showErrorMessage(getString(R.string.name_class_empty));
+					showErrorMessage(getString(R.string.name_asignature_empty));
 				}
 				
 			}

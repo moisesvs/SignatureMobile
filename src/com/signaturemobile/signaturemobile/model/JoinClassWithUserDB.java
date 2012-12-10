@@ -17,10 +17,11 @@ public class JoinClassWithUserDB implements Serializable{
 		// Defines rows
 		////////////////////////////////////////////////////////////////////////
 		
-		public static final String ID_CLASS = "id";
+		public static final String ID_JOIN_CLASS_WITH_USER = "id";
 	    public static final String NAME_CLASS = "nameClass";
 	    public static final String USERNAME = "username";
-	
+	    public static final String MAC = "mac";
+
 		////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////
 	
@@ -32,7 +33,7 @@ public class JoinClassWithUserDB implements Serializable{
 		/**
 		 * 	Id of the class
 		 */
-		@DatabaseField(generatedId = true, columnName = ID_CLASS)
+		@DatabaseField(generatedId = true, columnName = ID_JOIN_CLASS_WITH_USER)
 		private int idClass;
 		
 		/**
@@ -48,6 +49,12 @@ public class JoinClassWithUserDB implements Serializable{
 		private String userName;
 		
 		/**
+		 * Instance user name SQL Lite
+		 */
+		@DatabaseField(columnName = MAC)
+		private String mac;
+		
+		/**
 		 * Default constructor
 		 */
 		public JoinClassWithUserDB (){}
@@ -56,10 +63,13 @@ public class JoinClassWithUserDB implements Serializable{
 		 * Default contructor
 		 * @param nameClass name class db
 		 * @param userName user name db
+		 * @param mac mac db
 		 */
-		public JoinClassWithUserDB (String nameClass, String userName){
+		public JoinClassWithUserDB (String nameClass, String userName, String mac){
 			this.nameClass = nameClass;
 			this.userName = userName;
+			this.mac = mac;
+
 		}
 
 		/**
@@ -102,6 +112,20 @@ public class JoinClassWithUserDB implements Serializable{
 		 */
 		public void setIdClass(int idClass) {
 			this.idClass = idClass;
+		}
+
+		/**
+		 * @return the mac
+		 */
+		public String getMac() {
+			return mac;
+		}
+
+		/**
+		 * @param mac the mac to set
+		 */
+		public void setMac(String mac) {
+			this.mac = mac;
 		}
 
 }

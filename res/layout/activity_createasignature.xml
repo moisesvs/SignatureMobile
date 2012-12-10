@@ -27,19 +27,19 @@
 		    	    	<TextView 
 				    	 	android:layout_width="fill_parent"
 				    	 	android:layout_height="wrap_content"
-				    	 	android:text="@string/create_class_name"
+				    	 	android:text="@string/create_asignature_name"
 				    	 	android:textStyle="bold"	    	 	
 				    	 	android:textSize="15sp"
 							android:textColor="@color/greyText"
 				    	    />
 		    	    	
 		    	    	<EditText
-		    	    	    android:id="@+id/nameClassEditText"
+		    	    	    android:id="@+id/nameAsignatureEditText"
 				    	 	android:layout_width="fill_parent"
 				    	 	android:layout_height="wrap_content"
 				    	 	android:textSize="15dp"
 				    	 	android:maxLines="1"
-				    	 	android:hint="@string/name_class_hint"
+				    	 	android:hint="@string/name_asignature_hint"
 				    	 	android:singleLine="true"
 				    	 	android:nextFocusDown="@+id/surnameUserEditText"
 				    	    />
@@ -58,7 +58,7 @@
     	 	android:gravity="center_horizontal|top">
 	    		
 			    <Button 
-			 		android:id="@+id/createClassButton"
+			 		android:id="@+id/createAsignatureButton"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:text="@string/create_asignature"

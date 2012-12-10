@@ -14,7 +14,7 @@
 	    	    android:id="@+id/createClassButton"
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/create_class_main"
+	    	    android:text="@string/create_asignature"
 	    	    android:layout_margin="3dp"
 	    	   	android:background="@drawable/black_button"
 	    	    style="@style/ButtonText"/>
@@ -23,7 +23,7 @@
 	    	    android:id="@+id/selectClassButton"
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/select_class_main"
+	    	    android:text="@string/select_asignature_main"
 	    	  	android:layout_margin="3dp"
 	    	    android:background="@drawable/black_button"
 	    	    style="@style/ButtonText"/>

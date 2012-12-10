@@ -17,7 +17,7 @@ public class ClassDB implements Serializable {
 		// Defines rows
 		////////////////////////////////////////////////////////////////////////
 		
-		public static final String ID_ASIGNATURE = "id";
+		public static final String ID_CLASS = "id";
 	    public static final String NAME_CLASS = "nameClass";
 	    public static final String NUMBER_STUDENTS = "numberStudents";
 	
@@ -32,8 +32,8 @@ public class ClassDB implements Serializable {
 		/**
 		 * Instance name class SQL Lite
 		 */
-		@DatabaseField(columnName = ID_ASIGNATURE)
-		private String idClass;
+		@DatabaseField(generatedId = true, columnName = ID_CLASS)
+		private int idClass;
 		
 		/**
 		 * Instance name class SQL Lite
@@ -93,14 +93,14 @@ public class ClassDB implements Serializable {
 		/**
 		 * @return the idClass
 		 */
-		public String getIdClass() {
+		public int getIdClass() {
 			return idClass;
 		}
 
 		/**
 		 * @param idClass the idClass to set
 		 */
-		public void setIdClass(String idClass) {
+		public void setIdClass(int idClass) {
 			this.idClass = idClass;
 		}
 

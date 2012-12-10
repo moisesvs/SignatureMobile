@@ -57,7 +57,7 @@ public class DAOUserSQL {
 		        		result = false;
 		        	} finally {
 		        		// close
-		        		application.getHelper().close();
+		        		application.closeDBHelper();
 		        	}
 
 		        }
@@ -88,7 +88,7 @@ public class DAOUserSQL {
 					userDbResult = null;
 	            } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	            
 	            
@@ -121,7 +121,40 @@ public class DAOUserSQL {
 					userDbResult = null;
 	            } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
+	        	}
+	            
+	            
+			} else {
+				userDbResult = null;
+			}
+			
+			return userDbResult;
+		}
+		
+		/**
+		 * Search device from username
+		 * @param username the username 
+		 * @return the user db result or null if not find
+		 */
+		public UserDB searchUserDeviceUsername(String username){
+			UserDB userDbResult = null;
+			if (username != null){
+	            try {
+	            	Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
+	                QueryBuilder <UserDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(UserDB.USERNAME, username));
+	                List<UserDB> users = dao.query(queryBuilder.prepare());
+	                if (users.isEmpty()) {
+	    				userDbResult = null;
+	                } else {
+	                	userDbResult = users.get(0);
+	                }
+	            } catch (Exception e) {
+					userDbResult = null;
+	            } finally {
+	        		// close
+	        		application.closeDBHelper();
 	        	}
 	            
 	            
@@ -148,11 +181,12 @@ public class DAOUserSQL {
 		        try {
 	        		Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
 	        		dao.delete(userDBParam);
+	    	        result = true;
 		        } catch (Exception e) {
 		        	result = false;
 		        } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	        }
 	    	
@@ -169,11 +203,13 @@ public class DAOUserSQL {
 			
 	    	if (mac != null) {
 		        try {
-	        		Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
 	        		UserDB userAux = searchUserDeviceMAC(mac);
 	        		if (userAux != null) {
+		        		Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
 	        			userAux.setTickets(ticketsSet);
+	        			userAux.setDateLastSignUser(new Date());
 		        		dao.update(userAux);
+		    			result = true;
 	        		} else {
 	        			result = false;
 	        		}
@@ -182,7 +218,7 @@ public class DAOUserSQL {
 		        	result = false;
 		        } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	        }
 	    	
@@ -205,7 +241,7 @@ public class DAOUserSQL {
             	listDbResult = null;
             } finally {
         		// close
-            	application.getHelper().close();
+        		application.closeDBHelper();
         	}
 	            
 			return listDbResult;

@@ -8,7 +8,6 @@ import android.widget.EditText;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
-import com.signaturemobile.signaturemobile.model.AsignatureDB;
 
 /**
  * SignatureMobileActivity activity create user application
@@ -20,22 +19,22 @@ public class CreateAsignatureActivity extends BaseActivity implements Notificati
     /**
      * Name user edit text
      */
-    private EditText nameClassEditext;
+    private EditText nameAsignatureEditext;
 
     /**
      * Create user button
      */
-    private Button createClassButton;
+    private Button createAsignatureButton;
     
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_createclass, getString(R.string.create_class_main), "", 0);
+        super.onCreate(savedInstanceState, R.layout.activity_createasignature, getString(R.string.create_asignature_main), "", 0);
         
-        nameClassEditext = (EditText) findViewById(R.id.nameClassEditText);
-        createClassButton = (Button) findViewById(R.id.createClassButton);
+        nameAsignatureEditext = (EditText) findViewById(R.id.nameAsignatureEditText);
+        createAsignatureButton = (Button) findViewById(R.id.createAsignatureButton);
         
-        createClassButton.setOnClickListener(this);
+        createAsignatureButton.setOnClickListener(this);
     }
     
     /**
@@ -60,25 +59,24 @@ public class CreateAsignatureActivity extends BaseActivity implements Notificati
      * On item click event
      */
 	public void onClick(View v) {
-		if (v.equals(createClassButton)){
+		if (v.equals(createAsignatureButton)){
 
-			if (nameClassEditext != null){
+			if (nameAsignatureEditext != null){
 				
-				String nameAsignature = nameClassEditext.getText().toString();
+				String nameAsignature = nameAsignatureEditext.getText().toString();
 				
 				if ((nameAsignature != null) && (!(nameAsignature.equals("")))){
 					nameAsignature = nameAsignature.trim();
-					
+
 					try {
-						AsignatureDB asignature = new AsignatureDB(nameAsignature, 0);
-						application.getHelper().getAsignatureDAO().create(asignature);
-						showInfoMessage(getString(R.string.create_class_ok), true);
+						toolbox.getDaoAsignatureSQL().createAsignature(nameAsignature, 0);
+						showInfoMessage(getString(R.string.create_asignature_ok), true);
 					} catch (Exception e) {
-						showErrorMessage(getString(R.string.create_class_ko));
+						showErrorMessage(getString(R.string.create_asignature_ko));
 					}
 
 				} else {
-					showErrorMessage(getString(R.string.name_class_empty));
+					showErrorMessage(getString(R.string.name_asignature_empty));
 				}
 				
 			}

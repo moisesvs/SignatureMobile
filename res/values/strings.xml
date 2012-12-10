@@ -21,6 +21,11 @@
 	<string name="sign_user_main">Firmar usuario</string>
 	<string name="list_users">Listar usuarios</string>
 	<string name="write_file_users">Escribir fichero</string>
+
+	<!-- UI Sign class home mobile -->
+	<string name="title_sign_class_home_mobile">Gestión de clases</string>
+	<string name="create_class_main">Crear clase</string>
+	<string name="select_class_main">Selecciona clase</string>
 	
 	<!-- UI Add user -->
 	<string name="select_user">Seleccione el dispositivo:</string>
@@ -85,26 +90,42 @@
 	<string name="user_tickets_sign">Asistencias</string>
 	<string name="user_tickets_not_sign_already">No ha firmado en el sistema</string>
 
-	<!-- UI Create class -->
-	<string name="create_class_title">Crear asignatura</string>
-	<string name="create_class_name">Nombre asignatura: </string>
-	<string name="name_class_hint">Asignatura</string>
+	<!-- UI Create asignature -->
+	<string name="create_asignature_title">Crear asignatura</string>
+	<string name="create_asignature_name">Nombre asignatura: </string>
+	<string name="name_asignature_hint">Asignatura</string>
 	<string name="create_asignature">Crear asignatura</string>
+	<string name="name_asignature_empty">El nombre de la asignatura no puede estar vacío</string>
+	<string name="asignature_already_register">Las asignatura que intentas registrar con su dispositivo, ya se encuentra registrada</string>
+	<string name="create_asignature_ok">Clase registrada correctamente</string>
+	<string name="create_asignature_ko">No ha sido posible crear la asignatura</string>
+	
+	<!-- UI Create class -->
+	<string name="create_class_title">Crear clase</string>
+	<string name="create_class_name">Nombre clase: </string>
+	<string name="name_class_hint">Clase</string>
+	<string name="create_class">Crear asignatura</string>
 	<string name="name_class_empty">El nombre de la asignatura no puede estar vacío</string>
-	<string name="class_already_register">Las asignatura que intentas registrar con su dispositivo, ya se encuentra registrada</string>
+	<string name="class_already_register">Las clase que intentas registrar con su dispositivo, ya se encuentra registrada</string>
 	<string name="create_class_ok">Clase registrada correctamente</string>
-	<string name="create_class_ko">No ha sido posible crear la asignatura</string>
+	<string name="create_class_ko">No ha sido posible crear la clase</string>
 	
 	<!-- UI Sign user home mobile -->
 	<string name="title_signature_mobile">Gestión de asignaturas</string>
-	<string name="create_class_main">Crear asignatura</string>
-	<string name="select_class_main">Selecciona asignatura</string>
+	<string name="create_asignature_main">Crear asignatura</string>
+	<string name="select_asignature_main">Selecciona asignatura</string>
 
 	<!-- UI List class mobile -->
-	<string name="title_list_class_title">Lista asignaturas</string>
-	<string name="list_devices_class">La lista de asignaturas es:</string>
-	<string name="list_devices_class_empty">No existen asignaturas para listar</string>
-	<string name="unable_sign_accept_class">Lo sentimos. No existe ninguna asignatura registrada con ese nombre.</string>
+	<string name="title_list_class_title">Lista clases</string>
+	<string name="list_devices_class">La lista de clases es:</string>
+	<string name="list_devices_class_empty">No existen clases para listar</string>
+	<string name="unable_sign_accept_class">Lo sentimos. No existe ninguna clase registrada con ese nombre.</string>
+	
+	<!-- UI List asignature mobile -->
+	<string name="title_list_asignature_title">Lista asignaturas</string>
+	<string name="list_devices_asignature">La lista de asignaturas es:</string>
+	<string name="list_devices_asignature_empty">No existen asignaturas para listar</string>
+	<string name="unable_sign_accept_asignature">Lo sentimos. No existe ninguna asignatura registrada con ese nombre.</string>
 	
 	<!-- Email intent -->
 	<string name="email_subject">[Signature Mobile] Fichero de alumnos de la clase\u0020</string>

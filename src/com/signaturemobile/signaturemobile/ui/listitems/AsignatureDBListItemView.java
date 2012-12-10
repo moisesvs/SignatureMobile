@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.signaturemobile.signaturemobile.R;
-import com.signaturemobile.signaturemobile.model.ClassDB;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
 
 /**
  * List item to display an action. It contains an action image, an action text, and an action indicator, wich can be
@@ -25,12 +25,12 @@ import com.signaturemobile.signaturemobile.model.ClassDB;
  * 
  * @author <a href="mailto:info@movilok.com">Movilok Interactividad Movil S.L.</a>
  */
-public class ClassDBListItemView extends SignatureListItemView {
+public class AsignatureDBListItemView extends SignatureListItemView {
     
     /**
      * Id class text view
      */
-    private TextView nameClassTextView;
+    private TextView nameAsignatureTextView;
 
     /**
      * Telephone text view
@@ -38,9 +38,9 @@ public class ClassDBListItemView extends SignatureListItemView {
     private ImageView checkImageView;
     
     /**
-     * Class db
+     * AsignatureDB db
      */
-    private ClassDB classDB;
+    private AsignatureDB asignatureDB;
     
     /**
      * Default constructor
@@ -48,22 +48,22 @@ public class ClassDBListItemView extends SignatureListItemView {
      * @param attrs attributes list item device
      * @param defStyle
      */
-    public ClassDBListItemView(Context context, AttributeSet attrs, int defStyle) {
+    public AsignatureDBListItemView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
-	public ClassDBListItemView(Context context, AttributeSet attrs) {
+	public AsignatureDBListItemView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public ClassDBListItemView(Context context) {
+	public AsignatureDBListItemView(Context context) {
 		super(context);
 	}
 
 	@Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        nameClassTextView = (TextView) findViewById(R.id.idClassTextView);
+        nameAsignatureTextView = (TextView) findViewById(R.id.idClassTextView);
         checkImageView = (ImageView) findViewById(R.id.checkImageView);
     }
     
@@ -73,12 +73,12 @@ public class ClassDBListItemView extends SignatureListItemView {
      * @param device The device item associate
      * @param checked If the device is checked or not
      */
-    public void setContent(ClassDB classDB, boolean checked) {
-    	this.classDB = classDB;
-    	if (classDB != null){
-    		String nameClass = classDB.getNameClass();
+    public void setContent(AsignatureDB asignatureDB, boolean checked) {
+    	this.asignatureDB = asignatureDB;
+    	if (asignatureDB != null){
+    		String nameClass = asignatureDB.getNameAsignature();
         	if (nameClass != null)
-        		nameClassTextView.setText(nameClass);
+        		nameAsignatureTextView.setText(nameClass);
         	
         	setChecked(checked);
     	}
@@ -95,14 +95,14 @@ public class ClassDBListItemView extends SignatureListItemView {
 	/**
 	 * @return the classDB
 	 */
-	public ClassDB getClassDB() {
-		return classDB;
+	public AsignatureDB getAsignatureDB() {
+		return asignatureDB;
 	}
 
 	/**
 	 * @param classDB the classDB to set
 	 */
-	public void setClassDB(ClassDB classDB) {
-		this.classDB = classDB;
+	public void setAsignatureDB(AsignatureDB asignatureDB) {
+		this.asignatureDB = asignatureDB;
 	}
 }

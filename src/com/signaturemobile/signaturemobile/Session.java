@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.ClassDB;
 
 /** 
  * Session stores values than can be used by different instances of the application,
@@ -26,6 +27,11 @@ public class Session implements Serializable {
 	 * Select asignature
 	 */
 	private AsignatureDB selectAsignature;
+    
+	/**
+	 * Select class
+	 */
+	private ClassDB selectClass;
 	
     // Notification constants
 	/**
@@ -77,6 +83,20 @@ public class Session implements Serializable {
 	 */
 	public void setSelectAsignature(AsignatureDB selectAsignature) {
 		this.selectAsignature = selectAsignature;
+	}
+
+	/**
+	 * @return the selectClass
+	 */
+	public ClassDB getSelectClass() {
+		return selectClass;
+	}
+
+	/**
+	 * @param selectClass the selectClass to set
+	 */
+	public void setSelectClass(ClassDB selectClass) {
+		this.selectClass = selectClass;
 	}
 
 	// Functional methods    

@@ -129,6 +129,11 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
     private BluetoothDevice bluetoothDevice;
     
     /**
+     * Asignature selected
+     */
+    private AsignatureDB asignatureSelected;
+    
+    /**
      * Select device linear layout
      */
     private LinearLayout selectDeviceLinearLayout;
@@ -172,9 +177,10 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
         });
         
         listDevices = new ArrayList<BluetoothDevice>();
-
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+        // get asignature
+        asignatureSelected = toolbox.getSession().getSelectAsignature();
     }
     
     /**
@@ -278,13 +284,13 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
 					if (bluetoothDevice != null){
 						
 						String mac = bluetoothDevice.getAddress();
-						if ((toolbox.getDaoUserSQL().searchUserDeviceMAC(mac) == null) || (valueStringTime != null)){
+						if ((! (toolbox.getDaoJoinAsignatureWithUser().exitsAsignatureFromMacUser(asignatureSelected.getNameAsignature(), mac)) || (valueStringTime != null))){
 							// create user in table SQL
-							if (toolbox.getDaoUserSQL().createUser(username, "", twitterUser, mac, 0, new Date(), (new Date(1970, 1, 1)), valueStringTime)){
+							if (toolbox.getDaoUserSQL().createUser(username, "", twitterUser, mac, 0, new Date(), (new Date(0)), valueStringTime)){
 								AsignatureDB asignature = toolbox.getSession().getSelectAsignature();
 								if (asignature != null) {
-									if ((toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username)) && 
-										(toolbox.getDaoJoinAsignatureWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username))){
+									if ((toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username, mac)) && 
+										(toolbox.getDaoJoinAsignatureWithUser().createJoinAsignatureWithUser(asignature.getNameAsignature(), username, mac))){
 										showInfoMessage(getString(R.string.register_user_ok), true);
 									} else {
 										showErrorMessage(getString(R.string.register_user_ko));

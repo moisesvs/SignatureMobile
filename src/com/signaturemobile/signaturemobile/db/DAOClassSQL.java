@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.model.ClassDB;
@@ -35,11 +36,11 @@ public class DAOClassSQL {
 	     * Create class and save into database
 	     * @param nameClass the name class to save database
 	     * @param numberStudents the number students
-	     * @return Create class
+	     * @return the identifier unique of the class db
 	     */
-	    public boolean createClass (String nameClass, int numberStudents){
+	    public int createClass (String nameClass, int numberStudents){
 	    	
-	        boolean result = false;
+	        int result = -1;
 	    	if (nameClass != null) {
 		    	// Open database in mode write
 	    		DBHelper helper = application.getHelper();
@@ -47,12 +48,12 @@ public class DAOClassSQL {
 		        	try {
 		        		ClassDB classDb = new ClassDB(nameClass, numberStudents);
 		        		helper.getClassDAO().create(classDb);
-		        		result = true;
+		        		result = classDb.getIdClass();
 		        	} catch (Exception e) {
-		        		result = false;
+		        		result = -1;
 		        	} finally {
 		        		// close
-		        		application.getHelper().close();
+		        		application.closeDBHelper();
 		        	}
 
 		        }
@@ -63,16 +64,16 @@ public class DAOClassSQL {
 	    
 		/**
 		 * Search class from name class
-		 * @param name class user 
+		 * @param id name class user 
 		 * @return the class db result or null if not find
 		 */
-		public ClassDB searchClassFromNameClass(String nameClassUser){
+		public ClassDB searchClassFromNameClass(int idClass) {
 			ClassDB classDbResult = null;
-			if (nameClassUser != null){
+			if (idClass != Constants.NULL_VALUES){
 	            try {
 	            	Dao<ClassDB, Integer> dao = application.getHelper().getClassDAO();
 	                QueryBuilder <ClassDB, Integer> queryBuilder = dao.queryBuilder();
-	                queryBuilder.setWhere(queryBuilder.where().eq(AsignatureDB.NAME_ASIGNATURE, nameClassUser));
+	                queryBuilder.setWhere(queryBuilder.where().eq(ClassDB.ID_CLASS, idClass));
 	                List<ClassDB> classDb = dao.query(queryBuilder.prepare());
 	                if (classDb.isEmpty()) {
 	    				classDbResult = null;
@@ -83,7 +84,7 @@ public class DAOClassSQL {
 					classDbResult = null;
 	            } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	            
 			} else {
@@ -108,7 +109,7 @@ public class DAOClassSQL {
 		        	result = false;
 		        } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	        }
 	    	
@@ -120,13 +121,13 @@ public class DAOClassSQL {
 		 * @param numberStudents value mac
 		 * @return the user db result or null if not find
 		 */
-		public boolean updateStudentsFromNameClass(String nameClass, int numberStudents){
+		public boolean updateStudentsFromNameClass(int idClass, int numberStudents){
 			boolean result = false;
 
-			if (nameClass != null) {
+			if (idClass != Constants.NULL_VALUES) {
 		        try {
 	        		Dao <ClassDB, Integer> dao = application.getHelper().getClassDAO();
-	        		ClassDB classAux = searchClassFromNameClass(nameClass);
+	        		ClassDB classAux = searchClassFromNameClass(idClass);
 	        		if (classAux != null) {
 	        			classAux.setNumbersStudents(numberStudents);
 		        		dao.update(classAux);
@@ -138,7 +139,7 @@ public class DAOClassSQL {
 		        	result = false;
 		        } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	        }
 	    	
@@ -160,7 +161,30 @@ public class DAOClassSQL {
             	listDbResult = null;
             } finally {
         		// close
-            	application.getHelper().close();
+        		application.closeDBHelper();
+        	}
+	            
+			return listDbResult;
+		}
+		
+		/**
+		 * List class from asignature
+		 * @param nameAsignature name asignature
+		 * @return the list fill with class all
+		 */
+		public List<ClassDB> listClassFromAsignature(String nameAsignature){
+			List<ClassDB> listDbResult = new ArrayList<ClassDB>();
+            
+			try {
+            	Dao<ClassDB, Integer> dao = application.getHelper().getClassDAO();
+                QueryBuilder <ClassDB, Integer> queryBuilder = dao.queryBuilder();
+                queryBuilder.setWhere(queryBuilder.where().eq(AsignatureDB.NAME_ASIGNATURE, nameAsignature));
+                listDbResult = dao.query(queryBuilder.prepare());
+            } catch (Exception e) {
+            	listDbResult = null;
+            } finally {
+        		// close
+        		application.closeDBHelper();
         	}
 	            
 			return listDbResult;

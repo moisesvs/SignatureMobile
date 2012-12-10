@@ -20,19 +20,37 @@
 	    	    android:textColor="@color/black"/>		
     
 	    	<Button
-	    	    android:id="@+id/signUserButton"
+	    	    android:id="@+id/createClassButton"
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/sign_user_main"
+	    	    android:text="@string/create_class_main"
+	    	    android:layout_margin="3dp"
+	    	   	android:background="@drawable/black_button"
+	    	    style="@style/ButtonText"/>
+	    	
+	    	<Button
+	    	    android:id="@+id/selectClassButton"
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/select_class_main"
 	    	  	android:layout_margin="3dp"
 	    	    android:background="@drawable/black_button"
 	    	    style="@style/ButtonText"/>
 	    	
 	    	<Button
-	    	    android:id="@+id/listUserButton"
+	    	    android:id="@+id/createUserButton"
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/list_users"
+	    	    android:text="@string/create_user_main"
+	    	    android:layout_margin="3dp"
+	    	   	android:background="@drawable/black_button"
+	    	    style="@style/ButtonText"/>
+	    	
+	    	<Button
+	    	    android:id="@+id/fileUserButton"
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/write_file_users"
 	    	    android:layout_margin="3dp"
 	    	    android:background="@drawable/black_button"
 	    	    style="@style/ButtonText"/>

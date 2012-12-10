@@ -4,15 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
-import com.signaturemobile.signaturemobile.model.AsignatureDB;
-import com.signaturemobile.signaturemobile.model.ClassDB;
 import com.signaturemobile.signaturemobile.model.JoinClassWithUserDB;
 
 /**
@@ -39,23 +34,24 @@ public class DAOJoinClassWithUserSQL {
 	     * Create join class with user and save into database
 	     * @param nameClass the name class to save database
 	     * @param nameUser the name user to save database
+	     * @param mac user to save database
 	     * @return Create join class with user
 	     */
-	    public boolean createJoinClassWithUser (String nameClass, String nameUser){
+	    public boolean createJoinClassWithUser (String nameClass, String nameUser, String mac){
 	        boolean result = false;
-	    	if ((nameClass != null) && (nameUser != null)) {
+	    	if ((nameClass != null) && (nameUser != null) && (mac != null)) {
 		    	// Open database in mode write
 	    		DBHelper helper = application.getHelper();
 		        if(helper != null) {
 		        	try {
-		        		JoinClassWithUserDB joinClassWithUserDb = new JoinClassWithUserDB(nameClass, nameUser);
+		        		JoinClassWithUserDB joinClassWithUserDb = new JoinClassWithUserDB(nameClass, nameUser, mac);
 		        		helper.getJoinClassWithUser().create(joinClassWithUserDb);
 		        		result = true;
 		        	} catch (Exception e) {
 		        		result = false;
 		        	} finally {
 		        		// close
-		        		application.getHelper().close();
+		        		application.closeDBHelper();
 		        	}
 
 		        }
@@ -86,7 +82,7 @@ public class DAOJoinClassWithUserSQL {
 					classDbResult = null;
 	            } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	            
 			} else {
@@ -111,7 +107,7 @@ public class DAOJoinClassWithUserSQL {
 		        	result = false;
 		        } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	        }
 	    	
@@ -133,7 +129,7 @@ public class DAOJoinClassWithUserSQL {
             	listDbResult = null;
             } finally {
         		// close
-            	application.getHelper().close();
+        		application.closeDBHelper();
         	}
 	            
 			return listDbResult;

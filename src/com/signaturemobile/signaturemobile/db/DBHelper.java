@@ -11,6 +11,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.model.ClassDB;
+import com.signaturemobile.signaturemobile.model.JoinAsignatureWithClassDB;
 import com.signaturemobile.signaturemobile.model.JoinAsignatureWithUserDB;
 import com.signaturemobile.signaturemobile.model.JoinClassWithUserDB;
 import com.signaturemobile.signaturemobile.model.UserDB;
@@ -56,6 +57,11 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
      * Join class with user
      */
     private Dao <JoinClassWithUserDB, Integer> joinClassWithUsers;
+    
+    /**
+     * Join asignature with class
+     */
+    private Dao <JoinAsignatureWithClassDB, Integer> joinAsignatureWithClass;
 
     /**
      * Db Helper context
@@ -76,7 +82,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, ClassDB.class);
             TableUtils.createTable(connectionSource, JoinAsignatureWithUserDB.class);
             TableUtils.createTable(connectionSource, JoinClassWithUserDB.class);
-
+            TableUtils.createTable(connectionSource, JoinAsignatureWithClassDB.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +145,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     }
     
     /**
-     * Get join class with users DAO
+     * Get join asignature with users DAO
      * @return Dao 
      * @throws SQLException throws exception it is possible
      */
@@ -149,14 +155,17 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         }
         return joinClassWithUsers;
     }
- 
+    
     /**
-     * Close connection DB
+     * Get join class with users DAO
+     * @return Dao 
+     * @throws SQLException throws exception it is possible
      */
-    @Override
-    public void close() {
-        super.close();
-        asignatureDao = null;
+    public Dao<JoinAsignatureWithClassDB, Integer> getJoinAsignatureWithClass() throws SQLException {
+        if (joinAsignatureWithClass == null) {
+        	joinAsignatureWithClass = getDao(JoinAsignatureWithClassDB.class);
+        }
+        return joinAsignatureWithClass;
     }
-
+ 
 }

@@ -187,6 +187,11 @@ public class Constants {
      */
     public static final int DEFAULT_TICKETS_USER = 0;
     
+    /**
+     * Default null values
+     */
+    public static final int NULL_VALUES = -1;
+    
 ////////////////////////////////////////////////////////////////
 //Parameters Activity
 ////////////////////////////////////////////////////////////////
@@ -199,6 +204,11 @@ public class Constants {
      * Parameters activity
      */
     public static final String PARAMETERS_SIGN_USER = "com.signaturemobile.parameter.siguser";
+    
+    /**
+     * Parameters activity
+     */
+    public static final String PARAMETERS_SELECT_ASIGNATURE = "com.signaturemobile.parameter.selectasignature";
     
     /**
      * Parameters activity

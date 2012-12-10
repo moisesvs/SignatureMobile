@@ -50,7 +50,7 @@ public class DAOAsignatureSQL {
 		        		result = false;
 		        	} finally {
 		        		// close
-		        		application.getHelper().close();
+		        		application.closeDBHelper();
 		        	}
 
 		        }
@@ -81,7 +81,7 @@ public class DAOAsignatureSQL {
 					asignatureDbResult = null;
 	            } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	            
 	            
@@ -107,7 +107,7 @@ public class DAOAsignatureSQL {
 		        	result = false;
 		        } finally {
 	        		// close
-	            	application.getHelper().close();
+	        		application.closeDBHelper();
 	        	}
 	        }
 	    	
@@ -129,7 +129,7 @@ public class DAOAsignatureSQL {
             	listDbResult = null;
             } finally {
         		// close
-            	application.getHelper().close();
+        		application.closeDBHelper();
         	}
 	            
 			return listDbResult;

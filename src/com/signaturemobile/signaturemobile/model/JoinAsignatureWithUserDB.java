@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
- * UserDAOSql object reference User DB
+ * JoinAsignatureWithUserDB object reference JoinAsignatureWithUserDB DB
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
@@ -19,7 +19,8 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		public static final String ID_JOIN_ASIGNATURE_USER = "id";
 	    public static final String NAME_ASIGNATURE = "nameAsignature";
 	    public static final String USERNAME = "username";
-	
+	    public static final String MAC = "mac";
+
 		////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////
 	
@@ -47,6 +48,12 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		private String userName;
 		
 		/**
+		 * Instance user name SQL Lite
+		 */
+		@DatabaseField(columnName = MAC)
+		private String mac;
+		
+		/**
 		 * Default constructor
 		 */
 		public JoinAsignatureWithUserDB (){}
@@ -55,10 +62,12 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		 * Default contructor
 		 * @param nameClass name class db
 		 * @param userName user name db
+		 * @param mac db
 		 */
-		public JoinAsignatureWithUserDB (String nameClass, String userName){
+		public JoinAsignatureWithUserDB (String nameClass, String userName, String mac){
 			this.nameAsignature = nameClass;
 			this.userName = userName;
+			this.mac = mac;
 		}
 
 		/**
@@ -101,6 +110,20 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		 */
 		public void setIdJoinAsignatureUser(int idJoinAsignatureUser) {
 			this.idJoinAsignatureUser = idJoinAsignatureUser;
+		}
+
+		/**
+		 * @return the mac
+		 */
+		public String getMac() {
+			return mac;
+		}
+
+		/**
+		 * @param mac the mac to set
+		 */
+		public void setMac(String mac) {
+			this.mac = mac;
 		}
 
 }

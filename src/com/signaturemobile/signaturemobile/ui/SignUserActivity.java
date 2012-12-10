@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
+import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.model.UserDB;
 import com.signaturemobile.signaturemobile.ui.listitems.DeviceListItemView;
 import com.signaturemobile.signaturemobile.utils.Tools;
@@ -64,6 +65,11 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
      */
     private List<BluetoothDevice> listDevices;
     
+    /**
+     * Asignature selected
+     */
+    private AsignatureDB asignatureSelected;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,9 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
         
         listDevices = new ArrayList<BluetoothDevice>();
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        // get asignature
+        asignatureSelected = toolbox.getSession().getSelectAsignature();
         
         // Register notifications
     	registerNotifications();
