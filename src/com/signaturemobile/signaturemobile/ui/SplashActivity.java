@@ -86,7 +86,7 @@ public class SplashActivity extends Activity implements OnClickListener, Notific
 	 * Open signature activity
 	 */
 	private void openSignatureActivity() {
-		Intent mainIntent = new Intent(SplashActivity.this, SignatureMobileActivity.class);	 	    	
+		Intent mainIntent = new Intent(SplashActivity.this, SignAsignatureActivity.class);	 	    	
        	SplashActivity.this.startActivity(mainIntent);
 	    
         this.finish();

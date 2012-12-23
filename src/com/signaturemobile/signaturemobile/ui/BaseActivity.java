@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
@@ -98,7 +99,11 @@ public class BaseActivity extends Activity implements OnClickListener{
                          String title, String subtitle,
                          int parameters) {
         
-        super.onCreate(savedInstanceState);       
+        super.onCreate(savedInstanceState);
+        
+        // bugsense
+        BugSenseHandler.initAndStartSession(this, Constants.BUG_SENSE_API_KEY);
+        
         application = (SignatureMobileApplication) getApplication();
         toolbox = application.getToolBox();
         

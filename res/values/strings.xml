@@ -16,14 +16,15 @@
 	<string name="not_connected_bluetooth">Parece que el Bluetooth no esta conectado. Por favor encienda el bluetooth y vuelva a intentar buscar dispositivos.</string>
 	
 	<!-- UI Sign user home mobile -->
-	<string name="title_sign_user_home_mobile">Gestión de alumnos</string>
-	<string name="create_user_main">Crear usuario</string>
+	<string name="title_sign_user_home_mobile">Gestión de clase</string>
 	<string name="sign_user_main">Firmar usuario</string>
 	<string name="list_users">Listar usuarios</string>
+	<string name="create_user_main">Crear usuario</string>
 	<string name="write_file_users">Escribir fichero</string>
-
+	<string name="select_application_send_file">Seleccione la aplicación para enviar el fichero</string>
+	
 	<!-- UI Sign class home mobile -->
-	<string name="title_sign_class_home_mobile">Gestión de clases</string>
+	<string name="title_sign_class_home_mobile">Gestión de asignatura</string>
 	<string name="create_class_main">Crear clase</string>
 	<string name="select_class_main">Selecciona clase</string>
 	
@@ -97,14 +98,14 @@
 	<string name="create_asignature">Crear asignatura</string>
 	<string name="name_asignature_empty">El nombre de la asignatura no puede estar vacío</string>
 	<string name="asignature_already_register">Las asignatura que intentas registrar con su dispositivo, ya se encuentra registrada</string>
-	<string name="create_asignature_ok">Clase registrada correctamente</string>
+	<string name="create_asignature_ok">Asignatura registrada correctamente</string>
 	<string name="create_asignature_ko">No ha sido posible crear la asignatura</string>
 	
 	<!-- UI Create class -->
 	<string name="create_class_title">Crear clase</string>
 	<string name="create_class_name">Nombre clase: </string>
 	<string name="name_class_hint">Clase</string>
-	<string name="create_class">Crear asignatura</string>
+	<string name="create_class">Crear clase</string>
 	<string name="name_class_empty">El nombre de la asignatura no puede estar vacío</string>
 	<string name="class_already_register">Las clase que intentas registrar con su dispositivo, ya se encuentra registrada</string>
 	<string name="create_class_ok">Clase registrada correctamente</string>

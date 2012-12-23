@@ -230,7 +230,7 @@ public class CreateUserSelectDeviceActivity extends BaseActivity implements Noti
 			deviceAdapter.setListDevices(listDevices);
 			if (!listDevices.isEmpty()){
 				devicesTextView.setText(getString(R.string.select_user));
-				deviceAdapter.setListDevices(listDevices);
+				deviceAdapter.setListDevices(new ArrayList<BluetoothDevice>(listDevices));
 				
 				// synchronized with list devices
 				synchronized (devicesListView) {

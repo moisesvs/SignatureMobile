@@ -38,6 +38,7 @@ import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.UserDB;
 import com.signaturemobile.signaturemobile.ui.listitems.DeviceListItemView;
 import com.signaturemobile.signaturemobile.utils.Tools;
 
@@ -289,8 +290,8 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
 							if (toolbox.getDaoUserSQL().createUser(username, "", twitterUser, mac, 0, new Date(), (new Date(0)), valueStringTime)){
 								AsignatureDB asignature = toolbox.getSession().getSelectAsignature();
 								if (asignature != null) {
-									if ((toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(asignature.getNameAsignature(), username, mac)) && 
-										(toolbox.getDaoJoinAsignatureWithUser().createJoinAsignatureWithUser(asignature.getNameAsignature(), username, mac))){
+									UserDB userDb = toolbox.getDaoUserSQL().searchUserDeviceMAC(mac);
+									if ((userDb != null) && (toolbox.getDaoJoinAsignatureWithUser().createJoinAsignatureWithUser(asignature.getIdAsignature(), userDb.getIdUser(), userDb.getUsername()))){
 										showInfoMessage(getString(R.string.register_user_ok), true);
 									} else {
 										showErrorMessage(getString(R.string.register_user_ko));

@@ -40,7 +40,7 @@ public class UserDB implements Serializable {
 		 * 	Id of the user
 		 */
 		@DatabaseField(generatedId = true, columnName = ID_USERNAME)
-		private int idAsignature;
+		private int idUser;
 		
 		/**
 		 * Instance User SQL Lite
@@ -252,17 +252,17 @@ public class UserDB implements Serializable {
 		}
 
 		/**
-		 * @return the idAsignature
+		 * @return the idUser
 		 */
-		public int getIdAsignature() {
-			return idAsignature;
+		public int getIdUser() {
+			return idUser;
 		}
 
 		/**
-		 * @param idAsignature the idAsignature to set
+		 * @param idUser the idUser to set
 		 */
-		public void setIdAsignature(int idAsignature) {
-			this.idAsignature = idAsignature;
+		public void setIdUser(int idUser) {
+			this.idUser = idUser;
 		}
 
 }

@@ -98,16 +98,6 @@
 					        android:textColor="@color/greyText"
 					        android:textSize="15sp" />
 
-					    <TextView
-					        android:id="@+id/ticketsTwitter"
-					        android:layout_width="fill_parent"
-					        android:layout_height="wrap_content"
-					        android:layout_marginBottom="5dp"
-					        android:layout_marginTop="5dp"
-					        android:maxLines="1"
-					        android:singleLine="true"
-					        android:textColor="@color/greyText"
-					        android:textSize="15sp" />
 					</LinearLayout>
 					
 	    			<LinearLayout

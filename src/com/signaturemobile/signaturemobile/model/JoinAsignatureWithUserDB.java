@@ -17,8 +17,8 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		////////////////////////////////////////////////////////////////////////
 		
 		public static final String ID_JOIN_ASIGNATURE_USER = "id";
-	    public static final String NAME_ASIGNATURE = "nameAsignature";
-	    public static final String USERNAME = "username";
+	    public static final String ID_ASIGNATURE = "idAsignature";
+	    public static final String ID_USER = "idUser";
 	    public static final String MAC = "mac";
 
 		////////////////////////////////////////////////////////////////////////
@@ -36,22 +36,22 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		private int idJoinAsignatureUser;
 		
 		/**
-		 * Instance name asignature SQL Lite
+		 * Instance id asignature SQL Lite
 		 */
-		@DatabaseField(columnName = NAME_ASIGNATURE)
-		private String nameAsignature;
+		@DatabaseField(columnName = ID_ASIGNATURE)
+		private int idAssignature;
 		
 		/**
-		 * Instance user name SQL Lite
+		 * Instance id user name SQL Lite
 		 */
-		@DatabaseField(columnName = USERNAME)
-		private String userName;
+		@DatabaseField(columnName = ID_USER)
+		private int idUser;
 		
 		/**
 		 * Instance user name SQL Lite
 		 */
 		@DatabaseField(columnName = MAC)
-		private String mac;
+		private String nameUser;
 		
 		/**
 		 * Default constructor
@@ -62,40 +62,40 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		 * Default contructor
 		 * @param nameClass name class db
 		 * @param userName user name db
-		 * @param mac db
+		 * @param nameUser db
 		 */
-		public JoinAsignatureWithUserDB (String nameClass, String userName, String mac){
-			this.nameAsignature = nameClass;
-			this.userName = userName;
-			this.mac = mac;
+		public JoinAsignatureWithUserDB (int idClass, int idUser, String nameUser){
+			this.idAssignature = idClass;
+			this.idUser = idUser;
+			this.nameUser = nameUser;
 		}
 
 		/**
 		 * @return the nameClass
 		 */
-		public String getNameClass() {
-			return nameAsignature;
+		public int getNameClass() {
+			return idAssignature;
 		}
 
 		/**
-		 * @param nameAsignature the nameClass to set
+		 * @param idAssignature the id assignature to set
 		 */
-		public void setNameAsignature(String nameAsignature) {
-			this.nameAsignature = nameAsignature;
+		public void setNameAsignature(int idAssignature) {
+			this.idAssignature = idAssignature;
 		}
 
 		/**
 		 * @return the userName
 		 */
-		public String getUserName() {
-			return userName;
+		public int getIdUser() {
+			return idUser;
 		}
 
 		/**
-		 * @param userName the userName to set
+		 * @param idUser the id user to set
 		 */
-		public void setUserName(String userName) {
-			this.userName = userName;
+		public void setIdUser(int idUser) {
+			this.idUser = idUser;
 		}
 
 		/**
@@ -115,15 +115,15 @@ public class JoinAsignatureWithUserDB implements Serializable{
 		/**
 		 * @return the mac
 		 */
-		public String getMac() {
-			return mac;
+		public String getUserName() {
+			return nameUser;
 		}
 
 		/**
-		 * @param mac the mac to set
+		 * @param username the mac to set
 		 */
-		public void setMac(String mac) {
-			this.mac = mac;
+		public void setUserName(String username) {
+			this.nameUser = username;
 		}
 
 }

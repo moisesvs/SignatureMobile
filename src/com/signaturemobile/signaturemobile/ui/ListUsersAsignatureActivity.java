@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +19,26 @@ import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
-import com.signaturemobile.signaturemobile.ui.listitems.AsignatureDBListItemView;
+import com.signaturemobile.signaturemobile.model.JoinAsignatureWithUserDB;
+import com.signaturemobile.signaturemobile.model.UserDB;
+import com.signaturemobile.signaturemobile.ui.listitems.UserDBListItemView;
 
 /**
- * ListClassActivity activity list class signature application
+ * ListUsersSignActivity activity list user signature application
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */
-public class SelectListAsignatureActivity extends BaseActivity implements NotificationListener, OnItemClickListener {
+public class ListUsersAsignatureActivity extends BaseActivity implements NotificationListener, OnItemClickListener {
     
     /**
      * Device text view
      */
-    private TextView asignatureTextView;
+    private TextView devicesTextView;
     
     /**
      * Devices list view
      */
-    private ListView asignatureListView;
+    private ListView devicesListView;
     
     /**
      * Adapter devices
@@ -43,14 +46,20 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
     private DevicesListAdapter deviceAdapter;
     
     /**
-     * List asignature
+     * List users from asignature
      */
-    private List<AsignatureDB> listAsignature;
+    private List<JoinAsignatureWithUserDB> listUserFromAsignature;
 
+    /**
+     * Select asignature
+     */
+    private AsignatureDB selectAsignature;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_listasignature, getString(R.string.title_list_asignature_title), "", 0);
+        super.onCreate(savedInstanceState, R.layout.activity_listsignuser, getString(R.string.title_list_sign_title), "", 0);
+        selectAsignature = toolbox.getSession().getSelectAsignature();
         initializeUI();
     }
     
@@ -58,12 +67,12 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
      * Initialize UI
      */
     private void initializeUI(){
-        asignatureTextView = (TextView) findViewById(R.id.asignatureTextView);
-        asignatureListView = (ListView) findViewById(R.id.asignatureListView);
+        devicesTextView = (TextView) findViewById(R.id.devicesTextView);
+        devicesListView = (ListView) findViewById(R.id.deviceListView);
         
         deviceAdapter = new DevicesListAdapter(null);
-        asignatureListView.setAdapter(deviceAdapter);
-        asignatureListView.setOnItemClickListener(this);
+        devicesListView.setAdapter(deviceAdapter);
+        devicesListView.setOnItemClickListener(this);
     }
     
     /**
@@ -72,44 +81,35 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
     public void onResume(){
     	super.onResume();
     	// list bluetooth devices
-    	listAsignature = toolbox.getDaoAsignatureSQL().listAsignature();
-    	if ((listAsignature != null) && (! (listAsignature.isEmpty()))){
-            deviceAdapter.setListDevices(listAsignature);
-            deviceAdapter.notifyDataSetChanged();
-        	asignatureTextView.setText(getString(R.string.list_devices_asignature));
-    	} else {
-            deviceAdapter.setListDevices(listAsignature);
-            deviceAdapter.notifyDataSetChanged();
-            asignatureTextView.setText(getString(R.string.list_devices_asignature_empty));
+    	if (selectAsignature != null) {
+    		int idAsignature = selectAsignature.getIdAsignature();
+        	listUserFromAsignature = toolbox.getDaoJoinAsignatureWithUser().listJoinAsignatureWithUser(idAsignature);
+        	if ((listUserFromAsignature != null) && (! (listUserFromAsignature.isEmpty()))){
+                deviceAdapter.setListDevices(listUserFromAsignature);
+                deviceAdapter.notifyDataSetChanged();
+            	devicesTextView.setText(getString(R.string.list_devices_sign));
+        	} else {
+                deviceAdapter.setListDevices(listUserFromAsignature);
+                deviceAdapter.notifyDataSetChanged();
+            	devicesTextView.setText(getString(R.string.list_devices_sign_empty));
+        	}
     	}
     }
-    
-    /**
-     * On item click event
-     */
-	public void onClick(View v) {
-		super.onClick(v);
-	}
     
     /**
      * Called when push into item list view
      */
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {    
 		// the device header
-		if (position <= asignatureListView.getCount() && (view instanceof AsignatureDBListItemView)) {
-			AsignatureDBListItemView deviceListView = (AsignatureDBListItemView) view;
-			AsignatureDB asignatureDBDevice = deviceListView.getAsignatureDB();
-			if (asignatureDBDevice != null) {
-				
-				// set asignature
-				toolbox.getSession().setSelectAsignature(asignatureDBDevice);
-				
-				Intent intentSignAcceptUser = new Intent(SelectListAsignatureActivity.this, SignClassHomeActivity.class);
-				intentSignAcceptUser.putExtra(Constants.PARAMETERS_SELECT_ASIGNATURE, asignatureDBDevice);
+		if (position <= devicesListView.getCount() && (view instanceof UserDBListItemView)) {
+			UserDBListItemView deviceListView = (UserDBListItemView) view;
+			UserDB userDBDevice = deviceListView.getUserDB();
+			if (userDBDevice != null) {
+				Intent intentSignAcceptUser = new Intent(ListUsersAsignatureActivity.this, DetailsUserActivity.class);
+				intentSignAcceptUser.putExtra(Constants.PARAMETERS_SIGN_USER, userDBDevice);
 				startActivity(intentSignAcceptUser);
-				
 			} else {
-				showInfoMessage(getString(R.string.unable_sign_accept_class), false);
+				showInfoMessage(getString(R.string.unable_sign_accept_user), false);
 			}
 		}  
 	}
@@ -123,16 +123,16 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
 
         // ListAdapter interface methods
     	/**
-    	 * List asignature 
+    	 * List devices 
     	 */
-    	private List <AsignatureDB> listAsignature;
+    	private List <JoinAsignatureWithUserDB> listDevices;
     	
     	/**
     	 * Default constructor
-    	 * @param listClass the list class
+    	 * @param listDevices the list devices
     	 */
-    	public DevicesListAdapter (List<AsignatureDB> listClass){
-    		this.listAsignature = listClass;
+    	public DevicesListAdapter (List<JoinAsignatureWithUserDB> listDevices){
+    		this.listDevices = listDevices;
     	}
     	
         /**
@@ -141,8 +141,8 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
          * @return count of items
          */
         public int getCount() {
-            if (listAsignature != null)
-                return listAsignature.size();
+            if (listDevices != null)
+                return listDevices.size();
              
             return 0;
         }
@@ -181,19 +181,28 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
          * @return A View corresponding to the data at the specified position.
          */
         public View getView(int position, View convertView, ViewGroup parent) {
-            AsignatureDBListItemView result;
+            UserDBListItemView result;
             if (convertView != null) {
-                result = (AsignatureDBListItemView) convertView;
+                result = (UserDBListItemView) convertView;
             } else {
                 LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                result = (AsignatureDBListItemView) layoutInflater.inflate(R.layout.listitem_asignature, parent, false);
+                result = (UserDBListItemView) layoutInflater.inflate(R.layout.listitem_userdb, parent, false);
             }
             
             int row = position;
-            if (listAsignature != null){
-            	AsignatureDB asignature = listAsignature.get(row);
-                if (asignature != null){
-                    result.setContent(asignature, false);
+            if (listDevices != null){
+            	JoinAsignatureWithUserDB userDBDevice = listDevices.get(row);
+                if (userDBDevice != null){
+                	UserDB userDB = toolbox.getDaoUserSQL().searchUserDeviceId(userDBDevice.getIdUser());
+                    result.setContent(userDB, false);
+            		List<UserDB> userDBList = toolbox.getDaoUserSQL().listFromDate();
+            		for (UserDB user : userDBList){
+                		if ((user != null) && (DateUtils.isToday(user.getDateLastSignUserTime()))){
+                			result.setChecked(true);
+                		} else {
+                			result.setChecked(false);
+                		}
+            		}
                 }
             }
             
@@ -201,10 +210,10 @@ public class SelectListAsignatureActivity extends BaseActivity implements Notifi
         }
 
 		/**
-		 * @param listAsignatureDB the listClass to set
+		 * @param listDevicesUserDB the listDevices to set
 		 */
-		public void setListDevices(List<AsignatureDB> listAsignatureDB) {
-			this.listAsignature = listAsignatureDB;
+		public void setListDevices(List<JoinAsignatureWithUserDB> listDevicesUserDB) {
+			this.listDevices = listDevicesUserDB;
 		}
         
     }

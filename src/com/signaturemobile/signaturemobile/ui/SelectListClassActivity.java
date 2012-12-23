@@ -87,7 +87,7 @@ public class SelectListClassActivity extends BaseActivity implements Notificatio
     	if ((listAsignatureWithJoin != null) && (! (listAsignatureWithJoin.isEmpty()))) {
     		listClass.clear();
     		for (JoinAsignatureWithClassDB joinAsignatureWithClass : listAsignatureWithJoin) {
-    			ClassDB nameClass = toolbox.getDaoClassSQL().searchClassFromNameClass(joinAsignatureWithClass.getIdClass());
+    			ClassDB nameClass = toolbox.getDaoClassSQL().searchClassFromIdClass(joinAsignatureWithClass.getIdClass());
     			if (nameClass != null) {
     	        	listClass.add(nameClass);
     			}

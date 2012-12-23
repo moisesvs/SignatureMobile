@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
-import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.ClassDB;
 import com.signaturemobile.signaturemobile.model.UserDB;
 import com.signaturemobile.signaturemobile.ui.listitems.DeviceListItemView;
 import com.signaturemobile.signaturemobile.utils.Tools;
@@ -66,9 +66,9 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
     private List<BluetoothDevice> listDevices;
     
     /**
-     * Asignature selected
+     * Class selected
      */
-    private AsignatureDB asignatureSelected;
+    private ClassDB classSelected;
     
     /** Called when the activity is first created. */
     @Override
@@ -85,7 +85,7 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         // get asignature
-        asignatureSelected = toolbox.getSession().getSelectAsignature();
+        classSelected = toolbox.getSession().getSelectClass();
         
         // Register notifications
     	registerNotifications();
@@ -237,7 +237,7 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
 	    	showProgressNotification(false);
 
 			Tools.logLine(TAG, "Received finish request device found devices");
-			deviceAdapter.setListDevices(listDevices);
+			deviceAdapter.setListDevices(new ArrayList<BluetoothDevice>(listDevices));
 			if (!listDevices.isEmpty()){
 				devicesTextView.setText(getString(R.string.devices_user_sign));
 				deviceAdapter.notifyDataSetChanged();
@@ -246,6 +246,7 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
 			}
 			// again begin searching for devices
 			updateListDevices();
+
 		} else if (notification.equals(Constants.kHideErrorDialog)){
 			// finish activity
 			finish();
@@ -334,11 +335,10 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
                     result.setContent(device, false);
             		UserDB userDB = toolbox.getDaoUserSQL().searchUserDeviceMAC(device.getAddress());
             		if (userDB != null){
-            			if (DateUtils.isToday(userDB.getDateLastSignUserTime())){
+            			if (toolbox.getDaoJoinClassWithUser().searchClassFromIdClassAndIdUser(classSelected.getIdClass(), userDB.getIdUser()) != null){
             				result.setChecked(true);
             			} else {
-            				int tickets = userDB.getTickets();
-            				if (toolbox.getDaoUserSQL().updateTicketsFromMAC(device.getAddress(), tickets + 1)){
+            				if (toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(classSelected.getIdClass(), classSelected.getNameClass(), userDB.getIdUser(), userDB.getMac())){
                 				result.setChecked(true);
             				} else {
                 				result.setChecked(false);
@@ -359,7 +359,7 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
 		public void setListDevices(List<BluetoothDevice> listDevices) {
 			this.listDevices = listDevices;
 		}
-        
+
     }
 
 }

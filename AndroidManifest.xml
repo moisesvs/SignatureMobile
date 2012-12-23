@@ -45,11 +45,13 @@
 		
 		<activity android:name=".ui.SelectListClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
 		
-		<activity android:name=".ui.ListUsersSignActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.ListUsersAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		
+		<activity android:name=".ui.ListUsersClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
 		
 		<activity android:name=".ui.SignAcceptUserActivity" android:theme="@android:style/Animation.Dialog" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
        	
-        <activity android:name=".ui.SignatureMobileActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.SignAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
         
     	<activity android:name=".ui.SignUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
     		<intent-filter>

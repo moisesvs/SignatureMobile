@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
-import com.signaturemobile.signaturemobile.model.JoinAsignatureWithUserDB;
 import com.signaturemobile.signaturemobile.model.UserDB;
 import com.signaturemobile.signaturemobile.utils.Tools;
 
@@ -61,17 +60,7 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
     private TextView lastSignUserTextView;
     
     /**
-     * Tickets text view
-     */
-    private TextView ticketsTwitter;
-    
-    /**
      * Join asignature with user db
-     */
-    private JoinAsignatureWithUserDB joinAsignatureWithUserDB;
-    
-    /**
-     * User db
      */
     private UserDB userDB;
     
@@ -102,7 +91,6 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
         userCreateTextView = (TextView) findViewById(R.id.userCreateTextView);
         lastSignUserTextView = (TextView) findViewById(R.id.lastSignUserTextView);
         userTwitterTextView = (TextView) findViewById(R.id.userTwitter);
-        ticketsTwitter = (TextView) findViewById(R.id.ticketsTwitter);
         acceptButton = (Button) findViewById(R.id.acceptButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
         
@@ -116,29 +104,22 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
     private void setup(){
     	Intent intent = this.getIntent();
     	if (intent != null) {
-    		joinAsignatureWithUserDB = (JoinAsignatureWithUserDB) intent.getExtras().getSerializable(Constants.PARAMETERS_SIGN_USER);
-			if (joinAsignatureWithUserDB != null) {
-				String username = joinAsignatureWithUserDB.getUserName();
-				if (username != null) {
-					userDB = toolbox.getDaoUserSQL().searchUserDeviceUsername(username);
-					if (userDB != null){
-						String userDBUrl = userDB.getUserTwitter();
-						String urlTwitter = String.format(Constants.URL_TWITTER_FORMAT_STRING, userDBUrl);
-						userTextView.setText(userDB.getUsername());
-						userCreateTextView.setText(getString(R.string.user_create_sign) + " " + Tools.formatDate(userDB.getDateCreateUser()));
-						Date date = userDB.getDateLastSignUser();
-						if ((date != null) && (!(Tools.isInitDate(date)))) {
-							lastSignUserTextView.setText(getString(R.string.user_last_sign) + " " + Tools.formatDate(date));
-						} else {
-							lastSignUserTextView.setVisibility(View.GONE);
-						}
-						
-						userTwitterTextView.setText(getString(R.string.user_twitter_sign) + " " + userDB.getUserTwitter());
-						ticketsTwitter.setText(getString(R.string.user_tickets_sign) + " " + userDB.getTickets());
-
-						donwloadImage(urlTwitter, userTwitterImageView);
-					}
+    		userDB = (UserDB) intent.getExtras().getSerializable(Constants.PARAMETERS_SIGN_USER);
+			if (userDB != null) {
+				String userDBUrl = userDB.getUserTwitter();
+				String urlTwitter = String.format(Constants.URL_TWITTER_FORMAT_STRING, userDBUrl);
+				userTextView.setText(userDB.getUsername());
+				userCreateTextView.setText(getString(R.string.user_create_sign) + " " + Tools.formatDate(userDB.getDateCreateUser()));
+				Date date = userDB.getDateLastSignUser();
+				if ((date != null) && (!(Tools.isInitDate(date)))) {
+					lastSignUserTextView.setText(getString(R.string.user_last_sign) + " " + Tools.formatDate(date));
+				} else {
+					lastSignUserTextView.setVisibility(View.GONE);
 				}
+				
+				userTwitterTextView.setText(getString(R.string.user_twitter_sign) + " " + userDB.getUserTwitter());
+
+				donwloadImage(urlTwitter, userTwitterImageView);
 			}
     	}
     }
@@ -172,10 +153,16 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
 		if (v.equals(acceptButton)){
 			goBack();
 		} else if (v.equals(deleteButton)){
-			boolean result = toolbox.getDaoUserSQL().deleteUser(userDB);
-			if (result) {
-				toolbox.getDaoJoinAsignatureWithUser().deleteJoinAsignatureWithUser(userDB.getUsername());
-				showInfoMessage(getString(R.string.user_delete_ok), true);
+			if (toolbox.getDaoUserSQL().deleteUser(userDB)) {
+				if (toolbox.getDaoJoinAsignatureWithUser().deleteJoinAsignatureWithUser(userDB.getIdUser())){
+					if (toolbox.getDaoJoinClassWithUser().deleteJoinClassWithUser(userDB.getIdUser())){
+						showInfoMessage(getString(R.string.user_delete_ok), true);
+					} else {
+						showInfoMessage(getString(R.string.user_delete_ko), true);
+					}
+				} else {
+					showInfoMessage(getString(R.string.user_delete_ko), true);
+				}
 			} else {
 				showInfoMessage(getString(R.string.user_delete_ko), true);
 			}

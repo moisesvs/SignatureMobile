@@ -18,8 +18,9 @@ public class JoinClassWithUserDB implements Serializable{
 		////////////////////////////////////////////////////////////////////////
 		
 		public static final String ID_JOIN_CLASS_WITH_USER = "id";
+		public static final String ID_CLASS = "idClass";
 	    public static final String NAME_CLASS = "nameClass";
-	    public static final String USERNAME = "username";
+	    public static final String ID_USER = "username";
 	    public static final String MAC = "mac";
 
 		////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,12 @@ public class JoinClassWithUserDB implements Serializable{
 		 * 	Id of the class
 		 */
 		@DatabaseField(generatedId = true, columnName = ID_JOIN_CLASS_WITH_USER)
+		private int idJoinClassWithUser;
+		
+		/**
+		 * 	Id of the class
+		 */
+		@DatabaseField(columnName = ID_CLASS)
 		private int idClass;
 		
 		/**
@@ -45,8 +52,8 @@ public class JoinClassWithUserDB implements Serializable{
 		/**
 		 * Instance user name SQL Lite
 		 */
-		@DatabaseField(columnName = USERNAME)
-		private String userName;
+		@DatabaseField(columnName = ID_USER)
+		private int idUser;
 		
 		/**
 		 * Instance user name SQL Lite
@@ -60,16 +67,17 @@ public class JoinClassWithUserDB implements Serializable{
 		public JoinClassWithUserDB (){}
 		
 		/**
-		 * Default contructor
+		 * Default constructor
+		 * @param idClass id class db
 		 * @param nameClass name class db
 		 * @param userName user name db
 		 * @param mac mac db
 		 */
-		public JoinClassWithUserDB (String nameClass, String userName, String mac){
+		public JoinClassWithUserDB (int idClass, String nameClass, int idUserName, String mac){
+			this.idClass = idClass;
 			this.nameClass = nameClass;
-			this.userName = userName;
+			this.idUser = idUserName;
 			this.mac = mac;
-
 		}
 
 		/**
@@ -87,17 +95,17 @@ public class JoinClassWithUserDB implements Serializable{
 		}
 
 		/**
-		 * @return the userName
+		 * @return the idUser
 		 */
-		public String getUserName() {
-			return userName;
+		public int getIdUser() {
+			return idUser;
 		}
 
 		/**
 		 * @param userName the userName to set
 		 */
-		public void setUserName(String userName) {
-			this.userName = userName;
+		public void setIdUserName(int idUserName) {
+			this.idUser = idUserName;
 		}
 
 		/**
@@ -126,6 +134,20 @@ public class JoinClassWithUserDB implements Serializable{
 		 */
 		public void setMac(String mac) {
 			this.mac = mac;
+		}
+
+		/**
+		 * @return the idJoinClassWithUser
+		 */
+		public int getIdJoinClassWithUser() {
+			return idJoinClassWithUser;
+		}
+
+		/**
+		 * @param idJoinClassWithUser the idJoinClassWithUser to set
+		 */
+		public void setIdJoinClassWithUser(int idJoinClassWithUser) {
+			this.idJoinClassWithUser = idJoinClassWithUser;
 		}
 
 }

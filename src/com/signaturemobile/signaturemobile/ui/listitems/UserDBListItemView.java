@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.signaturemobile.signaturemobile.R;
-import com.signaturemobile.signaturemobile.model.JoinAsignatureWithUserDB;
+import com.signaturemobile.signaturemobile.model.UserDB;
 
 /**
  * List item to display an action. It contains an action image, an action text, and an action indicator, wich can be
@@ -40,7 +40,7 @@ public class UserDBListItemView extends SignatureListItemView {
     /**
      * Dao join asignature with user db
      */
-    private JoinAsignatureWithUserDB joinAsignatureWithUserDB;
+    private UserDB userDB;
     
     /**
      * Default constructor
@@ -73,10 +73,10 @@ public class UserDBListItemView extends SignatureListItemView {
      * @param device The device item associate
      * @param checked If the device is checked or not
      */
-    public void setContent(JoinAsignatureWithUserDB userDB, boolean checked) {
-    	this.joinAsignatureWithUserDB = userDB;
+    public void setContent(UserDB userDB, boolean checked) {
+    	this.userDB = userDB;
     	if (userDB != null){
-    		String username = userDB.getUserName();
+    		String username = userDB.getUsername();
         	if (username != null)
         		idDeviceTextView.setText(username);
         	
@@ -85,6 +85,10 @@ public class UserDBListItemView extends SignatureListItemView {
 
     }
     
+    /**
+     * If the list item is checked or not
+     * @param checked if the list item is checked or not
+     */
     public void setChecked (boolean checked){
     	if (checked)
     		checkImageView.setVisibility(View.VISIBLE);
@@ -95,14 +99,14 @@ public class UserDBListItemView extends SignatureListItemView {
 	/**
 	 * @return the userDB
 	 */
-	public JoinAsignatureWithUserDB getJoinAsignatureWithUser() {
-		return joinAsignatureWithUserDB;
+	public UserDB getUserDB() {
+		return userDB;
 	}
 
 	/**
 	 * @param userDB the userDB to set
 	 */
-	public void setJoinWithAsignatureWithUserDB(JoinAsignatureWithUserDB userDB) {
-		this.joinAsignatureWithUserDB = userDB;
+	public void setUserDB(UserDB userDB) {
+		this.userDB = userDB;
 	}
 }

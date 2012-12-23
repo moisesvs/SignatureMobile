@@ -9,6 +9,7 @@ import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.ClassDB;
 
 /**
  * SignatureMobileActivity activity create user application
@@ -74,17 +75,21 @@ public class CreateClassActivity extends BaseActivity implements NotificationLis
 				
 				if ((nameClass != null) && (!(nameClass.equals("")))){
 					nameClass = nameClass.trim();
-
 					try {
-						int idClass = toolbox.getDaoClassSQL().createClass(nameClass, 0);
-						toolbox.getDaoJoinAsignatureWithClass().createJoinAsignatureWithClass(asignatureDB.getIdAsignature(), idClass);
-						showInfoMessage(getString(R.string.create_asignature_ok), true);
+						ClassDB classDb = toolbox.getDaoClassSQL().searchClassFromNameClass(nameClass);
+						if (classDb == null){
+							int idClass = toolbox.getDaoClassSQL().createClass(nameClass, 0);
+							toolbox.getDaoJoinAsignatureWithClass().createJoinAsignatureWithClass(asignatureDB.getIdAsignature(), idClass);
+							showInfoMessage(getString(R.string.create_class_ok), true);
+						} else {
+							showErrorMessage(getString(R.string.create_class_ko));
+						}
 					} catch (Exception e) {
-						showErrorMessage(getString(R.string.create_asignature_ko));
+						showErrorMessage(getString(R.string.create_class_ko));
 					}
 
 				} else {
-					showErrorMessage(getString(R.string.name_asignature_empty));
+					showErrorMessage(getString(R.string.name_class_empty));
 				}
 				
 			}

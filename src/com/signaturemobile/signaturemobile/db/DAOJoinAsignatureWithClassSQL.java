@@ -7,9 +7,11 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.JoinAsignatureWithClassDB;
+import com.signaturemobile.signaturemobile.model.JoinClassWithUserDB;
 
 /**
  * DAOJoinAsignatureWithClassSQL object facade to communication to Join asignature with class DB
@@ -82,6 +84,38 @@ public class DAOJoinAsignatureWithClassSQL {
 	    	return result;
 	    }
 		
+		/**
+		 * Search class from name class
+		 * @param idClass id class 
+		 * @return the class db result or null if not find
+		 */
+		public JoinClassWithUserDB searchJoinAsignatureWithClassFromIdClass(int idClass){
+			JoinClassWithUserDB classDbResult = null;
+			if (idClass != Constants.NULL_VALUES){
+	            try {
+	            	Dao<JoinClassWithUserDB, Integer> dao = application.getHelper().getJoinClassWithUser();
+	                QueryBuilder <JoinClassWithUserDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(JoinClassWithUserDB.ID_CLASS, idClass));
+	    			List<JoinClassWithUserDB> listDbResult = dao.query(queryBuilder.prepare());
+	                if (listDbResult.isEmpty()) {
+	    				classDbResult = null;
+	                } else {
+	                	classDbResult = listDbResult.get(0);
+	                }
+	            } catch (Exception e) {
+					classDbResult = null;
+	            } finally {
+	        		// close
+	        		application.closeDBHelper();
+	        	}
+	            
+			} else {
+				classDbResult = null;
+			}
+			
+			return classDbResult;
+		}
+	    
 		/**
 		 * List join class with user
 		 * @return the list fill with class all

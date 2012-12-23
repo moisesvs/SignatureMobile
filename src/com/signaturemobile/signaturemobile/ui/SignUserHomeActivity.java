@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
-import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.ClassDB;
 
 /**
  * SignatureMobileActivity activity main application
@@ -24,14 +24,14 @@ public class SignUserHomeActivity extends BaseActivity implements NotificationLi
     private Button signUserButton;
     
     /**
-     * List user button
-     */
+     * Signature list button
+     */	
     private Button listUserButton;
     
     /**
-     * Asignature text view
+     * Class text view
      */
-    private TextView asignatureTextView;
+    private TextView classTextView;
     
     /** Called when the activity is first created. */
     @Override
@@ -40,16 +40,16 @@ public class SignUserHomeActivity extends BaseActivity implements NotificationLi
         
         signUserButton = (Button) findViewById(R.id.signUserButton);
         listUserButton = (Button) findViewById(R.id.listUserButton);
-        asignatureTextView = (TextView) findViewById(R.id.asignatureTextView);
+        classTextView = (TextView) findViewById(R.id.classTextView);
         
         // ui listener
         signUserButton.setOnClickListener(this);
         listUserButton.setOnClickListener(this);
         
         // get asignature
-        AsignatureDB asignature = toolbox.getSession().getSelectAsignature();
-        if (asignature != null) {
-        	asignatureTextView.setText(asignature.getNameAsignature());
+        ClassDB classDb = toolbox.getSession().getSelectClass();
+        if (classDb != null) {
+        	classTextView.setText(classDb.getNameClass());
         }
     }
     
@@ -78,8 +78,8 @@ public class SignUserHomeActivity extends BaseActivity implements NotificationLi
             Intent intentSignUser = new Intent(SignUserHomeActivity.this, SignUserActivity.class);
             SignUserHomeActivity.this.startActivity(intentSignUser);    
 		} else if (v == listUserButton){
-            Intent intentListUser = new Intent(SignUserHomeActivity.this, ListUsersSignActivity.class);
-            SignUserHomeActivity.this.startActivity(intentListUser);    
+            Intent intentSignUser = new Intent(SignUserHomeActivity.this, ListUsersClassActivity.class);
+            SignUserHomeActivity.this.startActivity(intentSignUser);    
 		} else {
 			super.onClick(v);
 		}

@@ -61,7 +61,7 @@
 			 		android:id="@+id/createClassButton"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-			        android:text="@string/create_asignature"
+			        android:text="@string/create_class"
 			        android:layout_marginBottom="10dp"
 			        android:background="@drawable/grey_button"
 	    	    	style="@style/ButtonText"/>

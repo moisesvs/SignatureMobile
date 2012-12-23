@@ -67,13 +67,45 @@ public class DAOClassSQL {
 		 * @param id name class user 
 		 * @return the class db result or null if not find
 		 */
-		public ClassDB searchClassFromNameClass(int idClass) {
+		public ClassDB searchClassFromIdClass(int idClass) {
 			ClassDB classDbResult = null;
 			if (idClass != Constants.NULL_VALUES){
 	            try {
 	            	Dao<ClassDB, Integer> dao = application.getHelper().getClassDAO();
 	                QueryBuilder <ClassDB, Integer> queryBuilder = dao.queryBuilder();
 	                queryBuilder.setWhere(queryBuilder.where().eq(ClassDB.ID_CLASS, idClass));
+	                List<ClassDB> classDb = dao.query(queryBuilder.prepare());
+	                if (classDb.isEmpty()) {
+	    				classDbResult = null;
+	                } else {
+	                	classDbResult = classDb.get(0);
+	                }
+	            } catch (Exception e) {
+					classDbResult = null;
+	            } finally {
+	        		// close
+	        		application.closeDBHelper();
+	        	}
+	            
+			} else {
+				classDbResult = null;
+			}
+			
+			return classDbResult;
+		}
+		
+		/**
+		 * Search class from name class
+		 * @param name class name class user 
+		 * @return the class db result or null if not find
+		 */
+		public ClassDB searchClassFromNameClass(String nameClass) {
+			ClassDB classDbResult = null;
+			if (nameClass != null){
+	            try {
+	            	Dao<ClassDB, Integer> dao = application.getHelper().getClassDAO();
+	                QueryBuilder <ClassDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(ClassDB.NAME_CLASS, nameClass));
 	                List<ClassDB> classDb = dao.query(queryBuilder.prepare());
 	                if (classDb.isEmpty()) {
 	    				classDbResult = null;
@@ -127,7 +159,7 @@ public class DAOClassSQL {
 			if (idClass != Constants.NULL_VALUES) {
 		        try {
 	        		Dao <ClassDB, Integer> dao = application.getHelper().getClassDAO();
-	        		ClassDB classAux = searchClassFromNameClass(idClass);
+	        		ClassDB classAux = searchClassFromIdClass(idClass);
 	        		if (classAux != null) {
 	        			classAux.setNumbersStudents(numberStudents);
 		        		dao.update(classAux);

@@ -3,6 +3,7 @@ package com.signaturemobile.signaturemobile.ui;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,10 @@ import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
+import com.signaturemobile.signaturemobile.model.ClassDB;
+import com.signaturemobile.signaturemobile.model.JoinAsignatureWithClassDB;
+import com.signaturemobile.signaturemobile.model.JoinAsignatureWithUserDB;
+import com.signaturemobile.signaturemobile.model.JoinClassWithUserDB;
 
 /**
  * SignatureMobileActivity activity main application
@@ -40,6 +45,11 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
     private Button createUserButton;
     
     /**
+     * List user button
+     */
+    private Button listUserButton;
+    
+    /**
      * File user button
      */
     private Button fileUserButton;
@@ -49,6 +59,11 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
      */
     private TextView asignatureTextView;
     
+    /**
+     * Selected asignature
+     */
+    private AsignatureDB selectedAsignature;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +72,7 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
         createClassButton = (Button) findViewById(R.id.createClassButton);
         selectClassButton = (Button) findViewById(R.id.selectClassButton);
         createUserButton = (Button) findViewById(R.id.createUserButton);
+        listUserButton = (Button) findViewById(R.id.listUserButton);
         fileUserButton = (Button) findViewById(R.id.fileUserButton);
         asignatureTextView = (TextView) findViewById(R.id.asignatureTextView);
         
@@ -64,12 +80,13 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
         createClassButton.setOnClickListener(this);
         selectClassButton.setOnClickListener(this);
         createUserButton.setOnClickListener(this);
+        listUserButton.setOnClickListener(this);
         fileUserButton.setOnClickListener(this);
 
         // get asignature
-        AsignatureDB asignature = toolbox.getSession().getSelectAsignature();
-        if (asignature != null) {
-        	asignatureTextView.setText(asignature.getNameAsignature());
+        selectedAsignature = toolbox.getSession().getSelectAsignature();
+        if (selectedAsignature != null) {
+        	asignatureTextView.setText(selectedAsignature.getNameAsignature());
         }
     }
     
@@ -103,6 +120,9 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
 		} else if (v == createUserButton){
             Intent intentCreateUser = new Intent(SignClassHomeActivity.this, CreateUserActivity.class);
             SignClassHomeActivity.this.startActivity(intentCreateUser);    
+		} else if (v == listUserButton){
+            Intent intentListUserAsignature = new Intent(SignClassHomeActivity.this, ListUsersAsignatureActivity.class);
+            SignClassHomeActivity.this.startActivity(intentListUserAsignature);    
 		} else if (v == fileUserButton){
 			createFileFromData();
 			sendEmail();
@@ -124,29 +144,40 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
         // intent create directory
         dir.mkdirs();
     	
-		// before we open the file check to see if it already exists
-//		boolean alreadyExists = new File(dir + "/" + Constants.NAME_FILE_CSV).exists();
-			
 		try {
 			// use FileWriter constructor that specifies open for appending
 			CsvWriter csvOutput = new CsvWriter(new FileWriter(dir + "/" + Constants.NAME_FILE_CSV, false), ',');
 			
-			// if the file didn't already exist then we need to write out the header line
-//			if (!alreadyExists) {
-				csvOutput.write("id");
-				csvOutput.write("name");
+			List<JoinAsignatureWithClassDB> listJoinAsignatureWithClass = toolbox.getDaoJoinAsignatureWithClass().listJoinAsignatureWithClass(selectedAsignature.getIdAsignature());
+			if (listJoinAsignatureWithClass != null){
+				// write first line
+				csvOutput.write(selectedAsignature.getNameAsignature());
+				for (JoinAsignatureWithClassDB join : listJoinAsignatureWithClass){
+					int idClass = join.getIdClass();
+					ClassDB classDb = toolbox.getDaoClassSQL().searchClassFromIdClass(idClass);
+					if (classDb != null) {
+						csvOutput.write(classDb.getNameClass());
+					}
+				}
 				csvOutput.endRecord();
-//			}
-			// else assume that the file already has the correct header line
-			
-			// write out a few records
-			csvOutput.write("1");
-			csvOutput.write("Bruce");
-			csvOutput.endRecord();
-			
-			csvOutput.write("2");
-			csvOutput.write("John");
-			csvOutput.endRecord();
+				
+				// get list users
+				List <JoinAsignatureWithUserDB> listJoinAsignatureWithUser = toolbox.getDaoJoinAsignatureWithUser().listJoinAsignatureWithUser(selectedAsignature.getIdAsignature());
+				for (JoinAsignatureWithUserDB joinUser : listJoinAsignatureWithUser){
+					int idUser = joinUser.getIdUser();
+					csvOutput.write(joinUser.getUserName());
+					for (JoinAsignatureWithClassDB join : listJoinAsignatureWithClass){
+						int idClass = join.getIdClass();
+						JoinClassWithUserDB joinClassWithUser = toolbox.getDaoJoinClassWithUser().searchClassFromIdClassAndIdUser(idClass, idUser);
+						if (joinClassWithUser != null) {
+							csvOutput.write("1");
+						} else {
+							csvOutput.write("0");
+						}
+					}
+					csvOutput.endRecord();
+				}
+			}
 			
 			csvOutput.close();
 			result = true;
@@ -185,7 +216,7 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailtext);
 			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + file));
-
+			startActivity(Intent.createChooser(emailIntent, getString(R.string.select_application_send_file)));
 			result = true;
 			
 		} catch (Throwable t) {

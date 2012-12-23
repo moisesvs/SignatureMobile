@@ -64,7 +64,7 @@ public class DAOAsignatureSQL {
 		 * @param name class user 
 		 * @return the class db result or null if not find
 		 */
-		public AsignatureDB searchClassFromNameClass(String nameAsignatureUser){
+		public AsignatureDB searchAsignatureFromNameClass(String nameAsignatureUser){
 			AsignatureDB asignatureDbResult = null;
 			if (nameAsignatureUser != null){
 	            try {

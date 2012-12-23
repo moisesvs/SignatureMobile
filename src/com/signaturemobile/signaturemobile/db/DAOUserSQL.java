@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.UserDB;
 
@@ -144,6 +145,39 @@ public class DAOUserSQL {
 	            	Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
 	                QueryBuilder <UserDB, Integer> queryBuilder = dao.queryBuilder();
 	                queryBuilder.setWhere(queryBuilder.where().eq(UserDB.USERNAME, username));
+	                List<UserDB> users = dao.query(queryBuilder.prepare());
+	                if (users.isEmpty()) {
+	    				userDbResult = null;
+	                } else {
+	                	userDbResult = users.get(0);
+	                }
+	            } catch (Exception e) {
+					userDbResult = null;
+	            } finally {
+	        		// close
+	        		application.closeDBHelper();
+	        	}
+	            
+	            
+			} else {
+				userDbResult = null;
+			}
+			
+			return userDbResult;
+		}
+		
+		/**
+		 * Search device from username
+		 * @param username the username 
+		 * @return the user db result or null if not find
+		 */
+		public UserDB searchUserDeviceId(int idUser){
+			UserDB userDbResult = null;
+			if (idUser != Constants.NULL_VALUES){
+	            try {
+	            	Dao <UserDB, Integer> dao = application.getHelper().getUserDAO();
+	                QueryBuilder <UserDB, Integer> queryBuilder = dao.queryBuilder();
+	                queryBuilder.setWhere(queryBuilder.where().eq(UserDB.ID_USERNAME, idUser));
 	                List<UserDB> users = dao.query(queryBuilder.prepare());
 	                if (users.isEmpty()) {
 	    				userDbResult = null;
