@@ -1,5 +1,7 @@
 package com.signaturemobile.signaturemobile;
 
+import java.nio.charset.Charset;
+
 /**
  * Constants provides a set of static values used throughout the application
  *  
@@ -175,10 +177,26 @@ public class Constants {
 	public static final String NAME_FOLDER_APPLICATION = "signatureMobile";
 	
 	/**
-	 * Default tickets user
+	 * Default name file output csv
 	 */
-	public static final String NAME_FILE_CSV = "users.csv";
-    
+	public static final String NAME_FILE_OUTPUT_CSV = "users.csv";
+	
+	/**
+	 * Default name file input csv
+	 */
+	public static final String NAME_FILE_INPUT_CSV = "input_users.csv";
+	
+	/**
+	 * Separator file CSV
+	 */
+	public static final char SEPARATOR_FILE_CSV = ';';
+	
+	/**
+	 * Charset file
+	 */
+	public static final String ENCODING_TEXT = "ISO-8859-1";
+
+	
 ////////////////////////////////////////////////////////////////
 //Activity request codes
 ////////////////////////////////////////////////////////////////
@@ -228,6 +246,11 @@ public class Constants {
      * Parameters activity
      */
     public static final String PARAMETERS_SELECT_ACTIVITY = "com.signaturemobile.parameter.selectdevice";
+    
+    /**
+     * Parameters activity
+     */
+    public static final String PARAMETERS_SELECT_USERNAME = "com.signaturemobile.parameter.selectusername";
     
 ////////////////////////////////////////////////////////////////
 //Result code

@@ -1,5 +1,14 @@
 package com.signaturemobile.signaturemobile;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -168,7 +177,7 @@ public class SignatureMobileApplication extends Application implements Notificat
         this.toolbox = new ToolBox();
         this.toolbox.setup(this, this.updater, this.session, this.invokerBluetooh, this.notificationCenter, this.daoUserSQL, 
         		this.daoAsignatureSQL, this.daoClassSQL, this.daoJoinAsignatureWithUserSQL, this.daoJoinClassWithUserSQL, this.daoJoinAsignatureWithClass);
-        
+ 
         registerAll();
         // initialized thread app
         threadedSetupApp();
@@ -182,8 +191,8 @@ public class SignatureMobileApplication extends Application implements Notificat
                 try {
 
                     // load the base managers data from local persistence      
-                    Thread.sleep(2000);
-        	    	notificationCenter.postNotification(Constants.kAllResourcesLoadingEnds, null);
+                	readFileSession();
+                	notificationCenter.postNotification(Constants.kAllResourcesLoadingEnds, null);
 
                 } catch (Throwable t) {
                     t.printStackTrace();
@@ -414,5 +423,53 @@ public class SignatureMobileApplication extends Application implements Notificat
             dBHelper = null;
         }
     }
+	
+	/**
+	 * Read file session
+	 */
+	private boolean readFileSession() {
+		
+		boolean result = true;
+		
+        File rootPath = android.os.Environment.getExternalStorageDirectory(); 
+        File dir = new File (rootPath.getAbsolutePath() + "/" + Constants.NAME_FOLDER_APPLICATION);
+        
+        try {
+			File file = new File(dir, Constants.NAME_FILE_INPUT_CSV);
+			if (!file.exists()) {
+				result  = false;
+			} else {
+				InputStream instream = new FileInputStream(file);
+				InputStreamReader inputreader = new InputStreamReader(instream);
+				BufferedReader buffreader = new BufferedReader(inputreader);
+				String line;
+	
+				// read every line of the file into the line-variable, on line at the time
+				HashMap<String, List<String>> listCharged = toolbox.getSession().getChargeUsers();
+				String currentClass = "";
+				List<String> listUsers = null;
+				while ((line = buffreader.readLine()) != null) {
+			        // do something with the settings from the file
+					if (line.startsWith(" ") || (line.startsWith("\t"))){
+						// user
+						line = line.trim().replace("\"", "");
+						listUsers.add(line);
+					} else {
+						// class
+						currentClass = line.trim().replace("\"", "");
+						listUsers = new ArrayList<String>();
+						listCharged.put(currentClass, listUsers);
+					}
+				}
+				
+			    // close the file again       
+			    instream.close();
+			}
+        } catch (Exception e){
+        	// nothing
+        }
+        
+		return result;
+	}
 
 }

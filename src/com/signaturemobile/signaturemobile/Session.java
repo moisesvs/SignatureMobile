@@ -10,6 +10,7 @@ package com.signaturemobile.signaturemobile;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.model.ClassDB;
@@ -33,6 +34,11 @@ public class Session implements Serializable {
 	 */
 	private ClassDB selectClass;
 	
+	/**
+	 * Select class
+	 */
+	private transient HashMap<String, List<String>> chargeUsers;
+	
     // Notification constants
 	/**
 	 * Has map for store objects used as parameters between activities
@@ -44,6 +50,9 @@ public class Session implements Serializable {
      */
     public Session() {
 
+    	this.parametersMap = new HashMap<String, Object>();
+    	this.chargeUsers = new HashMap<String, List<String>>();
+    	
 //    	save();
     }
 
@@ -97,6 +106,20 @@ public class Session implements Serializable {
 	 */
 	public void setSelectClass(ClassDB selectClass) {
 		this.selectClass = selectClass;
+	}
+
+	/**
+	 * @return the chargeUsers
+	 */
+	public HashMap<String, List<String>> getChargeUsers() {
+		return chargeUsers;
+	}
+
+	/**
+	 * @param chargeUsers the chargeUsers to set
+	 */
+	public void setChargeUsers(HashMap<String, List<String>> chargeUsers) {
+		this.chargeUsers = chargeUsers;
 	}
 
 	// Functional methods    

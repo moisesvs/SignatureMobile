@@ -1,8 +1,8 @@
 package com.signaturemobile.signaturemobile.ui;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import android.content.Intent;
@@ -136,6 +136,7 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
      */
     private boolean createFileFromData(){
 		
+    	Charset charset = Charset.forName(Constants.ENCODING_TEXT);
     	boolean result = false;
     	
         File rootPath = android.os.Environment.getExternalStorageDirectory(); 
@@ -146,7 +147,7 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
     	
 		try {
 			// use FileWriter constructor that specifies open for appending
-			CsvWriter csvOutput = new CsvWriter(new FileWriter(dir + "/" + Constants.NAME_FILE_CSV, false), ',');
+			CsvWriter csvOutput = new CsvWriter((dir + "/" + Constants.NAME_FILE_OUTPUT_CSV), Constants.SEPARATOR_FILE_CSV, charset);
 			
 			List<JoinAsignatureWithClassDB> listJoinAsignatureWithClass = toolbox.getDaoJoinAsignatureWithClass().listJoinAsignatureWithClass(selectedAsignature.getIdAsignature());
 			if (listJoinAsignatureWithClass != null){
@@ -202,7 +203,7 @@ public class SignClassHomeActivity extends BaseActivity implements NotificationL
 	        File rootPath = android.os.Environment.getExternalStorageDirectory(); 
 	        File dir = new File (rootPath.getAbsolutePath() + "/" + Constants.NAME_FOLDER_APPLICATION);
 	        
-			File file = new File(dir, Constants.NAME_FILE_CSV);
+			File file = new File(dir, Constants.NAME_FILE_OUTPUT_CSV);
 			if (!file.exists()) {
 				file.mkdirs();
 			}

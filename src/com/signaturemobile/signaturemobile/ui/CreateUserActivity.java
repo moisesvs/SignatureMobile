@@ -60,6 +60,11 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
     private static final int REQUEST_CODE_SELECT_DEVICE = 0;
     
     /**
+     * Request code result user name
+     */
+    private static final int REQUEST_CODE_SELECT_USERNAME = 1;
+    
+    /**
      * Devices text view
      */
     private TextView devicesTextView;
@@ -84,6 +89,11 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
      */
     private ImageView userTwitterImageView;
 
+    /**
+     * Selected user button
+     */
+    private Button selectUserButton;
+    
     /**
      * Create user button
      */
@@ -150,11 +160,13 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
         twitterUserEditext = (EditText) findViewById(R.id.twitterUserEditText);
         userTwitterImageView = (ImageView) findViewById(R.id.userTwitterImageView);
         userDeviceName = (TextView) findViewById(R.id.userDeviceName);
+        selectUserButton = (Button) findViewById(R.id.selectListUsernameButton);
         createUserButton = (Button) findViewById(R.id.createButton);
         selectDevice = (Button) findViewById(R.id.updateListDevicesButton);
         writeKeyNFCButton = (Button) findViewById(R.id.writeKeyNFCButton);
         selectDeviceLinearLayout = (LinearLayout) findViewById(R.id.selectDeviceLinearLayout);
         
+        selectUserButton.setOnClickListener(this);
         createUserButton.setOnClickListener(this);
         selectDevice.setOnClickListener(this);
         writeKeyNFCButton.setOnClickListener(this);
@@ -250,6 +262,18 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
     			String errorMessage = getString(R.string.register_user_not_selected_device);
     			showErrorMessage(errorMessage);
     		}
+    	} else if (requestCode == REQUEST_CODE_SELECT_USERNAME) {
+    		if (resultCode == Constants.RESULT_CODE_OK){
+    			if (data != null){
+    				Bundle bundle = data.getExtras();
+    				if (bundle != null){
+    					String username =  bundle.getString(Constants.PARAMETERS_SELECT_USERNAME);
+    					if (username != null){
+    						nameUserEditext.setText(username);
+    					} 
+    				}
+    			}
+    		}
     	}
     }
     
@@ -261,6 +285,11 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
 
 			Intent intentCreateUserSelect = new Intent(this, CreateUserSelectDeviceActivity.class);
 			startActivityForResult(intentCreateUserSelect, REQUEST_CODE_SELECT_DEVICE);
+			
+		} else if (v.equals(selectUserButton)){
+
+			Intent intentSelectUserNameSelect = new Intent(this, SelectListUsernameActivity.class);
+			startActivityForResult(intentSelectUserNameSelect, REQUEST_CODE_SELECT_USERNAME);
 			
 		} else if (v.equals(writeKeyNFCButton)){
 			

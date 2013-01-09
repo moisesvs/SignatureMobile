@@ -20,13 +20,13 @@
 	<string name="sign_user_main">Firmar usuario</string>
 	<string name="list_users">Listar usuarios</string>
 	<string name="create_user_main">Crear usuario</string>
-	<string name="write_file_users">Escribir fichero</string>
+	<string name="write_file_users">Enviar fichero</string>
 	<string name="select_application_send_file">Seleccione la aplicación para enviar el fichero</string>
 	
 	<!-- UI Sign class home mobile -->
 	<string name="title_sign_class_home_mobile">Gestión de asignatura</string>
 	<string name="create_class_main">Crear clase</string>
-	<string name="select_class_main">Selecciona clase</string>
+	<string name="select_class_main">Seleccionar clase</string>
 	
 	<!-- UI Add user -->
 	<string name="select_user">Seleccione el dispositivo:</string>
@@ -42,13 +42,14 @@
 	<string name="delete_user">Eliminar usuario</string>
 	<string name="search_user_twitter">Buscar twitter</string>
 	<string name="updates_devices_bluetooh">Actualizar dispositivos</string>
-	<string name="select_devices_bluetooh">Selecciona dispositivo</string>
+	<string name="select_devices_bluetooth">Seleccionar dispositivo</string>
+	<string name="select_devices_username">Seleccionar usuario</string>
 	<string name="write_key_nfc">Escribir clave NFC</string>
 	<string name="name_user_empty">El nombre de usuario no puede estar vacío</string>
 	<string name="password_user_empty">La contraseña del usario no puede estar vacía</string>
 	<string name="device_user_empty">Debes seleccionar un dispositivo para poder registrarse</string>
 	<string name="device_already_register">El usuario que intentas registrar con su dispositivo, ya se encuentra registrado</string>
-	<string name="device_not_functionality_nfc">El dispositivo no dispone de tecnología NFC. Utilice el Bluetooth para registrarse</string>
+	<string name="device_not_functionality_nfc">El dispositivo no dispone de tecnología NFC. Utilice el Bluetooth para registrarse.</string>
 	<string name="register_user_ok">Usuario registrado correctamente</string>
 	<string name="register_user_ko">No ha sido posible registrar el usuario</string>
 	<string name="register_user_dialog_title_nfc">Escribiendo etiqueta NFC</string>
@@ -98,7 +99,7 @@
 	<string name="create_asignature">Crear asignatura</string>
 	<string name="name_asignature_empty">El nombre de la asignatura no puede estar vacío</string>
 	<string name="asignature_already_register">Las asignatura que intentas registrar con su dispositivo, ya se encuentra registrada</string>
-	<string name="create_asignature_ok">Asignatura registrada correctamente</string>
+	<string name="create_asignature_ok">Asignatura creada correctamente</string>
 	<string name="create_asignature_ko">No ha sido posible crear la asignatura</string>
 	
 	<!-- UI Create class -->
@@ -107,14 +108,14 @@
 	<string name="name_class_hint">Clase</string>
 	<string name="create_class">Crear clase</string>
 	<string name="name_class_empty">El nombre de la asignatura no puede estar vacío</string>
-	<string name="class_already_register">Las clase que intentas registrar con su dispositivo, ya se encuentra registrada</string>
-	<string name="create_class_ok">Clase registrada correctamente</string>
+	<string name="class_already_register">Las clase que intentas registrar con su dispositivo, ya se encuentra creada</string>
+	<string name="create_class_ok">Clase creada correctamente</string>
 	<string name="create_class_ko">No ha sido posible crear la clase</string>
 	
 	<!-- UI Sign user home mobile -->
 	<string name="title_signature_mobile">Gestión de asignaturas</string>
 	<string name="create_asignature_main">Crear asignatura</string>
-	<string name="select_asignature_main">Selecciona asignatura</string>
+	<string name="select_asignature_main">Seleccionar asignatura</string>
 
 	<!-- UI List class mobile -->
 	<string name="title_list_class_title">Lista clases</string>
@@ -131,5 +132,11 @@
 	<!-- Email intent -->
 	<string name="email_subject">[Signature Mobile] Fichero de alumnos de la clase\u0020</string>
 	<string name="email_content">Este correo ha sido generado por la aplicación Signature Mobile. Por favor, descargue el archivo adjunto (CSV) para obtener los alumnos que han firmado en la clase.</string>
+	
+	<!-- UI List username mobile -->
+	<string name="title_list_username_title">Lista usuarios</string>
+	<string name="list_username_asignature">La lista de usuarios es:</string>
+	<string name="list_devices_username_empty">No existen usuarios para listar en esta asignatura</string>
+	<string name="unable_sign_accept_username">Lo sentimos. No existe ningún usuario para esta asignatura.</string>
 	
 </resources>

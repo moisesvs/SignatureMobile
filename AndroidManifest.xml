@@ -45,6 +45,8 @@
 		
 		<activity android:name=".ui.SelectListClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
 		
+		<activity android:name=".ui.SelectListUsernameActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		
 		<activity android:name=".ui.ListUsersAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
 		
 		<activity android:name=".ui.ListUsersClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>

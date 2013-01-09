@@ -12,7 +12,7 @@ import com.signaturemobile.signaturemobile.model.AsignatureDB;
 import com.signaturemobile.signaturemobile.model.ClassDB;
 
 /**
- * SignatureMobileActivity activity create user application
+ * CreateClassActivity activity create class activity application
  *
  * @author <a href="mailto:moisesvs@gmail.com">Moisés Vázquez Sánchez</a>
  */

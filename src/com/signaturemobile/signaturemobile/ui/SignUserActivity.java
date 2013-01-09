@@ -12,7 +12,6 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,16 +189,33 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
         	
         	if ((tokenNFC != null) && (!(tokenNFC.equals("")))) {
         		UserDB userDB = toolbox.getDaoUserSQL().searchUserDeviceTokenNFC(tokenNFC);
+//        		if (userDB != null){
+//        			if (! (DateUtils.isToday(userDB.getDateLastSignUserTime()))){
+//		                Intent intentSignAcceptUser = new Intent(SignUserActivity.this, SignAcceptUserActivity.class);
+//		                intentSignAcceptUser.putExtra(Constants.PARAMETERS_SIGN_USER, userDB);
+//		                startActivity(intentSignAcceptUser);
+//        			} else {
+//            			showInfoMessage(getString(R.string.unable_sign_same_day_user), false);
+//        			}
+//        		} else {
+//        			showInfoMessage(getString(R.string.unable_sign_accept_user), false);
+//        		}
+        		
         		if (userDB != null){
-        			if (! (DateUtils.isToday(userDB.getDateLastSignUserTime()))){
-		                Intent intentSignAcceptUser = new Intent(SignUserActivity.this, SignAcceptUserActivity.class);
-		                intentSignAcceptUser.putExtra(Constants.PARAMETERS_SIGN_USER, userDB);
-		                startActivity(intentSignAcceptUser);
+        			if (toolbox.getDaoJoinClassWithUser().searchClassFromIdClassAndIdUser(classSelected.getIdClass(), userDB.getIdUser()) != null){
+//        				result.setChecked(true);
         			} else {
-            			showInfoMessage(getString(R.string.unable_sign_same_day_user), false);
+        				if (toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(classSelected.getIdClass(), classSelected.getNameClass(), userDB.getIdUser(), userDB.getMac())){
+        	    			String messageOk = getString(R.string.sign_accept_user);
+        	    			showInfoMessage(messageOk, false);
+        				} else {
+        					String messageKo = getString(R.string.unable_sign_same_day_user);
+        	    			showErrorMessage(messageKo);
+        				}
         			}
         		} else {
-        			showInfoMessage(getString(R.string.unable_sign_accept_user), false);
+        			String messageKo = getString(R.string.unable_sign_accept_user);
+	    			showErrorMessage(messageKo);
         		}
         	}
         }
