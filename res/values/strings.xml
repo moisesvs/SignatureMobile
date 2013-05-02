@@ -3,14 +3,20 @@
     <string name="app_name">Signature Mobile</string>
     <string name="loading_app">Cargando aplicación&#8230;</string>
 
+    <!-- ID Admob -->
+	<string name="id_admob">a150f16a4a37b08</string>
+    
     <!-- General error -->
    	<string name="ok">Ok</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="info">Información</string>
+	<string name="yes">Si</string>
+	<string name="no">No</string>
     <string name="error">Error</string>
 	<string name="nothing">No seleccionado</string>
-    
+	<string name="no_bluetooth_device">El dispositivo que estas utilizando no dispone de módulo Bluetooth</string>
+	
 	<!-- Configuration process strings -->
 	<string name="unable_to_configure_application">Se produjeron errores al cargar la configuración actual de la aplicación.</string>
 	<string name="not_connected_bluetooth">Parece que el Bluetooth no esta conectado. Por favor encienda el bluetooth y vuelva a intentar buscar dispositivos.</string>
@@ -55,6 +61,7 @@
 	<string name="register_user_dialog_title_nfc">Escribiendo etiqueta NFC</string>
 	<string name="register_user_dialog_description_nfc">Acerque la etiqueta NFC al dispositivo para enviarle la información</string>
 	<string name="register_user_dialog_nfc_write_ok">Etiqueta escrita correctamente</string>
+	<string name="register_user_dialog_nfc_write_ko">No ha sido posible escribir la etiqueta correctamente</string>
 	<string name="register_user_not_selected_device">No ha seleccionado ningún dispositivo. Por favor, selecciona uno para poder crear el usuario</string>
 	
 	<!-- UI Create user device list -->
@@ -89,6 +96,8 @@
 	<string name="user_create_sign">Usuario creado el</string>
 	<string name="user_last_sign">Última firma del usuario</string>
 	<string name="user_twitter_sign">Usuario de twitter</string>
+	<string name="user_nfc_key_yes">Tiene etiqueta NFC</string>
+	<string name="user_nfc_key_no">No tiene etiqueta NFC</string>
 	<string name="user_tickets_sign">Asistencias</string>
 	<string name="user_tickets_not_sign_already">No ha firmado en el sistema</string>
 
@@ -138,5 +147,8 @@
 	<string name="list_username_asignature">La lista de usuarios es:</string>
 	<string name="list_devices_username_empty">No existen usuarios para listar en esta asignatura</string>
 	<string name="unable_sign_accept_username">Lo sentimos. No existe ningún usuario para esta asignatura.</string>
+	
+	<!-- Content description  -->
+	<string name="content_description_image">Descripción de una imagen</string>
 	
 </resources>

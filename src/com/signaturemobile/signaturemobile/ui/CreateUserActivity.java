@@ -1,6 +1,7 @@
 package com.signaturemobile.signaturemobile.ui;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -468,13 +470,19 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
     public void onNewIntent(Intent intent){
         // NFC read/write are blocking operations that must be performed on a separate thread
     	Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        writeTag(tag);
+        boolean result = writeTag(tag);
 
     	// hide progress
     	hideProgressDialog();
     	
-    	String messageNFC = getString(R.string.register_user_dialog_nfc_write_ok);
-    	showInfoMessage(messageNFC, false);
+    	if (result) {
+        	String messageNFC = getString(R.string.register_user_dialog_nfc_write_ok);
+        	showInfoMessage(messageNFC, false);
+    	} else {
+        	String messageNFC = getString(R.string.register_user_dialog_nfc_write_ko);
+        	showInfoMessage(messageNFC, false);
+    	}
+
     }
     
     /**
@@ -483,56 +491,84 @@ public class CreateUserActivity extends BaseActivity implements NotificationList
      * @return if the tag has been write on tag
      */
     private boolean writeTag(Tag tag) {
-    	// record to launch Play Store if app is not installed
-    	NdefRecord appRecord = NdefRecord.createApplicationRecord(Constants.PACKAGE_APPLICATION);
-    	
-    	// record that contains our custom "retro console" game data, using custom MIME_TYPE
-    	valueStringTime = String.valueOf(System.currentTimeMillis());
-    	byte[] payload = valueStringTime.getBytes();
-        byte[] mimeBytes = Locale.getDefault().getLanguage().getBytes(Charset.forName("US-ASCII"));
-
-    	NdefRecord cardRecord = new NdefRecord(NdefRecord.TNF_MIME_MEDIA, mimeBytes, new byte[0], payload);
-    	NdefMessage message = new NdefMessage(new NdefRecord[] { cardRecord, appRecord});
+    	boolean result = false;
     	
     	try {
-    		// see if tag is already NDEF formatted
-    		Ndef ndef = Ndef.get(tag);
-    		if (ndef != null) {
-    			ndef.connect();
-    			
-    			if (!ndef.isWritable()) {
-    				return false;
-    			}
-    			// work out how much space we need for the data
-    			int size = message.toByteArray().length;
-    			if (ndef.getMaxSize() < size) {
-    				return false;
-    			}
-    			
-    			ndef.writeNdefMessage(message);
-    			return true;
-    		} else {
-    			// attempt to format tag
-    			NdefFormatable format = NdefFormatable.get(tag);
-    			if (format != null) {
+        	valueStringTime = String.valueOf(System.currentTimeMillis());
+            NdefRecord[] records = { createRecord(valueStringTime) };
+            NdefMessage message = new NdefMessage(records);
+            NdefFormatable format = NdefFormatable.get(tag);
+
+    		if (format != null) {
+    			try {
+    				format.connect();
+    				format.format(message);
+
+    				return true;
+    			} catch (Exception e) {
+    				result = false;
+    			} finally {
     				try {
-    					format.connect();
-    					format.format(message);
-    					return true;
+    					format.close();
     				} catch (IOException e) {
-    					return false;
+    					// ignore
+    				}
+    			}
+    		} else {
+    			Ndef ndef = Ndef.get(tag);
+    			if (ndef != null) {
+    				try {
+    					Log.d(TAG, "Write formatted tag");
+
+    					ndef.connect();
+    					if (!ndef.isWritable()) {
+    						result = false;
+    					}
+
+    					if (ndef.getMaxSize() < message.toByteArray().length) {
+    						result = false;
+    					}
+    					ndef.writeNdefMessage(message);
+						result = true;
+
+    				} catch (Exception e) {
+						result = false;
+    				} finally {
+    					try {
+    						ndef.close();
+    					} catch (IOException e) {
+    						// ignore
+    					}
     				}
     			} else {
-    				return false;
+					result = false;
     			}
+    			Log.d(TAG, "Cannot write formatted tag");
     		}
     	} catch (Exception e) {
     		// exception
+    		result = false;
     	}
-
-    	return false;
+    	
+    	return result;
 	}
 
+    /**
+     * Create NDEF record NFC
+     * @return Ndef Record the NFC record
+     * @throws UnsupportedEncodingException
+     */
+    private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
+        byte[] payload    = text.getBytes();
+        byte[] mimeBytes = Locale.getDefault().getLanguage().getBytes(Charset.forName("US-ASCII"));
+        NdefRecord record = new NdefRecord(NdefRecord.TNF_MIME_MEDIA, 
+        									mimeBytes, 
+        									new byte[0], 
+                                           	payload);
+
+        return record;
+    }
+    
     /**
      * Options list adapter class
      * 

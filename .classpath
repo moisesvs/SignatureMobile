@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="/home/moises/Universidad/Master/Trabajo_fin_master/Programa/SignatureMobile/libs/ormlite-core-4.42.jar"/>
 	<classpathentry kind="lib" path="/home/moises/Universidad/Master/Trabajo_fin_master/Programa/SignatureMobile/libs/ormlite-android-4.42.jar"/>
 	<classpathentry kind="lib" path="/home/moises/Universidad/Master/Trabajo_fin_master/Programa/SignatureMobile/libs/bugsense3.0.8.jar"/>
+	<classpathentry kind="lib" path="/home/moises/Universidad/Master/Trabajo_fin_master/Programa/SignatureMobile/libs/GoogleAdMobAdsSdk-6.2.1.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

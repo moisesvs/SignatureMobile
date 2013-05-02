@@ -50,6 +50,11 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
     private TextView userTwitterTextView;
     
     /**
+     * Nfc key user text view
+     */
+    private TextView nfcKeyUserTextView;
+    
+    /**
      * User create text view
      */
     private TextView userCreateTextView;
@@ -91,6 +96,7 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
         userCreateTextView = (TextView) findViewById(R.id.userCreateTextView);
         lastSignUserTextView = (TextView) findViewById(R.id.lastSignUserTextView);
         userTwitterTextView = (TextView) findViewById(R.id.userTwitter);
+        nfcKeyUserTextView = (TextView) findViewById(R.id.nfcKeyUserTextView);
         acceptButton = (Button) findViewById(R.id.acceptButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
         
@@ -118,6 +124,11 @@ public class DetailsUserActivity extends BaseActivity implements NotificationLis
 				}
 				
 				userTwitterTextView.setText(getString(R.string.user_twitter_sign) + " " + userDB.getUserTwitter());
+				if (userDB.getTokenNFC() != null) {
+					nfcKeyUserTextView.setText(getString(R.string.user_nfc_key_yes));
+				} else {
+					nfcKeyUserTextView.setText(getString(R.string.user_nfc_key_no));
+				}
 
 				donwloadImage(urlTwitter, userTwitterImageView);
 			}

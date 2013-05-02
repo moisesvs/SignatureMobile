@@ -181,42 +181,44 @@ public class SignUserActivity extends BaseActivity implements NotificationListen
     @Override
     protected void onNewIntent(Intent intent) {
         // NDEF exchange mode
-        if(intent.getType() != null) {
+        if ((intent.getAction() != null) && (intent.getAction().equals(NfcAdapter.ACTION_NDEF_DISCOVERED))) {
         	Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-        	NdefMessage msg = (NdefMessage) rawMsgs[0];
-        	NdefRecord cardRecord = msg.getRecords()[0];
-        	String tokenNFC = new String(cardRecord.getPayload());
-        	
-        	if ((tokenNFC != null) && (!(tokenNFC.equals("")))) {
-        		UserDB userDB = toolbox.getDaoUserSQL().searchUserDeviceTokenNFC(tokenNFC);
-//        		if (userDB != null){
-//        			if (! (DateUtils.isToday(userDB.getDateLastSignUserTime()))){
-//		                Intent intentSignAcceptUser = new Intent(SignUserActivity.this, SignAcceptUserActivity.class);
-//		                intentSignAcceptUser.putExtra(Constants.PARAMETERS_SIGN_USER, userDB);
-//		                startActivity(intentSignAcceptUser);
-//        			} else {
-//            			showInfoMessage(getString(R.string.unable_sign_same_day_user), false);
-//        			}
-//        		} else {
-//        			showInfoMessage(getString(R.string.unable_sign_accept_user), false);
-//        		}
-        		
-        		if (userDB != null){
-        			if (toolbox.getDaoJoinClassWithUser().searchClassFromIdClassAndIdUser(classSelected.getIdClass(), userDB.getIdUser()) != null){
-//        				result.setChecked(true);
-        			} else {
-        				if (toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(classSelected.getIdClass(), classSelected.getNameClass(), userDB.getIdUser(), userDB.getMac())){
-        	    			String messageOk = getString(R.string.sign_accept_user);
-        	    			showInfoMessage(messageOk, false);
-        				} else {
-        					String messageKo = getString(R.string.unable_sign_same_day_user);
-        	    			showErrorMessage(messageKo);
-        				}
-        			}
-        		} else {
-        			String messageKo = getString(R.string.unable_sign_accept_user);
-	    			showErrorMessage(messageKo);
-        		}
+        	if (rawMsgs != null) {
+        		NdefMessage msg = (NdefMessage) rawMsgs[0];
+            	NdefRecord cardRecord = msg.getRecords()[0];
+            	String tokenNFC = new String(cardRecord.getPayload());
+            	
+            	if ((tokenNFC != null) && (!(tokenNFC.equals("")))) {
+            		UserDB userDB = toolbox.getDaoUserSQL().searchUserDeviceTokenNFC(tokenNFC);
+//            		if (userDB != null){
+//            			if (! (DateUtils.isToday(userDB.getDateLastSignUserTime()))){
+//    		                Intent intentSignAcceptUser = new Intent(SignUserActivity.this, SignAcceptUserActivity.class);
+//    		                intentSignAcceptUser.putExtra(Constants.PARAMETERS_SIGN_USER, userDB);
+//    		                startActivity(intentSignAcceptUser);
+//            			} else {
+//                			showInfoMessage(getString(R.string.unable_sign_same_day_user), false);
+//            			}
+//            		} else {
+//            			showInfoMessage(getString(R.string.unable_sign_accept_user), false);
+//            		}
+            		
+            		if (userDB != null){
+            			if (toolbox.getDaoJoinClassWithUser().searchClassFromIdClassAndIdUser(classSelected.getIdClass(), userDB.getIdUser()) != null){
+//            				result.setChecked(true);
+            			} else {
+            				if (toolbox.getDaoJoinClassWithUser().createJoinClassWithUser(classSelected.getIdClass(), classSelected.getNameClass(), userDB.getIdUser(), userDB.getMac())){
+            	    			String messageOk = getString(R.string.sign_accept_user);
+            	    			showInfoMessage(messageOk, false);
+            				} else {
+            					String messageKo = getString(R.string.unable_sign_same_day_user);
+            	    			showErrorMessage(messageKo);
+            				}
+            			}
+            		} else {
+            			String messageKo = getString(R.string.unable_sign_accept_user);
+    	    			showErrorMessage(messageKo);
+            		}
+            	}
         	}
         }
     }

@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.os.Handler;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.signaturemobile.signaturemobile.db.DAOAsignatureSQL;
@@ -27,6 +25,7 @@ import com.signaturemobile.signaturemobile.io.HttpInvoker;
 import com.signaturemobile.signaturemobile.io.NotificationCenter;
 import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationListener;
 import com.signaturemobile.signaturemobile.io.Updater;
+import com.signaturemobile.signaturemobile.ui.BaseActivity;
 
 /**
  * The application class
@@ -111,12 +110,17 @@ public class SignatureMobileApplication extends Application implements Notificat
     /**
      * Current activity
      */
-    private Activity currentActivity;
+    private BaseActivity currentActivity;
 
     /**
      * DB helper content all DAO objects
      */
     protected DBHelper dBHelper;
+    
+    /**
+     * Hanlder UI
+     */
+    protected Handler handlerUI;
     
     /**
      * Empthy constructor
@@ -134,10 +138,13 @@ public class SignatureMobileApplication extends Application implements Notificat
     @Override
     public void onCreate() {
         super.onCreate();
+        
+        handlerUI = new Handler();
+        
         try {
 			setupApp();
 		} catch (InstantiationException e) {
-			showErrorMessage(this, e);
+//			showErrorMessage(this, e);
 		}
     }
     
@@ -214,14 +221,15 @@ public class SignatureMobileApplication extends Application implements Notificat
     /**
      * @return the currentActivity
      */
-    public Activity getCurrentActivity() {
+    public BaseActivity getCurrentActivity() {
         return currentActivity;
     }
 
     /**
+     * Set current activity
      * @param currentActivity the currentActivity to set
      */
-    public void setCurrentActivity(Activity currentActivity) {
+    public void setCurrentActivity(BaseActivity currentActivity) {
         this.currentActivity = currentActivity;
     }
 
@@ -283,110 +291,6 @@ public class SignatureMobileApplication extends Application implements Notificat
 	 */
     public boolean hasFailed() {
         return this.initializationFailed;
-    }
-
-    /**
-     * Shows information message within a modal view
-     * 
-     * @param context context to show the message
-     * @param informationMessageId information message to show
-     */
-    public void showInformationMessage(Context context,
-            int informationMessageId) {
-        showInformationMessage(context, getString(informationMessageId));
-    }
-
-	/**
-	 * Shows information message within a modal view
-	 * 
-	 * @param context context to show the message
-	 * @param informationMessage information message to show
-	 */
-	public void showInformationMessage(final Context context, final String informationMessage) {
-//	    handler.post(new Runnable() {
-//	        public void run() { 
-//	            AlertDialog.Builder builder = AlertBuilderFactory.createDialogBuilder(context, AlertTypes.INFO);
-//	            builder.setMessage(informationMessage);
-                
-//                try {
-//                    builder.show();
-//                } catch (BadTokenException ignored) {
-//                }
-//	        } 
-//	   });
-	}
-
-	/**
-	 * Shows error message within a modal view
-	 * 
-     * @param context context to show the message
-	 * @param errorMessage error message to show
-	 * @param positiveButtonListener a listener for ok button
-	 */
-	public void showErrorMessage(final Context context, final String errorMessage,
-	        final DialogInterface.OnClickListener positiveButtonListener) {
-//	    handler.post(new Runnable() {
-//            public void run() { 
-//                AlertDialog.Builder builder = AlertBuilderFactory.createDialogBuilder(context, AlertTypes.ERROR);
-//                builder.setMessage(errorMessage);
-//                if (positiveButtonListener != null) {
-//                    builder.setPositiveButton(R.string.ok_text, positiveButtonListener);
-//                }
-//                
-//                try {
-//                    builder.show();
-//                } catch (BadTokenException ignored) {
-//                }
-//            }
-//	    });
-	}
-	
-	/**
-     * Shows error message within a modal view
-     * 
-     * @param context context to show the message
-     * @param errorMessage error message to show
-     */
-    public void showErrorMessage(final Context context, final String errorMessage) {
-        showErrorMessage(context, errorMessage, null);
-    }
-    
-    /**
-     * Shows error message within a modal view
-     * 
-     * @param errorMessage error message to show
-     */
-    public void showErrorMessage(final String errorMessage) {
-        showErrorMessage(currentActivity, errorMessage, null);
-    }
-
-    /**
-     * Shows error message within a modal view
-     * 
-     * @param context context to show the message
-     * @param errorMessageId error message string idto show
-     */
-    public void showErrorMessage(Context context, int errorMessageId) {
-        showErrorMessage(context, getString(errorMessageId));
-    }
-	
-	/**
-	 * Shows error message associated to given throwable
-	 * 
-     * @param context context to show the message
-	 * @param throwable error message with associated message to show
-	 */
-	public void showErrorMessage(Context context, Throwable throwable) {
-		showErrorMessage(context, throwable.getLocalizedMessage());
-	}
-    
-    /**
-     * Shows error message associated to given throwable
-     * 
-     * @param throwable error message with associated message to show
-     */
-    public void showErrorMessage(Throwable throwable) {
-        showErrorMessage(currentActivity, throwable.getLocalizedMessage());
     }
 
 	/**

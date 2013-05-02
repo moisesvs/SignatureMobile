@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
 
+
 /**
  * BaseHandler extends DefaultHandler to provide support for lexical events
  * 

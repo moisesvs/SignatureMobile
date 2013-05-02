@@ -20,7 +20,6 @@ import com.signaturemobile.signaturemobile.model.ParseableObject;
 import com.signaturemobile.signaturemobile.model.StatusEnabledResponse;
 import com.signaturemobile.signaturemobile.utils.Tools;
 
-
 /**
  * Updater is a proxy class used for client to server comunications
  *
@@ -39,11 +38,6 @@ public class Updater {
     private static final int DOWNLOAD_RESOURCE = 0;
     
     /**
-     * Operations Parameters 
-     */
-    private static final String DEVICE_ID_PARAMETER = "iddev";
-    
-    /**
      * The application toolbox
      */
     private ToolBox toolbox;
@@ -52,12 +46,6 @@ public class Updater {
      * Current active operations
      */
     private Hashtable<String, OperationInformation> activeOperations;
-
-    /**
-     * Dictionary containing the association between the GoogleMaps directions API countries and the Cepsa server countries to use
-     * when performing the dealers donwload process
-     */
-    private HashMap<String, String> countriesDictionary;
     
     /**
      * The invoker itself

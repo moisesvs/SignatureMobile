@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.signaturemobile.signaturemobile.Constants;
+import com.signaturemobile.signaturemobile.R;
+import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.utils.Tools;
 
 /**
@@ -41,7 +43,7 @@ public class BluetoohInvoker {
 		/**
 		 * Application reference
 		 */
-		private Application application;
+		private SignatureMobileApplication application;
 		
 		/**
 		 * Is discovering devices or not
@@ -55,7 +57,7 @@ public class BluetoohInvoker {
 		 */
 		public BluetoohInvoker (Application application, NotificationCenter notificationCenter){
 
-			this.application = application;
+			this.application = (SignatureMobileApplication) application;
 			this.notificationCenter = notificationCenter;
 			
 			this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -83,18 +85,24 @@ public class BluetoohInvoker {
 		 */
 		public void beginDiscoveryDevices (){
 			if (!isDiscovering){
-				boolean startDiscovery = this.bluetoothAdapter.startDiscovery();
-				
-				if (startDiscovery){
-					isDiscovering = true;
-			        Tools.logLine(TAG, "Start discovery devices...");
-					this.notificationCenter.postNotification(Constants.kRequestStartOkFoundReceived, null);
+				if (this.bluetoothAdapter != null) {
+					boolean startDiscovery = this.bluetoothAdapter.startDiscovery();
 					
+					if (startDiscovery){
+						isDiscovering = true;
+				        Tools.logLine(TAG, "Start discovery devices...");
+						this.notificationCenter.postNotification(Constants.kRequestStartOkFoundReceived, null);
+						
+					} else {
+						isDiscovering = false;
+				        Tools.logLine(TAG, "¡Failed! Start discovery devices...");
+						this.notificationCenter.postNotification(Constants.kRequestStartFailedFoundReceived, null);
+					}
 				} else {
-					isDiscovering = false;
-			        Tools.logLine(TAG, "¡Failed! Start discovery devices...");
-					this.notificationCenter.postNotification(Constants.kRequestStartFailedFoundReceived, null);
+					String messageNotBluetoothDevie = application.getString(R.string.no_bluetooth_device);
+					application.getCurrentActivity().showErrorMessage(messageNotBluetoothDevie);
 				}
+				
 			}
 		}
 		
@@ -103,17 +111,22 @@ public class BluetoohInvoker {
 		 */
 		public void endDiscoveryDevices (){
 			if (isDiscovering){
-				boolean cancelDiscovery = this.bluetoothAdapter.cancelDiscovery();
-				
-				if (cancelDiscovery){
-					isDiscovering = false;
-			        Tools.logLine(TAG, "End force discovery devices...");
-					this.notificationCenter.postNotification(Constants.kRequestFinishFoundForceOkReceived, null);
+				if (this.bluetoothAdapter != null) {
+					boolean cancelDiscovery = this.bluetoothAdapter.cancelDiscovery();
 					
+					if (cancelDiscovery){
+						isDiscovering = false;
+				        Tools.logLine(TAG, "End force discovery devices...");
+						this.notificationCenter.postNotification(Constants.kRequestFinishFoundForceOkReceived, null);
+						
+					} else {
+						isDiscovering = true;
+				        Tools.logLine(TAG, "¡Failed! End discovery devices...");
+						this.notificationCenter.postNotification(Constants.kRequestFinishFoundForceFailedReceived, null);
+					}
 				} else {
-					isDiscovering = true;
-			        Tools.logLine(TAG, "¡Failed! End discovery devices...");
-					this.notificationCenter.postNotification(Constants.kRequestFinishFoundForceFailedReceived, null);
+					String messageNotBluetoothDevie = application.getString(R.string.no_bluetooth_device);
+					application.getCurrentActivity().showErrorMessage(messageNotBluetoothDevie);
 				}
 			}
 		}

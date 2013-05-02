@@ -7,7 +7,6 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
 import com.signaturemobile.signaturemobile.model.JoinAsignatureWithClassDB;

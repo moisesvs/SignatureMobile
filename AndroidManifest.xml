@@ -4,12 +4,13 @@
       android:versionCode="1"
       android:versionName="1.0">
       
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="14"/>
 
     <!-- Uses permission application -->
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.NFC" />
 	<uses-permission android:name="android.permission.VIBRATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -18,14 +19,14 @@
 	<uses-feature android:name="android.hardware.nfc" android:required="false" />
 	
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".SignatureMobileApplication" android:debuggable="true">
-        <activity android:name=".ui.SplashActivity" android:label="@string/app_name" android:screenOrientation="portrait">
+        <activity android:name=".ui.SplashActivity" android:label="@string/app_name" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-       	<activity android:name=".ui.CreateUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
+       	<activity android:name=".ui.CreateUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity">
        	    <intent-filter>
 			    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
 			    <category android:name="android.intent.category.DEFAULT"/>
@@ -33,29 +34,29 @@
 			</intent-filter>
         </activity>
 
-		<activity android:name=".ui.CreateAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.CreateAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 
-		<activity android:name=".ui.CreateClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.CreateClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 		
-      	<activity android:name=".ui.CreateUserSelectDeviceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+      	<activity android:name=".ui.CreateUserSelectDeviceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
        	
-		<activity android:name=".ui.DetailsUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.DetailsUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
        	
-		<activity android:name=".ui.SelectListAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.SelectListAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 		
-		<activity android:name=".ui.SelectListClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.SelectListClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 		
-		<activity android:name=".ui.SelectListUsernameActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.SelectListUsernameActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 		
-		<activity android:name=".ui.ListUsersAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.ListUsersAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 		
-		<activity android:name=".ui.ListUsersClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.ListUsersClassActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 		
 		<activity android:name=".ui.SignAcceptUserActivity" android:theme="@android:style/Animation.Dialog" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
        	
-        <activity android:name=".ui.SignAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.SignAsignatureActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
         
-    	<activity android:name=".ui.SignUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait">
+    	<activity android:name=".ui.SignUserActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity">
     		<intent-filter>
 			    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
 			    <category android:name="android.intent.category.DEFAULT"/>
@@ -63,9 +64,13 @@
 			</intent-filter>
    	    </activity>
        	
-		<activity android:name=".ui.SignUserHomeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.SignUserHomeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
 	
-		<activity android:name=".ui.SignClassHomeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+		<activity android:name=".ui.SignClassHomeActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" android:theme="@style/ThemeHoloActivity"/>
+		
+		<!-- Admob -->
+		<activity android:name="com.google.ads.AdActivity"
+              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:theme="@style/ThemeHoloActivity"/>
 		
     </application>
 </manifest>

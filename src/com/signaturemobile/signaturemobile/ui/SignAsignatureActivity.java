@@ -37,7 +37,7 @@ public class SignAsignatureActivity extends BaseActivity implements Notification
         createClassButton.setOnClickListener(this);
         selectClassButton.setOnClickListener(this);
         
-        arrowLeftLinear.setVisibility(View.GONE);
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
     }
     

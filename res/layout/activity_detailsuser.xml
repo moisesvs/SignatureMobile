@@ -19,7 +19,8 @@
 					<LinearLayout 
 			    	 	android:layout_width="fill_parent"
 			    	 	android:layout_height="wrap_content"
-			    	 	android:orientation="horizontal">
+			    	 	android:orientation="horizontal"
+			    	 	android:baselineAligned="false">
 						
 						<LinearLayout 
 				    	 	android:layout_width="wrap_content"
@@ -35,7 +36,8 @@
 				    		       	android:layout_width="70dp"
 					    	 		android:layout_height="70dp"
 					    	 		android:background="@drawable/twitter_user_big"
-					    	 		android:layout_gravity="center"/>
+					    	 		android:layout_gravity="center"
+					    	 		android:contentDescription="@string/content_description_image"/>
 			    		    
 			    	  	</LinearLayout>
 		    		    <LinearLayout 
@@ -89,6 +91,17 @@
 
 					    <TextView
 					        android:id="@+id/userTwitter"
+					        android:layout_width="fill_parent"
+					        android:layout_height="wrap_content"
+					        android:layout_marginBottom="5dp"
+					        android:layout_marginTop="5dp"
+					        android:maxLines="1"
+					        android:singleLine="true"
+					        android:textColor="@color/greyText"
+					        android:textSize="15sp" />
+					    
+					    <TextView
+					        android:id="@+id/nfcKeyUserTextView"
 					        android:layout_width="fill_parent"
 					        android:layout_height="wrap_content"
 					        android:layout_marginBottom="5dp"

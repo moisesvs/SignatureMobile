@@ -81,9 +81,11 @@ public class PermissiveSocketFactory implements SocketFactory, LayeredSocketFact
     public class NullTrustManager implements X509TrustManager {
 
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        	// nothing
         }
 
         public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        	// nothing
         }
 
         public X509Certificate[] getAcceptedIssuers() {

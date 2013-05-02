@@ -1,6 +1,5 @@
 package com.signaturemobile.signaturemobile.ui;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -18,7 +17,7 @@ import com.signaturemobile.signaturemobile.io.NotificationCenter.NotificationLis
  *  
  * @author <a href="mailto:moisesvs@gmail.com">Mooisés Vázquez Sánchez</a>
  */
-public class SplashActivity extends Activity implements OnClickListener, NotificationListener{
+public class SplashActivity extends BaseActivity implements OnClickListener, NotificationListener{
     
     /**
      * A reference to the application
@@ -48,7 +47,6 @@ public class SplashActivity extends Activity implements OnClickListener, Notific
     @Override
     protected void onResume() {
         super.onResume();
-        ((SignatureMobileApplication) this.getApplication()).setCurrentActivity(this);
     }
 
     /**3
@@ -75,7 +73,7 @@ public class SplashActivity extends Activity implements OnClickListener, Notific
 	    if (Constants.kInitializationEnds.equals(notification)) {
 	    	SignatureMobileApplication app = (SignatureMobileApplication) this.getApplication();
 	        if (app.hasFailed()) {
-	            app.showErrorMessage(this, app.getString(R.string.unable_to_configure_application), this);
+	            showErrorMessage(app.getString(R.string.unable_to_configure_application), false);
 	        } else {
 	        	openSignatureActivity();
 	        }

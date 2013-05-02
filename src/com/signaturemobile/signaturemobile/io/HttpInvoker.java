@@ -488,7 +488,8 @@ public class HttpInvoker {
      * @return String with result of the operation
      * @throws SAXException 
      */
-    private void read(InputStream stream, String charset, DefaultHandler handler) throws IOException, SAXException {
+    @SuppressWarnings("unused")
+	private void read(InputStream stream, String charset, DefaultHandler handler) throws IOException, SAXException {
 
         Reader reader = null;
         byte[] data =  null;

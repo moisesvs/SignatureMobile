@@ -1,6 +1,5 @@
 package com.signaturemobile.signaturemobile;
 
-import java.nio.charset.Charset;
 
 /**
  * Constants provides a set of static values used throughout the application
@@ -48,6 +47,11 @@ public class Constants {
      * Trace operations flag (disable for production)
      */
     public static final boolean TRACE_OPERATIONS = true;
+    
+    /**
+     * Without advertising
+     */
+    public static final boolean WITHOUT_ADVERTISING = false;
 
     /**
      * CEPSA Infrastructure

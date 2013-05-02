@@ -1,5 +1,6 @@
 package com.signaturemobile.signaturemobile.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -7,17 +8,18 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.google.ads.AdView;
 import com.signaturemobile.signaturemobile.Constants;
 import com.signaturemobile.signaturemobile.R;
 import com.signaturemobile.signaturemobile.SignatureMobileApplication;
@@ -40,40 +42,30 @@ public class BaseActivity extends Activity implements OnClickListener{
      */
     public ToolBox toolbox;
     
+    /**
+     * Action bar android
+     */
+    protected ActionBar actionBar;
+    
+    /**
+     * Menu loading
+     */
+    protected MenuItem menuLoading;
+    
 	/**
      * Reference to the application
      */
     protected SignatureMobileApplication application;
     
     /**
-     * Main title
+     * Ad view advertising
      */
-    protected TextView mainTitle;
+    protected AdView advertisingView;
     
 	/**
 	 * The body layout
 	 */
 	protected LinearLayout bodyLayout;
-    
-	/**
-	 * The arrow left layout
-	 */
-	protected LinearLayout arrowLeftLinear;
-	
-	/**
-	 * Progress bar notification
-	 */
-	protected ProgressBar progressBarNotification;
-
-	/**
-	 * Image view main title
-	 */
-	protected ImageView maintitleImage;
-
-	/**
-	 * Image view main title
-	 */
-	protected ImageView arrowLeftImage;
 
     /**
      * Is the activity paused? Will be set to true when entering onPaused and will be
@@ -85,6 +77,11 @@ public class BaseActivity extends Activity implements OnClickListener{
      * Will be used to display a progress dialog
      */
     private Dialog progressDialog;
+    
+    /**
+     * Show progress
+     */
+    private boolean showProgress = false;
     
 	/**
      * To be called from derived activities when created.
@@ -105,28 +102,28 @@ public class BaseActivity extends Activity implements OnClickListener{
         BugSenseHandler.initAndStartSession(this, Constants.BUG_SENSE_API_KEY);
         
         application = (SignatureMobileApplication) getApplication();
+        application.setCurrentActivity(this);
         toolbox = application.getToolBox();
         
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_base);
         
+        actionBar = getActionBar();
+        if (actionBar != null) {
+        	actionBar.setTitle(title);
+        	actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        
         bodyLayout = (LinearLayout) findViewById(R.id.bodyLayout);
-        arrowLeftLinear = (LinearLayout) findViewById(R.id.arrowLeftLinear);
-        progressBarNotification = (ProgressBar) findViewById(R.id.progressBarNotification);
-        maintitleImage = (ImageView) findViewById(R.id.maintitleImage);
-        arrowLeftImage = (ImageView) findViewById(R.id.arrowLeftImage);
-        mainTitle = (TextView) findViewById(R.id.mainTitle);
+        advertisingView = (AdView) findViewById(R.id.advertisingiView);
         
         // load received layout id in the body
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(layoutID, bodyLayout, true);
         
-        if ((title != null) && (!(title.trim().equals("")))){
-            mainTitle.setText(title);
+        if (Constants.WITHOUT_ADVERTISING){
+        	advertisingView.setVisibility(View.GONE);
         }
         
-        arrowLeftLinear.setOnClickListener(this);
-
     }
 	
     /**
@@ -211,16 +208,6 @@ public class BaseActivity extends Activity implements OnClickListener{
      */
     protected void goBack(){
     	finish();
-    }
-    
-    /**
-     * Show or not the progress bar notification
-     */
-    public void showProgressNotification (boolean show){
-    	if (show)
-    		progressBarNotification.setVisibility(View.VISIBLE);
-    	else 
-    		progressBarNotification.setVisibility(View.GONE);
     }
     
     /**
@@ -451,9 +438,41 @@ public class BaseActivity extends Activity implements OnClickListener{
      * @param view The view clicked
      */
 	public void onClick(View v) {
-    	if (v.equals(arrowLeftLinear)){
-    		goBack();
-    	}
+    	// nothing
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+	    getMenuInflater().inflate(R.menu.menu_main, menu);
+	    menuLoading = menu.findItem(R.id.menu_save);
+	    menuLoading.setActionView(R.layout.progress_bar_menu);
+	    menuLoading.expandActionView();
+	    menuLoading.setVisible(showProgress);
+		return true;
+	}
+	
+	/**
+	 * On option item selected
+	 */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+	
+    /**
+     * Show or not the progress bar notification
+     */
+    public void showProgressNotification (boolean show){
+		showProgress = show;
+    	if (menuLoading != null) {
+    		menuLoading.setVisible(showProgress);
+    	}
+    }
 
 }
